@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    background-color: #4CAF50;
+    text-align: center;
+    height: 100vh;
+    /* margin-bottom: 1rem; */
+    padding-bottom: 1rem;
+}
+p{
+    color: white;
+    margin: 1rem auto;
+    font-size: larger;
+}
