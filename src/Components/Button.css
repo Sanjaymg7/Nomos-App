@@ -1,0 +1,33 @@
+.signupOne {
+  width: 100%;
+  padding: 0.8em 2em;
+  border: none;
+  color: #fff;
+  background-color: #00a86b;
+}
+
+.signupTwo {
+  width: 100%;
+  padding: 0.8em 2em;
+  margin-top: 3em;
+  border: none;
+  color: #fff;
+  background-color: #b4b4b4;
+}
+
+.signupThree {
+  width: 100%;
+  padding: 0.8em 2em;
+  margin-top: 2em;
+  border: none;
+  color: #fff;
+  background-color: #00a86b;
+}
+.signupFour {
+  width: 100%;
+  padding: 0.8em 2em;
+  margin-top: 2em;
+  border: none;
+  color: #fff;
+  background-color: #00a86b;
+}
