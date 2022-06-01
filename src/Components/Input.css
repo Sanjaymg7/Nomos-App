@@ -5,3 +5,6 @@ input {
   margin: 0.5em 0em 1.6em;
   background-color: #eee;
 }
+.input {
+    width: 80%;
+}

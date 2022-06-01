@@ -31,3 +31,13 @@
   color: #fff;
   background-color: #00a86b;
 }
+.btn {
+  width: 80%;
+  padding: .5rem;
+  margin-top: 1rem;
+  border: .1rem solid white;
+  color: #fff;
+  border-radius: 5%;
+  background-color: #00a86b;
+  font-size: 1.5rem;
+}

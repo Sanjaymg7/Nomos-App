@@ -9,8 +9,8 @@ const SignInOrSignUp = () => {
       <p>
         Experience your community <br /> and earn time
       </p>
-      <Button btnContent="Sign In" onBtnClick={() => navigate("/signin")} />
-      <Button btnContent="Sign Up" onBtnClick={() => navigate("/signup")} />
+      <Button className="btn" btnContent="Sign In" onBtnClick={() => navigate("/signin")} />
+      <Button className="btn" btnContent="Sign Up" onBtnClick={() => navigate("/signup")} />
     </div>
   );
 };

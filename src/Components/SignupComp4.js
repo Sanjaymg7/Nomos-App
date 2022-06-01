@@ -25,8 +25,8 @@ const SignupComp4 = (props) => {
         </div>
       </div>
       <Button
-        btnValue={"Finish"}
-        btnClass={"signupFour"}
+        btnContent={"Finish"}
+        className={"signupFour"}
         onBtnClick={btnClickHandler}
       />
     </div>

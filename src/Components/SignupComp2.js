@@ -24,8 +24,8 @@ const SignupComp2 = (props) => {
         onChangeHandler={otpChangeHandler}
       />
       <Button
-        btnValue={"Confirm"}
-        btnClass={"signupTwo"}
+        btnContent={"Confirm"}
+        className={"signupTwo"}
         onBtnClick={btnClickHandler}
       />
       <span className="resendMessage">Didn't receive? Resend OTP</span>

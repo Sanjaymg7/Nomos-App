@@ -11,8 +11,8 @@ const SignupComp3 = (props) => {
       <h3 className="comp3h3">Selected Skills (0)</h3>
       <span className="comp3text">Skills are shown on your profile</span>
       <Button
-        btnValue={"Next"}
-        btnClass={"signupThree"}
+        btnContent={"Next"}
+        className={"signupThree"}
         onBtnClick={btnClickHandler}
       />
     </div>

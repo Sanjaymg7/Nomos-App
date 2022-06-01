@@ -65,8 +65,8 @@ const SignupComp1 = (props) => {
           </span>
         </div>
         <Button
-          btnValue={"Next"}
-          btnClass={"signupOne"}
+          btnContent={"Next"}
+          className={"signupOne"}
           onBtnClick={btnClickHandler}
         />
       </div>
