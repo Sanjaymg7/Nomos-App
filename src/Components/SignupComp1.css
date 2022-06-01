@@ -1,0 +1,28 @@
+.comp1h3 {
+  text-align: center;
+  font-size: 1.7em;
+  margin: 5.5em auto 3em;
+}
+
+.inputContainer {
+  width: 90%;
+  margin: 0em auto;
+}
+
+.comp1Text {
+  font-size: 1em;
+  font-weight: 500;
+  margin: 1em 0.7em;
+}
+.policyContainer {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2em;
+}
+.policyMessage {
+  font-size: 0.8em;
+  font-weight: 400;
+}
+.textGreen {
+  color: #00a86b;
+}
