@@ -26,3 +26,7 @@
 .textGreen {
   color: #00a86b;
 }
+.phoneContainer {
+  width: 100%;
+  border: 1px solid black;
+}

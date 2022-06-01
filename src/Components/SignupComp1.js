@@ -1,27 +1,95 @@
-import React from "react";
+import React, { useState } from "react";
+// import PhoneInput from "react-phone-number-input";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import Button from "./Button";
 import Input from "./Input";
 import "./SignupComp1.css";
 
 const SignupComp1 = (props) => {
-  const nameChangeHandler = (val) => {
-    props.comp1Data.onNameChange(val);
+  const [userDetails, setUserDetails] = useState({
+    user_name: "",
+    phone_no: "",
+    email: "",
+    password: "",
+    type: 2,
+  });
+
+  const handleNameChange = (val) => {
+    setUserDetails((prevState) => {
+      return { ...prevState, user_name: val };
+    });
   };
 
-  const phoneChangeHandler = (val) => {
-    props.comp1Data.onPhoneChange(val);
+  const handlePhoneChange = (val) => {
+    setUserDetails((prevState) => {
+      return { ...prevState, phone_no: val };
+    });
   };
 
-  const emailChangeHandler = (val) => {
-    props.comp1Data.onEmailChange(val);
+  const handleEmailChange = (val) => {
+    setUserDetails((prevState) => {
+      return { ...prevState, email: val };
+    });
   };
 
-  const passwordChangeHandler = (val) => {
-    props.comp1Data.onPasswordChange(val);
+  const handlePasswordChange = (val) => {
+    setUserDetails((prevState) => {
+      return { ...prevState, password: val };
+    });
   };
 
   const btnClickHandler = () => {
-    props.comp1Data.compSubmit(2);
+    if (userDetails.user_name.trim() === "") {
+      alert("Please provide valid name");
+    } else if (
+      userDetails.phone_no.trim() === "" ||
+      userDetails.phone_no.length !== 12
+    ) {
+      alert("Please provide valid phone number (10 digits)");
+    } else if (
+      userDetails.email.trim() === "" ||
+      userDetails.email.match("^[a-zA-Z0-9+_.-]+@[a-zA-Z]+[.]+[a-zA-Z]+$") ===
+        null
+    ) {
+      alert("Please provide valid email");
+    } else if (userDetails.password.trim() === "") {
+      alert("Please provide valid password");
+    } else {
+      let data = [];
+      userDetails.phone_no = "+" + userDetails.phone_no;
+      console.log(userDetails);
+      for (const key in userDetails) {
+        if (key !== "phone_no") {
+          var encodedKey = encodeURIComponent(key);
+          var encodedValue = encodeURIComponent(userDetails[key]);
+          data.push(encodedKey + "=" + encodedValue);
+          // data += key + "=" + userDetails[key] + "&";
+        } else {
+          var encodedKey = encodeURIComponent(key);
+          var encodedValue = encodeURIComponent(
+            userDetails[key].replace(/\s/g, "")
+          );
+          data.push(encodedKey + "=" + encodedValue);
+          // data += "+" + key + "=" + userDetails[key] + "&";
+        }
+      }
+      data = data.join("&");
+      console.log(data);
+      fetch("https://api2.juegogames.com/NOMOS-V3/users/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        },
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err));
+    }
+    // props.updateId(54);
+    // console.log(userDetails);
+    // props.compSubmit(2);
   };
 
   return (
@@ -30,31 +98,44 @@ const SignupComp1 = (props) => {
       <div className="inputContainer">
         <span className="comp1Text">Full Name</span>
         <Input
-          inpType={"text"}
-          inpClassName={"nameInput"}
-          inputVal={props.nameVal}
-          onChangeHandler={nameChangeHandler}
+          type={"text"}
+          className={"nameInput"}
+          value={userDetails.fullName}
+          OnInputChange={handleNameChange}
         />
         <span className="comp1Text">Phone</span>
-        <Input
-          inpType={"phone"}
-          inpClassName={"phoneInput"}
-          inputVal={props.phoneVal}
-          onChangeHandler={phoneChangeHandler}
+        <PhoneInput
+          country={"us"}
+          containerStyle={{
+            margin: "0.5em 0em 1.6em",
+          }}
+          inputStyle={{
+            width: "100%",
+            border: "none",
+            backgroundColor: "#eee",
+          }}
+          value={userDetails.phone}
+          onChange={handlePhoneChange}
         />
+        {/* <Input
+          type={"phone"}
+          className={"phoneInput"}
+          value={props.phoneVal}
+          OnInputChange={handlePhoneChange}
+        /> */}
         <span className="comp1Text">Email</span>
         <Input
-          inpType={"email"}
-          inpClassName={"emailInput"}
-          inputVal={props.emailVal}
-          onChangeHandler={emailChangeHandler}
+          type={"email"}
+          className={"emailInput"}
+          value={userDetails.email}
+          OnInputChange={handleEmailChange}
         />
         <span className="comp1Text">Password</span>
         <Input
-          inpType={"password"}
-          inpClassName={"passwordInput"}
-          inputVal={props.passwordVal}
-          onChangeHandler={passwordChangeHandler}
+          type={"password"}
+          className={"passwordInput"}
+          value={userDetails.password}
+          OnInputChange={handlePasswordChange}
         />
         <div className="policyContainer">
           <span className="policyMessage">
@@ -65,8 +146,8 @@ const SignupComp1 = (props) => {
           </span>
         </div>
         <Button
-          btnValue={"Next"}
-          btnClass={"signupOne"}
+          btnContent={"Next"}
+          className={"signupOne"}
           onBtnClick={btnClickHandler}
         />
       </div>

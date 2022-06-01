@@ -1,33 +1,37 @@
-.signupOne {
+button {
   width: 100%;
   padding: 0.8em 2em;
   border: none;
   color: #fff;
+}
+
+.signupOne {
   background-color: #00a86b;
 }
 
 .signupTwo {
-  width: 100%;
-  padding: 0.8em 2em;
   margin-top: 3em;
-  border: none;
-  color: #fff;
   background-color: #b4b4b4;
 }
 
 .signupThree {
-  width: 100%;
-  padding: 0.8em 2em;
   margin-top: 2em;
-  border: none;
-  color: #fff;
   background-color: #00a86b;
 }
 .signupFour {
-  width: 100%;
-  padding: 0.8em 2em;
   margin-top: 2em;
-  border: none;
-  color: #fff;
   background-color: #00a86b;
+}
+.skillBtn {
+  width: auto;
+  color: #787878;
+  background-color: #fff;
+  border: 0.01em solid #f0f0f0;
+  border-radius: 2em;
+  margin: 0.3em;
+}
+.skillBtnActive {
+  background-color: #787878;
+  color: #fff;
+  border: none;
 }
