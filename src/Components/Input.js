@@ -1,17 +1,8 @@
 import React from "react";
 import "./Input.css";
 
-const Input = (props) => {
-  return (
-    <div>
-      <input
-        type={props.inpType}
-        className={props.inpClassName}
-        value={props.inputVal}
-        onChange={(e) => props.onChangeHandler(e.target.value)}
-      />
-    </div>
-  );
+const Input = ({value, OnInputChange, type, className}) => {
+  return <input className={className} type={type} value={value}  onChange={(e)=>OnInputChange(e.target.value)}/>;
 };
 
 export default Input;
