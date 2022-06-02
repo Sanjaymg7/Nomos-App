@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { doGETCall } from "../DataFetch";
-import { doPUTCall } from "../DataFetch";
-import Button from "./Button";
-import "./SignupComp3.css";
+import { doGETCall } from "../../DataFetch";
+import { doPUTCall } from "../../DataFetch";
+import Button from "../Button";
+import "./SkillsComponent.css";
 
-const SignupComp3 = ({ renderSignupComponent, accessToken }) => {
+const SkillsComponent = ({ renderSignupComponent, accessToken }) => {
   const requestHeader = {
     "content-type": "application/json",
     access_token: accessToken,
@@ -14,44 +14,38 @@ const SignupComp3 = ({ renderSignupComponent, accessToken }) => {
   const [skillCount, setSkillCount] = useState(0);
 
   useEffect(() => {
-    doGETCall("master/skills", requestHeader)
-      .then((data) => {
-        setSkillsArray(data.responseData.skills);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const getData = async () => {
+      const data = await doGETCall("master/skills", requestHeader);
+      if (data) {
+        setSkillsArray(data.skills);
+      }
+    };
+    getData();
   }, []);
 
-  const btnClickHandler = (e) => {
+  const btnClickHandler = async (e) => {
     const skillsAddBody = {
       skils_list: skills.join(","),
     };
-    doPUTCall("users", skillsAddBody, requestHeader)
-      .then((data) => renderSignupComponent(4))
-      .catch((err) => alert(err));
+    const data = await doPUTCall("users", skillsAddBody, requestHeader);
+    if (data) {
+      renderSignupComponent(4);
+    }
   };
 
   const skillHandler = (e) => {
     if (skills.includes(e.target.value)) {
       skills.splice(skills.indexOf(e.target.value), 1);
-      setSkills((prevState) => {
-        return skills;
-      });
-      setSkillCount((prevState) => {
-        return prevState - 1;
-      });
+      setSkills(skills);
+      setSkillCount(skillCount - 1);
       e.target.className = "skillBtn";
     } else {
-      setSkills((prevState) => {
-        return [...prevState, e.target.value];
-      });
-      setSkillCount((prevState) => {
-        return prevState + 1;
-      });
+      setSkills([...skills, e.target.value]);
+      setSkillCount(skillCount + 1);
       e.target.className += " skillBtnActive";
     }
   };
+
   return (
     <div className="comp3Container">
       <h3 className="comp3h3">Selected Skills ({skillCount})</h3>
@@ -76,4 +70,4 @@ const SignupComp3 = ({ renderSignupComponent, accessToken }) => {
   );
 };
 
-export default SignupComp3;
+export default SkillsComponent;

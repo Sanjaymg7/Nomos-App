@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import SignupComp1 from "../Components/SignupComp1";
-import SignupComp2 from "../Components/SignupComp2";
-import SignupComp3 from "../Components/SignupComp3";
-import SignupComp4 from "../Components/SignupComp4";
+import UserDataComponent from "../Components/SignUpComponents/UserDataComponent";
+import OTPComponent from "../Components/SignUpComponents/OTPComponent";
+import SkillsComponent from "../Components/SignUpComponents/SkillsComponent";
+import CommunityComponent from "../Components/SignUpComponents/CommunityComponent";
 
 const Signup = () => {
   const [userData, setUserData] = useState({
@@ -30,23 +30,23 @@ const Signup = () => {
   return (
     <div>
       {pageState === 1 ? (
-        <SignupComp1
+        <UserDataComponent
           renderSignupComponent={handleSubmit}
           updateId={updateUserId}
         />
       ) : pageState === 2 ? (
-        <SignupComp2
+        <OTPComponent
           renderSignupComponent={handleSubmit}
           userId={userData.user_id}
           updateAccessToken={updateAccessToken}
         />
       ) : pageState === 3 ? (
-        <SignupComp3
+        <SkillsComponent
           renderSignupComponent={handleSubmit}
           accessToken={userData.access_token}
         />
       ) : (
-        <SignupComp4 />
+        <CommunityComponent />
       )}
     </div>
   );

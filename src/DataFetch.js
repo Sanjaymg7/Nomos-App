@@ -7,7 +7,20 @@ const doGETCall = (
   return fetch(url + endPoint, {
     method: "GET",
     headers: headers,
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.responseCode === 200) {
+        return data.responseData;
+      } else {
+        alert(data.responseMessage);
+        return false;
+      }
+    })
+    .catch((err) => {
+      alert(err);
+      return false;
+    });
 };
 
 const doPUTCall = (
@@ -19,7 +32,20 @@ const doPUTCall = (
     method: "PUT",
     headers: headers,
     body: new URLSearchParams(body),
-  }).then((response) => response.json());
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.responseCode === 200) {
+        return data.responseData;
+      } else {
+        alert(data.responseMessage);
+        return false;
+      }
+    })
+    .catch((err) => {
+      alert(err);
+      return false;
+    });
 };
 
 const doPOSTCall = (
@@ -31,7 +57,20 @@ const doPOSTCall = (
     headers: headers,
     method: "POST",
     body: new URLSearchParams(body),
-  }).then((response) => response.json());
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.responseCode === 200) {
+        return data.responseData;
+      } else {
+        alert(data.responseMessage);
+        return false;
+      }
+    })
+    .catch((err) => {
+      alert(err);
+      return false;
+    });
 };
 
 const doDELETECall = (
@@ -40,7 +79,20 @@ const doDELETECall = (
 ) => {
   return fetch(url + endPoint, {
     method: "DELETE",
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.responseCode === 200) {
+        return data.responseData;
+      } else {
+        alert(data.responseMessage);
+        return false;
+      }
+    })
+    .catch((err) => {
+      alert(err);
+      return false;
+    });
 };
 
 export { doGETCall, doPUTCall, doPOSTCall, doDELETECall };
