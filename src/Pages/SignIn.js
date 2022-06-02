@@ -3,8 +3,10 @@ import Button from "../Components/Button";
 import Input from "../Components/Input";
 import { doPOSTCall } from "../DataFetch";
 import "./SignIn.css";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
+  const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState("");
   const [userPass, setUserPass] = useState("");
   const userSignIn = () => {
@@ -19,14 +21,17 @@ const SignIn = () => {
     } else {
       const url = "https://api2.juegogames.com/NOMOS-V3/users/sign_in/";
       const body = {
-          "email": userEmail,
-          "password": userPass,
-          "type": "2"
+        email: userEmail,
+        password: userPass,
+        type: "2",
       };
-      const queryString = new URLSearchParams(body);
-      doPOSTCall(url, queryString)
-      .then(data =>console.log(data))
-      .catch(err => console.error(err))
+      doPOSTCall(url, body)
+        .then((data) => {
+          if (data.responseCode === 200) {
+            navigate("/home");
+          }
+        })
+        .catch((err) => console.error(err));
     }
   };
 
@@ -49,10 +54,11 @@ const SignIn = () => {
         OnInputChange={setUserPass}
       />
       <Button
-        className="btn"
+        className="btn sign-in"
         btnContent="Sign In"
         onBtnClick={() => userSignIn()}
       />
+      <p className="forgot-para">Forgot password?</p>
     </div>
   );
 };

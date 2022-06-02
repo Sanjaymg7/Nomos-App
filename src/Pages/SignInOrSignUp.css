@@ -3,13 +3,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: end;
-    background-color: #4CAF50;
+    background-color: #00a86b;
     text-align: center;
     height: 100vh;
-    padding-bottom: 1rem;
+    padding-bottom: 4rem;
 }
 p{
     color: white;
     margin: 1rem auto;
-    font-size: larger;
+    font-size: x-large;
+    margin-bottom: 3rem;
 }

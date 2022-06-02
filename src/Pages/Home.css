@@ -1,0 +1,24 @@
+.header {
+    height: 7vh;
+    background-color: #00a86b;
+    text-align: center;
+}
+.title {
+    padding-top: .8rem;
+}
+.footer {
+    display: inline-flex;
+    flex-direction: row;
+    width: 100%;
+    height: 8vh;
+    background-color: rgb(68, 65, 65);
+    border-top: .1rem solid grey;
+}
+.card {
+    height: 86vh;
+}
+.home-btn {
+    color: #036843;
+    font-size: larger;
+    border: .1rem solid blanchedalmond;
+}
