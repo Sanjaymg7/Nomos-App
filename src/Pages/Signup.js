@@ -21,16 +21,32 @@ const Signup = () => {
     });
   };
 
+  const updateAccessToken = (token) => {
+    setUserData((prevState) => {
+      return { ...prevState, access_token: token };
+    });
+  };
+
   return (
     <div>
       {pageState === 1 ? (
-        <SignupComp1 compSubmit={handleSubmit} updateId={updateUserId} />
+        <SignupComp1
+          renderSignupComponent={handleSubmit}
+          updateId={updateUserId}
+        />
       ) : pageState === 2 ? (
-        <SignupComp2 compSubmit={handleSubmit} />
+        <SignupComp2
+          renderSignupComponent={handleSubmit}
+          userId={userData.user_id}
+          updateAccessToken={updateAccessToken}
+        />
       ) : pageState === 3 ? (
-        <SignupComp3 compSubmit={handleSubmit} />
+        <SignupComp3
+          renderSignupComponent={handleSubmit}
+          accessToken={userData.access_token}
+        />
       ) : (
-        <SignupComp4 compSubmit={handleSubmit} />
+        <SignupComp4 />
       )}
     </div>
   );
