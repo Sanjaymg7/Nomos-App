@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-// import PhoneInput from "react-phone-number-input";
+import { doPOSTCall } from "../DataFetch";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Button from "./Button";
 import Input from "./Input";
 import "./SignupComp1.css";
 
-const SignupComp1 = (props) => {
+const SignupComp1 = ({ renderSignupComponent, updateId }) => {
   const [userDetails, setUserDetails] = useState({
     user_name: "",
     phone_no: "",
@@ -39,7 +39,7 @@ const SignupComp1 = (props) => {
     });
   };
 
-  const btnClickHandler = () => {
+  const btnClickHandler = (e) => {
     if (userDetails.user_name.trim() === "") {
       alert("Please provide valid name");
     } else if (
@@ -56,40 +56,23 @@ const SignupComp1 = (props) => {
     } else if (userDetails.password.trim() === "") {
       alert("Please provide valid password");
     } else {
-      let data = [];
       userDetails.phone_no = "+" + userDetails.phone_no;
-      console.log(userDetails);
-      for (const key in userDetails) {
-        if (key !== "phone_no") {
-          var encodedKey = encodeURIComponent(key);
-          var encodedValue = encodeURIComponent(userDetails[key]);
-          data.push(encodedKey + "=" + encodedValue);
-          // data += key + "=" + userDetails[key] + "&";
-        } else {
-          var encodedKey = encodeURIComponent(key);
-          var encodedValue = encodeURIComponent(
-            userDetails[key].replace(/\s/g, "")
-          );
-          data.push(encodedKey + "=" + encodedValue);
-          // data += "+" + key + "=" + userDetails[key] + "&";
-        }
-      }
-      data = data.join("&");
-      console.log(data);
-      fetch("https://api2.juegogames.com/NOMOS-V3/users/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-        },
-        body: data,
-      })
-        .then((res) => res.json())
-        .then((data) => console.log(data))
-        .catch((err) => console.log(err));
+      e.target.innerHTML = "Please Wait..";
+      doPOSTCall("users/", userDetails)
+        .then((data) => {
+          if (data.responseCode === 200) {
+            updateId(data.responseData.user_id);
+            renderSignupComponent(2);
+          } else {
+            alert(data.responseMessage);
+            e.target.innerHTML = "Next";
+          }
+        })
+        .catch((err) => {
+          alert(err);
+          e.target.innerHTML = "Next";
+        });
     }
-    // props.updateId(54);
-    // console.log(userDetails);
-    // props.compSubmit(2);
   };
 
   return (
@@ -105,7 +88,7 @@ const SignupComp1 = (props) => {
         />
         <span className="comp1Text">Phone</span>
         <PhoneInput
-          country={"us"}
+          country={"in"}
           containerStyle={{
             margin: "0.5em 0em 1.6em",
           }}
@@ -117,12 +100,6 @@ const SignupComp1 = (props) => {
           value={userDetails.phone}
           onChange={handlePhoneChange}
         />
-        {/* <Input
-          type={"phone"}
-          className={"phoneInput"}
-          value={props.phoneVal}
-          OnInputChange={handlePhoneChange}
-        /> */}
         <span className="comp1Text">Email</span>
         <Input
           type={"email"}

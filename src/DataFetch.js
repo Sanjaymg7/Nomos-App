@@ -1,29 +1,44 @@
-const headers = { "content-type": "application/json" };
-const doGETCall = (url) => {
-  return fetch(url, {
+const url = "https://api2.juegogames.com/NOMOS-V3/";
+
+const doGETCall = (
+  endPoint,
+  headers = { "content-type": "application/json" }
+) => {
+  return fetch(url + endPoint, {
     method: "GET",
     headers: headers,
   }).then((res) => res.json());
 };
 
-const doPUTCall = (url, body) => {
-  return fetch(url, {
+const doPUTCall = (
+  endPoint,
+  body,
+  headers = { "content-type": "application/json" }
+) => {
+  return fetch(url + endPoint, {
     method: "PUT",
     headers: headers,
-    body: body,
+    body: new URLSearchParams(body),
   }).then((response) => response.json());
 };
 
-const doPOSTCall = (url, body) => {
-  return fetch(url, {
+const doPOSTCall = (
+  endPoint,
+  body,
+  headers = { "content-type": "application/json" }
+) => {
+  return fetch(url + endPoint, {
     headers: headers,
     method: "POST",
-    body: body,
+    body: new URLSearchParams(body),
   }).then((response) => response.json());
 };
 
-const doDELETECall = (url) => {
-  return fetch(url, {
+const doDELETECall = (
+  endPoint,
+  headers = { "content-type": "application/json" }
+) => {
+  return fetch(url + endPoint, {
     method: "DELETE",
   }).then((res) => res.json());
 };

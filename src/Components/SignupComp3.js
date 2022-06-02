@@ -1,26 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { doGETCall } from "../DataFetch";
+import { doPUTCall } from "../DataFetch";
 import Button from "./Button";
 import "./SignupComp3.css";
 
-const SignupComp3 = (props) => {
-  let key = 0;
-  const skillsArray = [
-    "Home Repair & Odd jobs",
-    "Performing Arts",
-    "Art, Media and Design",
-    "Professional Services",
-    "Tech & Digital Services",
-    "Travel and Transportation",
-    "Community & Social Needs",
-    "Tutoring Services",
-    "Sport & Wellness",
-    "Food & Beverage",
-  ];
+const SignupComp3 = ({ renderSignupComponent, accessToken }) => {
+  const requestHeader = {
+    "content-type": "application/json",
+    access_token: accessToken,
+  };
+  const [skillsArray, setSkillsArray] = useState([]);
   const [skills, setSkills] = useState([]);
   const [skillCount, setSkillCount] = useState(0);
+
+  useEffect(() => {
+    doGETCall("master/skills", requestHeader)
+      .then((data) => {
+        setSkillsArray(data.responseData.skills);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const btnClickHandler = (e) => {
-    console.log(skills);
-    // props.compSubmit(4);
+    const skillsAddBody = {
+      skils_list: skills.join(","),
+    };
+    doPUTCall("users", skillsAddBody, requestHeader)
+      .then((data) => renderSignupComponent(4))
+      .catch((err) => alert(err));
   };
 
   const skillHandler = (e) => {
@@ -50,10 +59,11 @@ const SignupComp3 = (props) => {
       <div className="skillContainer">
         {skillsArray.map((skill) => (
           <Button
-            key={key++}
-            btnContent={skill}
+            key={skill.skill_id}
+            btnContent={skill.skill_name}
             className={"skillBtn"}
             onBtnClick={skillHandler}
+            btnValue={skill.skill_id}
           />
         ))}
       </div>

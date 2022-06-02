@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import "./SignupComp4.css";
 
-const SignupComp4 = (props) => {
+const SignupComp4 = () => {
+  const navigate = useNavigate();
   const btnClickHandler = () => {
-    props.compSubmit(1);
+    navigate("/home");
   };
   return (
     <div className="comp4Container">
@@ -17,12 +19,12 @@ const SignupComp4 = (props) => {
           No communities around.
           <br /> You can skip or create your own.
         </span>
-        <div className="comInputModal">
+        {/* <div className="comInputModal">
           <div className="btnContainer">
             <span className="addBtn">+</span>
           </div>
           <span className="comInputText">Create Your Community</span>
-        </div>
+        </div> */}
       </div>
       <Button
         btnContent={"Finish"}
