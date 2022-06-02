@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "./Button";
-import "./SignupComp4.css";
+import Button from "../Button";
+import "./CommunityComponent.css";
 
-const SignupComp4 = () => {
+const CommunityComponent = () => {
   const navigate = useNavigate();
   const btnClickHandler = () => {
     navigate("/home");
@@ -35,4 +35,4 @@ const SignupComp4 = () => {
   );
 };
 
-export default SignupComp4;
+export default CommunityComponent;

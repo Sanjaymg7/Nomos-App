@@ -1,31 +1,35 @@
 import React, { useState } from "react";
-import { doPUTCall } from "../DataFetch";
+import { doPUTCall } from "../../DataFetch";
 import OtpInput from "react-otp-input";
-import Button from "./Button";
-import "./SignupComp2.css";
+import Button from "../Button";
+import "./OTPComponent.css";
 
-const SignupComp2 = ({ renderSignupComponent, userId, updateAccessToken }) => {
+const OTPComponent = ({ renderSignupComponent, userId, updateAccessToken }) => {
   const [otp, setOtp] = useState(0);
 
   const handleOtp = (val) => {
     setOtp(val);
   };
 
-  const btnClickHandler = () => {
+  const btnClickHandler = async () => {
     const otpBody = {
       user_id: userId,
       otp,
     };
-    doPUTCall("users/verify_otp", otpBody)
-      .then((data) => {
-        if (data.responseCode === 200) {
-          updateAccessToken(data.responseData.access_token);
-          renderSignupComponent(3);
-        } else {
-          alert(data.responseMessage);
-        }
-      })
-      .catch((err) => alert(err));
+    const data = await doPUTCall("users/verify_otp", otpBody);
+    if (data) {
+      updateAccessToken(data.access_token);
+      renderSignupComponent(3);
+    }
+  };
+
+  const otpInputStyles = {
+    width: "3em",
+    height: "3em",
+    margin: "1.25em 1em",
+    fontSize: "1em",
+    borderRadius: 4,
+    border: "0.125em solid rgba(0,0,0,0.3)",
   };
 
   return (
@@ -37,14 +41,7 @@ const SignupComp2 = ({ renderSignupComponent, userId, updateAccessToken }) => {
       <div className="otpContainer">
         <OtpInput
           containerStyle="otpModal"
-          inputStyle={{
-            width: "3em",
-            height: "3em",
-            margin: "1.25em 1em",
-            fontSize: "1em",
-            borderRadius: 4,
-            border: "0.125em solid rgba(0,0,0,0.3)",
-          }}
+          inputStyle={otpInputStyles}
           value={otp}
           onChange={handleOtp}
           numInputs={4}
@@ -61,4 +58,4 @@ const SignupComp2 = ({ renderSignupComponent, userId, updateAccessToken }) => {
   );
 };
 
-export default SignupComp2;
+export default OTPComponent;

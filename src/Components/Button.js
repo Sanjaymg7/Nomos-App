@@ -2,7 +2,7 @@ import React from "react";
 import "./Button.css";
 
 const Button = ({
-  onBtnClick,
+  onBtnClick = () => {},
   btnContent,
   className,
   btnValue = btnContent,
