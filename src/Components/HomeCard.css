@@ -1,0 +1,39 @@
+.home-card-container {
+  display: flex;
+  flex-direction: column;
+  height: 40vh;
+  border-radius: 3px;
+  border: 1px solid #e6e6e6;
+  background-color: #fff;
+}
+.home-card-header {
+  height: 8vh;
+  border: 0.1rem solid black;
+}
+.intro-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2%;
+}
+.profile-photo {
+    border-radius: 100%;
+}
+.home-card-body {
+  height: 25vh;
+  border: 0.1rem solid black;
+}
+.post-img {
+    height: 22vh;
+}
+.home-date {
+  height: 3vh;
+  border: 0.1rem solid black;
+}
+.home-card-footer {
+  height: 6vh;
+  border: 0.1rem solid black;
+}
+.p-tag {
+  font-size: large;
+}

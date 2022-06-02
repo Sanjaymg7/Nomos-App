@@ -1,13 +1,10 @@
-import React from 'react';
-import "./HomeComp.css"
+import React, { useState, useEffect } from "react";
+import "./HomeComp.css";
 
 const HomeComp = () => {
-  return (
-    <div>
-    Home comp
-      
-    </div>
-  );
-}
+  const [data, setData] = useState({});
+  useEffect(() => {}, []);
+  return <div>Home Component</div>;
+};
 
 export default HomeComp;

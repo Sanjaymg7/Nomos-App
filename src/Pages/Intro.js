@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../Components/Button";
-import "./SignInOrSignUp.css";
-const SignInOrSignUp = () => {
+import "./Intro.css";
+const Intro = () => {
   const navigate = useNavigate();
   return (
     <div className="container">
@@ -15,4 +15,4 @@ const SignInOrSignUp = () => {
   );
 };
 
-export default SignInOrSignUp;
+export default Intro;

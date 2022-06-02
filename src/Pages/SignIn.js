@@ -19,13 +19,13 @@ const SignIn = () => {
     } else if (userPass.length < 6) {
       alert("Password should be above 6 characters");
     } else {
-      const url = "https://api2.juegogames.com/NOMOS-V3/users/sign_in/";
+    //   const url = "https://api2.juegogames.com/NOMOS-V3/users/sign_in/";
       const body = {
         email: userEmail,
         password: userPass,
         type: "2",
       };
-      doPOSTCall(url, body)
+      doPOSTCall("users/sign_in",body)
         .then((data) => {
           if (data.responseCode === 200) {
             navigate("/home");
@@ -43,7 +43,7 @@ const SignIn = () => {
         className="input"
         type="email"
         value={userEmail}
-        OnInputChange={setUserEmail}
+        onInputChange={setUserEmail}
       />
       <label>Password</label>
       <br />
@@ -51,7 +51,7 @@ const SignIn = () => {
         className="input"
         type="password"
         value={userPass}
-        OnInputChange={setUserPass}
+        onInputChange={setUserPass}
       />
       <Button
         className="btn sign-in"
