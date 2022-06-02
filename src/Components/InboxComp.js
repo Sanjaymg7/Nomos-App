@@ -4,7 +4,7 @@ import "./InboxComp.css"
 const InboxComp = () => {
   return (
     <div>
-      
+      Home Component
     </div>
   );
 }
