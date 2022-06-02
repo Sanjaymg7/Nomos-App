@@ -1,11 +1,23 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCoffee } from "@fortawesome/free-solid-svg-icons";
-
+import React, {useState, useEffect} from "react";
+import Button from "../Components/Button";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./Home.css";
 const Home = () => {
+    const [data, setData] = useState({});
+    useEffect(() => {
+        
+    },[])
   return (
     <div>
-      <FontAwesomeIcon icon={faCoffee} />
+      <div className="header">
+          <p className="title">Nomos</p>
+      </div>
+      <div className="card"></div>
+      <div className="footer">
+        <Button className="home-btn" btnContent="Home" onBtnClick={() => console.log("Home")} />
+        <Button className="home-btn" btnContent="Menu" onBtnClick={() => "Home"} />
+        <Button className="home-btn" btnContent="Inbox" onBtnClick={() => "Home"} />
+      </div>
     </div>
   );
 };

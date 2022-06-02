@@ -18,7 +18,7 @@ const doPOSTCall = (url, body) => {
   return fetch(url, {
     headers: headers,
     method: "POST",
-    body: body,
+    body: new URLSearchParams(body),
   }).then((response) => response.json());
 };
 
