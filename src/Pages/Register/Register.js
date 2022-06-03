@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import UserDataComponent from "../Components/SignUpComponents/UserDataComponent";
-import OTPComponent from "../Components/SignUpComponents/OTPComponent";
-import SkillsComponent from "../Components/SignUpComponents/SkillsComponent";
-import CommunityComponent from "../Components/SignUpComponents/CommunityComponent";
+import UserDataComponent from "./UserDataComponent";
+import OTPComponent from "./OTPComponent";
+import SkillsComponent from "./SkillsComponent";
+import CommunityComponent from "./CommunityComponent";
 
-const Signup = () => {
+const Register = () => {
   const [userData, setUserData] = useState({
     user_id: "",
     access_token: "",
@@ -42,14 +42,14 @@ const Signup = () => {
         />
       ) : pageState === 3 ? (
         <SkillsComponent
-          renderSignupComponent={handleSubmit}
+          renderComponent={handleSubmit}
           accessToken={userData.access_token}
         />
       ) : (
-        <CommunityComponent />
+        <CommunityComponent accessToken={userData.access_token} />
       )}
     </div>
   );
 };
 
-export default Signup;
+export default React.memo(Register);

@@ -1,5 +1,14 @@
 const url = "https://api2.juegogames.com/NOMOS-V3/";
 
+const handleData = (data) => {
+  if (data.responseCode === 200) {
+    return data.responseData;
+  } else {
+    alert(data.responseMessage);
+    return false;
+  }
+};
+
 const doGETCall = (
   endPoint,
   headers = { "content-type": "application/json" }
@@ -10,12 +19,7 @@ const doGETCall = (
   })
     .then((res) => res.json())
     .then((data) => {
-      if (data.responseCode === 200) {
-        return data.responseData;
-      } else {
-        alert(data.responseMessage);
-        return false;
-      }
+      return handleData(data);
     })
     .catch((err) => {
       alert(err);
@@ -35,12 +39,7 @@ const doPUTCall = (
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.responseCode === 200) {
-        return data.responseData;
-      } else {
-        alert(data.responseMessage);
-        return false;
-      }
+      return handleData(data);
     })
     .catch((err) => {
       alert(err);
@@ -60,12 +59,7 @@ const doPOSTCall = (
   })
     .then((response) => response.json())
     .then((data) => {
-      if (data.responseCode === 200) {
-        return data.responseData;
-      } else {
-        alert(data.responseMessage);
-        return false;
-      }
+      return handleData(data);
     })
     .catch((err) => {
       alert(err);
@@ -82,12 +76,7 @@ const doDELETECall = (
   })
     .then((res) => res.json())
     .then((data) => {
-      if (data.responseCode === 200) {
-        return data.responseData;
-      } else {
-        alert(data.responseMessage);
-        return false;
-      }
+      return handleData(data);
     })
     .catch((err) => {
       alert(err);

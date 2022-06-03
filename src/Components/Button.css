@@ -5,23 +5,16 @@ button {
   color: #fff;
 }
 
-.signupOne {
+.btnGreen {
+  margin: 3em 0em;
   background-color: #00a86b;
 }
 
-.signupTwo {
-  margin-top: 3em;
+.btnGrey {
+  margin: 3em 0em;
   background-color: #b4b4b4;
 }
 
-.signupThree {
-  margin-top: 2em;
-  background-color: #00a86b;
-}
-.signupFour {
-  margin-top: 8em;
-  background-color: #00a86b;
-}
 .skillBtn {
   width: auto;
   color: #787878;
@@ -36,14 +29,42 @@ button {
   border: none;
 }
 .btn {
-    width: 90%;
-    margin-top: .5rem;
-    background-color: #4CAF50;
-    height: 6vh;
-    border: .1rem solid white;
-    border-radius: 5%;
-    font-size: larger;
+  width: 90%;
+  margin-top: 0.5rem;
+  background-color: #4caf50;
+  height: 6vh;
+  border: 0.1rem solid white;
+  border-radius: 5%;
+  font-size: larger;
 }
 .sign-in {
-    margin-top: 1.5rem;
+  margin-top: 1.5rem;
+}
+.giveBtn,
+.receiveBtn {
+  background-color: #fff;
+  color: #b4b4b4;
+  border-radius: 0.2em;
+  border: 0.01em solid #b4b4b4;
+}
+.postActive {
+  color: #00a86b;
+  background-color: #f0f0f0;
+  border: 0.01em solid #787878;
+}
+.addSkillsBtn,
+.addCategoryBtn {
+  width: 30%;
+  background-color: #fff;
+  border: 0.01em solid #00a86b;
+  color: #00a86b;
+  padding: 0.4em;
+  border-radius: 2em;
+}
+.joinCommunityBtn {
+  display: block;
+  background-color: #0047ab;
+  width: 50%;
+  color: #fff;
+  margin: -1.9em auto 1em;
 }
