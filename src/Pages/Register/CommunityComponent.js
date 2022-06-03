@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { doGETCall } from "../../DataFetch";
+import { doGETCall, doPOSTCall } from "../../DataFetch";
 import Button from "../../Components/Button";
 import "./CommunityComponent.css";
 
@@ -8,10 +8,11 @@ const CommunityComponent = ({ accessToken }) => {
   const navigate = useNavigate();
   const requestHeader = {
     "content-type": "application/json",
-    access_token:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOTUsImlhdCI6MTY1NDI0MTQwNn0.fLe-hjqxHkbNbH_wr9ynKNOvcakk_vnYY3eiXQRK8Cs",
+    access_token: accessToken,
   };
+  console.log(accessToken);
   const [community, setCommunity] = useState([]);
+  const [addedCommunity, setAddedCommunity] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
@@ -23,8 +24,18 @@ const CommunityComponent = ({ accessToken }) => {
     getData();
   }, []);
 
-  const handleCommunity = (id) => {
-    console.log(id);
+  const handleCommunity = async (id) => {
+    const requestBody = {
+      community_id: id,
+    };
+    const data = await doPOSTCall("community/join", requestBody);
+    if (data) {
+      setAddedCommunity(addedCommunity + 1);
+      console.log(data);
+    } else {
+      setAddedCommunity(addedCommunity);
+      console.log(data);
+    }
   };
 
   const btnClickHandler = () => {
@@ -59,11 +70,19 @@ const CommunityComponent = ({ accessToken }) => {
               <p className="communityDescription">
                 {communityData.community_description}
               </p>
-              <Button
-                btnContent={"Join"}
-                className={"joinCommunityBtn"}
-                onBtnClick={() => handleCommunity(communityData.community_id)}
-              />
+              {communityData.joined ? (
+                <Button
+                  btnContent={"Joined"}
+                  className={"btnGrey"}
+                  btnDisable={true}
+                />
+              ) : (
+                <Button
+                  btnContent={"Join"}
+                  className={"joinCommunityBtn"}
+                  onBtnClick={() => handleCommunity(communityData.community_id)}
+                />
+              )}
             </div>
           );
         })
