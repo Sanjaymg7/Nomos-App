@@ -1,0 +1,44 @@
+.headerConatiner {
+  background-color: #00a86b;
+  padding: 1em;
+}
+.headerText {
+  display: block;
+  text-align: center;
+  font-size: 1.2em;
+  color: #fff;
+}
+.labelText {
+  display: block;
+  color: #787878;
+  margin: 0.7em 0em;
+  font-weight: 500;
+}
+.postTypeButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 1em 0em;
+}
+.giftContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 1em 0em;
+}
+.giftCheck {
+  display: block;
+}
+.descriptionInput {
+  width: 100%;
+  background-color: #eee;
+  border: none;
+}
+.selectedSkills {
+  display: inline-block;
+  background-color: #fff;
+  border: 0.01em solid #787878;
+  color: #787878;
+  padding: 0.1em 0.4em;
+  margin: 0.2em 0.2em;
+  font-size: 0.9em;
+  border-radius: 2em;
+}

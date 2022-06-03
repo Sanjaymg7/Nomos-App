@@ -6,12 +6,18 @@ const Button = ({
   btnContent,
   className,
   btnValue = btnContent,
+  btnDisable = false,
 }) => {
   return (
-    <button value={btnValue} className={className} onClick={onBtnClick}>
+    <button
+      value={btnValue}
+      className={className}
+      onClick={onBtnClick}
+      disabled={btnDisable}
+    >
       {btnContent}
     </button>
   );
 };
 
-export default Button;
+export default React.memo(Button);

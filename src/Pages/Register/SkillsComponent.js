@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { doGETCall } from "../../DataFetch";
 import { doPUTCall } from "../../DataFetch";
-import Button from "../Button";
+import Button from "../../Components/Button";
 import "./SkillsComponent.css";
 
-const SkillsComponent = ({ renderSignupComponent, accessToken }) => {
+const SkillsComponent = ({ renderComponent, accessToken }) => {
   const requestHeader = {
     "content-type": "application/json",
     access_token: accessToken,
@@ -29,7 +29,7 @@ const SkillsComponent = ({ renderSignupComponent, accessToken }) => {
     };
     const data = await doPUTCall("users", skillsAddBody, requestHeader);
     if (data) {
-      renderSignupComponent(4);
+      renderComponent(4);
     }
   };
 
@@ -63,11 +63,11 @@ const SkillsComponent = ({ renderSignupComponent, accessToken }) => {
       </div>
       <Button
         btnContent={"Next"}
-        className={"signupThree"}
+        className={"btnGreen"}
         onBtnClick={btnClickHandler}
       />
     </div>
   );
 };
 
-export default SkillsComponent;
+export default React.memo(SkillsComponent);

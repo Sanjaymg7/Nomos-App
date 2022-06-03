@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { doPUTCall } from "../../DataFetch";
 import OtpInput from "react-otp-input";
-import Button from "../Button";
+import Button from "../../Components/Button";
 import "./OTPComponent.css";
 
 const OTPComponent = ({ renderSignupComponent, userId, updateAccessToken }) => {
@@ -50,7 +50,7 @@ const OTPComponent = ({ renderSignupComponent, userId, updateAccessToken }) => {
       </div>
       <Button
         btnContent={"Confirm"}
-        className={"signupTwo"}
+        className={"btnGrey"}
         onBtnClick={btnClickHandler}
       />
       <span className="resendMessage">Didn't receive? Resend OTP</span>
@@ -58,4 +58,4 @@ const OTPComponent = ({ renderSignupComponent, userId, updateAccessToken }) => {
   );
 };
 
-export default OTPComponent;
+export default React.memo(OTPComponent);

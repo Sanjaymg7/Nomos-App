@@ -24,22 +24,25 @@
   font-size: 1em;
   text-align: center;
 }
-.comInputModal {
-  width: 75%;
-  margin: 2em auto;
+.communityCardContainer {
+  width: 70%;
+  margin: 2em auto 0em;
+  padding: 0.5em;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  padding: 2em;
 }
-.addBtn {
+.communityImage {
   display: block;
-  font-size: 5em;
-  color: #007fff;
-  font-weight: 100;
+  width: 4em;
+  height: 4em;
+  margin: 1em auto;
+}
+.communityName {
+  font-size: 1.1em;
   text-align: center;
 }
-.comInputText {
-  display: block;
-  margin: 1.2em 0em;
-  text-align: center;
-  font-size: 1em;
+.communityDescription {
+  width: 95%;
+  text-align: justify;
+  color: #000;
+  font-size: 0.7em;
 }

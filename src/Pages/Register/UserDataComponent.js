@@ -2,8 +2,8 @@ import React from "react";
 import { doPOSTCall } from "../../DataFetch";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import Button from "../Button";
-import Input from "../Input";
+import Button from "../../Components/Button";
+import Input from "../../Components/Input";
 import "./UserDataComponent.css";
 
 const UserDataComponent = ({ renderSignupComponent, updateId }) => {
@@ -44,6 +44,8 @@ const UserDataComponent = ({ renderSignupComponent, updateId }) => {
       email,
       password,
       type: 2,
+      user_location:
+        '{"lat":12.9141417,"lng":74.8559568,"name":"Mangalore,Karnataka,India"}',
     };
     const isValidUser = validateUser(userData);
     if (isValidUser) {
@@ -89,11 +91,11 @@ const UserDataComponent = ({ renderSignupComponent, updateId }) => {
               <span className="textGreen">Privacy Policy</span>
             </span>
           </div>
-          <Button btnContent={"Next"} className={"signupOne"} />
+          <Button btnContent={"Next"} className={"btnGreen"} />
         </form>
       </div>
     </div>
   );
 };
 
-export default UserDataComponent;
+export default React.memo(UserDataComponent);
