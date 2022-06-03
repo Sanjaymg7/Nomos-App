@@ -3,12 +3,11 @@ import Button from "../Components/Button";
 import HomeCard from "../Components/HomeCard";
 import MenuComp from "../Components/MenuComp";
 import InboxComp from "../Components/InboxComp";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Home.css";
 const Home = () => {
   const [component, setComponent] = useState();
   return (
-    <div>
+    <div className="home-container">
       <div className="header">
         <p className="title">Nomos</p>
       </div>

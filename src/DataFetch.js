@@ -60,6 +60,7 @@ const doPOSTCall = (
   })
     .then((response) => response.json())
     .then((data) => {
+      console.log(data);
       if (data.responseCode === 200) {
         return data.responseData;
       } else {

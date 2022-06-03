@@ -1,0 +1,12 @@
+.btn {
+  width: 90%;
+  margin-top: 0.5rem;
+  background-color: #4caf50;
+  height: 6vh;
+  border: 0.1rem solid white;
+  border-radius: 5%;
+  font-size: larger;
+}
+.sign-in {
+  margin-top: 1.5rem;
+}
