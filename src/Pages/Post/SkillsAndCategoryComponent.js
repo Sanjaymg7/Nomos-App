@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
 import { doGETCall } from "../../DataFetch";
 import Button from "../../Components/Button";
 import "./../Register/SkillsComponent.css";
 
 const SkillsAndCategoryComponent = ({ handleData, component }) => {
+  const [cookies, setCookie] = useCookies(["access"]);
+  const initState = {
+    dealing_type: 1,
+    is_gift: false,
+    items_service_name: "",
+    items_service_desc: "",
+    skills_required: "",
+    category_required: "",
+    location:
+      '{"lat":12.9141417,"lng":74.8559568,"name":"Mangalore,Karnataka,India"}',
+  };
   const requestHeader = {
     "content-type": "application/json",
-    access_token:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOTUsImlhdCI6MTY1NDI0MTQwNn0.fLe-hjqxHkbNbH_wr9ynKNOvcakk_vnYY3eiXQRK8Cs",
+    access_token: cookies.access,
   };
+
+  const [postData, setPostData] = useState(
+    JSON.parse(window.localStorage.getItem("postData")) || initState
+  );
   const [dataArray, setdataArray] = useState([]);
   const [dataId, setdataId] = useState([]);
   const [dataName, setdataName] = useState([]);
@@ -33,8 +48,13 @@ const SkillsAndCategoryComponent = ({ handleData, component }) => {
 
   const btnClickHandler = () => {
     const dataAddBody = dataId.join(",");
-    const returnData = [dataAddBody, dataName];
-    handleData(returnData);
+    if (component === "skills") {
+      postData.skills_required = dataAddBody;
+    } else {
+      postData.category_required = dataAddBody;
+    }
+    window.localStorage.setItem("postData", JSON.stringify(postData));
+    handleData(dataName);
   };
 
   const dataHandler = (e, id, name) => {

@@ -27,6 +27,26 @@ const doGETCall = (
     });
 };
 
+const doGETCallWithBody = (
+  endPoint,
+  body,
+  headers = { "content-type": "application/json" }
+) => {
+  return fetch(url + endPoint, {
+    method: "GET",
+    headers: headers,
+    body: new URLSearchParams(body),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      return handleData(data);
+    })
+    .catch((err) => {
+      alert(err);
+      return false;
+    });
+};
+
 const doPUTCall = (
   endPoint,
   body,
@@ -84,4 +104,4 @@ const doDELETECall = (
     });
 };
 
-export { doGETCall, doPUTCall, doPOSTCall, doDELETECall };
+export { doGETCall, doGETCallWithBody, doPUTCall, doPOSTCall, doDELETECall };

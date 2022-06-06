@@ -55,7 +55,7 @@ const UserDataComponent = ({ renderSignupComponent, updateId }) => {
         updateId(data.user_id);
         renderSignupComponent(2);
       } else {
-        e.target.innerHTML[4] = "Next";
+        e.target[4].innerHTML = "Next";
       }
     }
   };

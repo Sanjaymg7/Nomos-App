@@ -1,4 +1,5 @@
 .headerConatiner {
+  position: relative;
   background-color: #00a86b;
   padding: 1em;
 }
@@ -7,6 +8,15 @@
   text-align: center;
   font-size: 1.2em;
   color: #fff;
+}
+.homeNavigate {
+  position: absolute;
+  cursor: pointer;
+  font-size: 1.7em;
+  color: #fff;
+  font-weight: 0;
+  top: 0.35em;
+  left: 0.7em;
 }
 .labelText {
   display: block;
@@ -41,4 +51,37 @@
   margin: 0.2em 0.2em;
   font-size: 0.9em;
   border-radius: 2em;
+}
+.addSkills,
+.addCategory {
+  width: 35%;
+  text-align: center;
+  background-color: #fff;
+  border: 0.01em solid #00a86b;
+  color: #00a86b;
+  padding: 0.2em;
+  border-radius: 2em;
+}
+.giveBtn,
+.receiveBtn {
+  width: 100%;
+  padding: 0.8em 2em;
+  background-color: #fff;
+  color: #b4b4b4;
+  border-radius: 0.2em;
+  border: 0.01em solid #b4b4b4;
+}
+.postActive {
+  color: #00a86b;
+  background-color: #f0f0f0;
+  border: 0.01em solid #787878;
+}
+.descriptionContainer {
+  position: relative;
+}
+.descriptionCount {
+  position: absolute;
+  bottom: 1em;
+  right: 0.5em;
+  font-size: 0.7em;
 }

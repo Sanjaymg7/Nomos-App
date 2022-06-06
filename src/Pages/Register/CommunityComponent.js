@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import { doGETCall, doPOSTCall } from "../../DataFetch";
 import Button from "../../Components/Button";
 import "./CommunityComponent.css";
 
-const CommunityComponent = ({ accessToken }) => {
+const CommunityComponent = () => {
   const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies(["access"]);
   const requestHeader = {
     "content-type": "application/json",
-    access_token: accessToken,
+    access_token: cookies.access,
   };
-  console.log(accessToken);
   const [community, setCommunity] = useState([]);
   const [addedCommunity, setAddedCommunity] = useState(0);
 
@@ -22,24 +23,22 @@ const CommunityComponent = ({ accessToken }) => {
       }
     };
     getData();
-  }, []);
+  }, [addedCommunity]);
 
   const handleCommunity = async (id) => {
     const requestBody = {
       community_id: id,
     };
-    const data = await doPOSTCall("community/join", requestBody);
+    const data = await doPOSTCall("community/join", requestBody, requestHeader);
     if (data) {
       setAddedCommunity(addedCommunity + 1);
-      console.log(data);
     } else {
       setAddedCommunity(addedCommunity);
-      console.log(data);
     }
   };
 
   const btnClickHandler = () => {
-    navigate("/home");
+    navigate("/post");
   };
 
   return (
