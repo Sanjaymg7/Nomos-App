@@ -11,15 +11,16 @@ const Post = () => {
     setComponentState(state);
   };
 
-  const handleSkills = (skillArray) => {
-    setSkills(skillArray);
+  const handleSkills = (skill) => {
+    setSkills(skill);
     renderComponent(1);
   };
 
-  const handleCategories = (categoryArray) => {
-    setCategories(categoryArray);
+  const handleCategories = (category) => {
+    setCategories(category);
     renderComponent(1);
   };
+
   return (
     <div>
       {componentState === 1 ? (

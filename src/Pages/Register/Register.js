@@ -7,7 +7,6 @@ import CommunityComponent from "./CommunityComponent";
 const Register = () => {
   const [userData, setUserData] = useState({
     user_id: "",
-    access_token: "",
   });
   const [pageState, setPageState] = useState(1);
 
@@ -18,12 +17,6 @@ const Register = () => {
   const updateUserId = (id) => {
     setUserData((prevState) => {
       return { ...prevState, user_id: id };
-    });
-  };
-
-  const updateAccessToken = (token) => {
-    setUserData((prevState) => {
-      return { ...prevState, access_token: token };
     });
   };
 
@@ -38,15 +31,11 @@ const Register = () => {
         <OTPComponent
           renderSignupComponent={handleSubmit}
           userId={userData.user_id}
-          updateAccessToken={updateAccessToken}
         />
       ) : pageState === 3 ? (
-        <SkillsComponent
-          renderComponent={handleSubmit}
-          accessToken={userData.access_token}
-        />
+        <SkillsComponent renderComponent={handleSubmit} />
       ) : (
-        <CommunityComponent accessToken={userData.access_token} />
+        <CommunityComponent />
       )}
     </div>
   );

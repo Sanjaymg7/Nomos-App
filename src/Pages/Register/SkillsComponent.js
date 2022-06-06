@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
 import { doGETCall } from "../../DataFetch";
 import { doPUTCall } from "../../DataFetch";
 import Button from "../../Components/Button";
 import "./SkillsComponent.css";
 
-const SkillsComponent = ({ renderComponent, accessToken }) => {
+const SkillsComponent = ({ renderComponent }) => {
+  const [cookies, setCookie] = useCookies(["access"]);
   const requestHeader = {
     "content-type": "application/json",
-    access_token: accessToken,
+    access_token: cookies.access,
   };
   const [skillsArray, setSkillsArray] = useState([]);
   const [skills, setSkills] = useState([]);
