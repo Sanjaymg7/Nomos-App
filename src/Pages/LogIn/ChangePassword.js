@@ -7,15 +7,17 @@ import "./ChangePassword.css";
 import OtpInput from "react-otp-input";
 import Title from "../../Components/Title";
 
-const ChangePassword = ({ changeComp }) => {
+const ChangePassword = ({ setCookie, changeComp }) => {
   const [otp, setOTP] = useState("");
   const [isOTP, updateOTP] = useState(false);
+  const [phoneNo, setPhoneNo] = useState();
   const phoneInput = async (e) => {
     e.preventDefault();
     console.log(e.target);
-    const phone_no = e.target[0].value.replace(/-/g, "").replace(/ /g, "");
-    console.log(phone_no);
-    const isNumber = await doPOSTCall("users/reset_password", { phone_no });
+    const phoneNo = e.target[0].value.replace(/-/g, "").replace(/ /g, "");
+    setPhoneNo(phoneNo);
+    console.log(phoneNo);
+    const isNumber = await doPOSTCall("users/reset_password", { phone_no: phoneNo });
     if (isNumber) {
       updateOTP(!isOTP);
     }
@@ -26,10 +28,17 @@ const ChangePassword = ({ changeComp }) => {
   const validateOTP = async (e) => {
     e.preventDefault();
     console.log(otp);
-    const otpValidate = await doPOSTCall("users/confirm_otp", { otp });
+    const otpValidate = await doPOSTCall("users/confirm_otp", {
+      phone_no: phoneNo,
+      otp,
+    });
     if (otpValidate) {
       changeComp(2);
     }
+    setCookie("access_token", otpValidate.reset_token, {
+        path: "/" });
+    // setCookie(otpValidate.reset_token);
+    console.log(otpValidate.reset_token)
   };
 
   return (

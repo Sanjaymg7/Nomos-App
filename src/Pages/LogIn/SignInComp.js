@@ -5,8 +5,10 @@ import { doPOSTCall } from "../../DataFetch";
 import { useNavigate } from "react-router-dom";
 import "./SignInComp.css";
 import Title from "../../Components/Title";
+import { useCookies } from "react-cookie";
 
-const SignInComp = ({ changeComp }) => {
+const SignInComp = ({ setCookie, changeComp }) => {
+  
   const navigate = useNavigate();
   const userSignIn = async (e) => {
     e.preventDefault();
@@ -30,7 +32,11 @@ const SignInComp = ({ changeComp }) => {
       console.log(userDetail);
       if (userDetail) {
         navigate("/home");
+        e.target[2].innerHTML = "Sign In";
       }
+      setCookie("access_token", userDetail.access_token, {
+        path: "/" });
+      console.log(userDetail.access_token);
     }
   };
   const forgotPassword = (e) => {

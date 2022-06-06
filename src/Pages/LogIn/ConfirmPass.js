@@ -4,20 +4,22 @@ import Button from "../../Components/Button";
 import Title from "../../Components/Title";
 import { doPUTCall } from "../../DataFetch";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const ConfirmPass = () => {
+    const [cookies, setCookie] = useCookies();
   const navigate = useNavigate();
-  const confirmPass = async (e) => {
+  const confirmPassword = async (e) => {
     e.preventDefault();
     const newPassword = e.target[0].value;
     const confirmPassword = e.target[1].value;
     if (newPassword === confirmPassword && newPassword != "") {
       const confirmPassword = await doPUTCall("users/reset_password", {
         new_password: newPassword,
-        reset_token: "",
+        reset_token: cookies.access_token,
       });
       if (confirmPassword) {
-        navigate("./signin");
+        document.location.reload();
       }
     } else if (newPassword === "" && confirmPassword === "") {
       alert("Please Enter password");
@@ -28,7 +30,7 @@ const ConfirmPass = () => {
   return (
     <>
       <Title />
-      <form className="signin" onSubmit={confirmPass}>
+      <form className="signin" onSubmit={confirmPassword}>
         <label>Enter New Password</label>
         <br />
         <Input className="input" type="password" />

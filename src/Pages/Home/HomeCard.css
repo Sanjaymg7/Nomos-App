@@ -1,0 +1,93 @@
+.home-card-container {
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  border-radius: 3px;
+  border: 0.1rem solid #e6e6e6;
+  background-color: #fff;
+}
+.home-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2%;
+  height: 5%;
+}
+.intro-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  gap: 2%;
+}
+.profile-photo {
+  height: 3rem;
+  width: 12.5%;
+  margin: 1rem 0.6rem 1rem 1rem;
+  border-radius: 100%;
+}
+.home-header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.home-header-text {
+  width: 100%;
+}
+.three-dots {
+  font-weight: 1000;
+  letter-spacing: 0.1cm;
+  width: 12.5%;
+  position: relative;
+  padding-left: 7rem;
+  padding-bottom: 1.5rem;
+}
+.home-card-body {
+  height: 15%;
+  /* border: 0.1rem solid black; */
+}
+.body-text {
+  padding: 0 0.75rem 0.75rem;
+}
+.post-img {
+  height: 12.5%;
+  width: 100%;
+}
+.home-date {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.2rem 1rem;
+  height: 2%;
+  
+}
+.date-month {
+  font-size: large;
+}
+.interested {
+  color: grey;
+}
+
+.home-card-footer {
+  display: flex;
+  justify-content: space-between;
+  height: 8%;
+  padding: 1rem 1rem;
+}
+.footer-icons {
+  display: flex;
+  justify-content: space-around;
+  gap: .6rem;
+
+}
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.footer-text {
+  font-size: 1.3rem;
+}
+.p-tag {
+  font-size: large;
+}
