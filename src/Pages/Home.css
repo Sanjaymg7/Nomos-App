@@ -1,5 +1,9 @@
+.home-container {
+    margin: 0;
+    padding: 0;
+}
 .header {
-    height: 7vh;
+    height: 5rem;
     background-color: #00a86b;
     text-align: center;
 }
@@ -10,13 +14,11 @@
     display: inline-flex;
     flex-direction: row;
     width: 100%;
-    height: 8vh;
+    height: 4rem;
     background-color: rgb(68, 65, 65);
     border-top: .1rem solid grey;
 }
-.card {
-    height: 86vh;
-}
+
 .home-btn {
     color: #036843;
     font-size: larger;
