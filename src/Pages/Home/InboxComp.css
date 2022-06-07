@@ -1,0 +1,46 @@
+.userMessageContainer {
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr 1fr;
+  width: 95%;
+  margin: 0em auto 1.5em;
+  border-bottom: 0.01em solid #f0f0f0;
+  height: 4em;
+}
+.profilePicture {
+  width: 3em;
+  height: 3em;
+  margin: 0.1em 1em;
+  border-radius: 50%;
+}
+.userName {
+  font-size: 0.9em;
+  font-weight: 500;
+}
+.lastUserMessage {
+  color: #787878;
+  width: 14.5em;
+  height: 3em;
+  font-size: 0.8em;
+  margin-top: -0.03em;
+}
+.timeField {
+  display: block;
+  color: #787878;
+  font-size: 0.73em;
+  font-weight: 400;
+}
+.unreadCount {
+  display: inline-block;
+  background-color: #3c3c3c;
+  color: #fff;
+  font-size: 0.7em;
+  margin: 0.9em 0em 0em 3em;
+  padding: 0.2em 0.6em;
+  border-radius: 50%;
+}
+.enterChat {
+  font-size: 1.5em;
+  font-weight: 400;
+  color: #00a86b;
+  margin: 0.3em 0em 0em 1em;
+}
