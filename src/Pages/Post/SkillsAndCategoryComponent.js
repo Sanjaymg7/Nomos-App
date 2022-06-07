@@ -5,7 +5,7 @@ import Button from "../../Components/Button";
 import "./../Register/SkillsComponent.css";
 
 const SkillsAndCategoryComponent = ({ handleData, component }) => {
-  const [cookies, setCookie] = useCookies(["access"]);
+  const [cookies, setCookie] = useCookies(["access_token"]);
   const initState = {
     dealing_type: 1,
     is_gift: false,
@@ -18,7 +18,7 @@ const SkillsAndCategoryComponent = ({ handleData, component }) => {
   };
   const requestHeader = {
     "content-type": "application/json",
-    access_token: cookies.access,
+    access_token: cookies.access_token,
   };
 
   const [postData, setPostData] = useState(

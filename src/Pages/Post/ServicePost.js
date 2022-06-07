@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { doPOSTCall } from "../../DataFetch";
+import { doGETCall, doPOSTCall, doPUTCall } from "../../DataFetch";
 import Button from "../../Components/Button";
 import Input from "../../Components/Input";
 import "./ServicePost.css";
 
 const ServicePost = ({ renderComponent, skills, categories }) => {
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(["access"]);
+  const [cookies, setCookie] = useCookies(["access_token"]);
 
   const initState = {
     dealing_type: 1,
@@ -23,12 +23,13 @@ const ServicePost = ({ renderComponent, skills, categories }) => {
   };
   const requestHeader = {
     "content-type": "application/json",
-    access_token: cookies.access,
+    access_token: cookies.access_token,
   };
   let key = 0;
   let isBtnActive = false;
   const skillsName = skills || [];
   const categoriesName = categories || [];
+  const [uploadedImage, setUploadedImage] = useState("");
   const [postData, setPostData] = useState(
     JSON.parse(window.localStorage.getItem("postData")) || initState
   );
@@ -69,29 +70,45 @@ const ServicePost = ({ renderComponent, skills, categories }) => {
     setPostData((prevState) => ({ ...prevState, is_gift: val.checked }));
   };
 
-  // const hanldeImageChange = (val) => {
-  //   setPostData((prevState) => ({ ...prevState, items_service_image: val }));
-  // };
+  const fileUploadInputChange = (e) => {
+    if (e) {
+      let reader = new FileReader();
+      reader.onload = function () {
+        setUploadedImage(reader.result);
+      };
+      reader.readAsText(e.target.files[0]);
+    }
+  };
 
   const createServicePost = async (e) => {
     e.preventDefault();
-    // const uploadURL = e.target[5].value;
-    // const fileExtension = uploadURL.slice(uploadURL.lastIndexOf(".") + 1);
-    // const data = await doGETCallWithBody(
-    //   `upload/url?file_extension=${fileExtension}`,
-    //   { path: uploadURL },
-    //   requestHeader
-    // );
-    // if (data) {
-    //   console.log(data);
-    // }
     e.target[4].innerHTML = "Please wait...";
-    const data = await doPOSTCall("/service", postData, requestHeader);
-    if (data) {
-      localStorage.clear();
-      navigate("/home");
+    const imageURL = e.target[3].value;
+    if (imageURL.length !== 0) {
+      const fileExtension = imageURL.slice(imageURL.lastIndexOf(".") + 1);
+      const getUploadData = await doGETCall(
+        `upload/url?file_extension=${fileExtension}`,
+        requestHeader
+      );
+      if (getUploadData) {
+        const data = await fetch(getUploadData.upload_url, {
+          method: "PUT",
+          body: uploadedImage,
+        });
+        if (data.status !== 200) {
+          alert("Something Went Wrong!! Try again..");
+          e.target[4].innerHTML = "Create Post";
+        } else {
+          postData.items_service_image = getUploadData.image_id;
+          const data = await doPOSTCall("/service", postData, requestHeader);
+          if (data) {
+            localStorage.clear();
+            navigate("/home");
+          }
+          e.target[4].innerHTML = "Create Post";
+        }
+      }
     }
-    e.target[4].innerHTML = "Create Post";
   };
 
   enableCreatePostButton();
@@ -157,13 +174,7 @@ const ServicePost = ({ renderComponent, skills, categories }) => {
               {postData.items_service_desc.length} / 200
             </span>
           </div>
-          <span className="labelText">Post Image</span>
-          <Input
-            type={"file"}
-            className={"postImageInput"}
-            // value={postData.items_service_image}
-            // onInputChange={hanldeImageChange}
-          />
+
           <span className="labelText">Add Required Skills</span>
           <div
             className="addSkills"
@@ -188,6 +199,14 @@ const ServicePost = ({ renderComponent, skills, categories }) => {
               {category}
             </span>
           ))}
+          <span className="labelText">Post Image</span>
+          <input
+            type={"file"}
+            className={"postImageInput"}
+            onChange={(e) =>
+              fileUploadInputChange(e.target.files[0] ? e : null)
+            }
+          />
           <Button
             btnContent={"Create Post"}
             className={

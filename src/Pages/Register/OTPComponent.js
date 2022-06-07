@@ -6,7 +6,7 @@ import Button from "../../Components/Button";
 import "./OTPComponent.css";
 
 const OTPComponent = ({ renderSignupComponent, userId }) => {
-  const [cookies, setCookie] = useCookies(["access"]);
+  const [cookies, setCookie] = useCookies(["access_token"]);
   const [otp, setOtp] = useState(0);
 
   const handleOtp = (val) => {
@@ -20,7 +20,7 @@ const OTPComponent = ({ renderSignupComponent, userId }) => {
     };
     const data = await doPUTCall("users/verify_otp", otpBody);
     if (data) {
-      setCookie("access", data.access_token, { path: "/" });
+      setCookie("access_token", data.access_token, { path: "/" });
       renderSignupComponent(3);
     }
   };

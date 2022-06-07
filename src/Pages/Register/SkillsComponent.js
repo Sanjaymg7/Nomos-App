@@ -6,10 +6,10 @@ import Button from "../../Components/Button";
 import "./SkillsComponent.css";
 
 const SkillsComponent = ({ renderComponent }) => {
-  const [cookies, setCookie] = useCookies(["access"]);
+  const [cookies, setCookie] = useCookies(["access_token"]);
   const requestHeader = {
     "content-type": "application/json",
-    access_token: cookies.access,
+    access_token: cookies.access_token,
   };
   const [skillsArray, setSkillsArray] = useState([]);
   const [skills, setSkills] = useState([]);

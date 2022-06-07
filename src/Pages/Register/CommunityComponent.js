@@ -7,10 +7,10 @@ import "./CommunityComponent.css";
 
 const CommunityComponent = () => {
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(["access"]);
+  const [cookies, setCookie] = useCookies(["access_token"]);
   const requestHeader = {
     "content-type": "application/json",
-    access_token: cookies.access,
+    access_token: cookies.access_token,
   };
   const [community, setCommunity] = useState([]);
   const [addedCommunity, setAddedCommunity] = useState(0);

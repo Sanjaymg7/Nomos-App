@@ -10,24 +10,24 @@ import { useCookies } from "react-cookie";
 
 const Home = () => {
   const [cookies, setCookie] = useCookies();
-  const [component, setComponent] = useState(0);
+  const [component, setComponent] = useState(2);
   const [posts, setPosts] = useState();
-  useEffect(()=>{
-    const data = doGETCall("posts/",{ "content-type": "application/json","access_token": cookies.access_token});
-    setPosts(data.posts);
-    console.log((posts));
+  // useEffect(() => {
+  //   const data = doGETCall("posts/", {
+  //     "content-type": "application/json",
+  //     access_token: cookies.access_token,
+  //   });
+  //   setPosts(data.posts);
+  //   console.log(posts);
+  // }, []);
 
-  },[])
-  
   return (
     <div className="home-container">
       <Title />
-      {component === 0 &&
-        posts?.map((post)=><HomeCard />)
-      }
-      {component === 1 &&<MenuComp />}
+      {component === 0 && posts?.map((post) => <HomeCard />)}
+      {component === 1 && <MenuComp />}
       {component === 2 && <InboxComp />}
-      
+
       <div className="footer">
         <Button
           className="home-btn"

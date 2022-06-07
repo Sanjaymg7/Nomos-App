@@ -4,6 +4,8 @@ import SignIn from "./Pages/LogIn/SignIn";
 import Register from "./Pages/Register/Register";
 import Home from "./Pages/Home/Home";
 import Post from "./Pages/Post/Post";
+import Chat from "./Pages/Chat/Chat";
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -13,6 +15,7 @@ const App = () => {
         <Route exact path="/signup" element={<Register />} />
         <Route exact path="/home" element={<Home />} />
         <Route exact path="/post" element={<Post />} />
+        <Route exact path="/chat" element={<Chat />} />
       </Routes>
     </BrowserRouter>
   );
