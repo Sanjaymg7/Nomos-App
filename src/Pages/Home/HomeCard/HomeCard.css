@@ -34,14 +34,12 @@
   align-items: center;
 }
 .home-header-text {
-  background-color: aquamarine;
   flex: 2;
 }
 .three-dots {
   font-weight: 1000;
   letter-spacing: 0.1cm;
   width: 22.5%;
-  background-color: aqua;
 }
 .home-card-body {
   height: 15%;

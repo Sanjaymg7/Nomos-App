@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    background-color: #fff;
+    text-align: center;
+    height: 100vh;
+    padding-bottom: 2rem;
+}
+p{
+    color: black;
+    margin: 1rem auto;
+    font-size: x-large;
+    margin-bottom: 3rem;
+}
+.intro-title {
+    position: absolute;
+    top: 14.34rem;
+    left: 7rem;
+    height: 2.41rem;
+    width: 10rem;
+}
+.intro-image {
+    height: 38rem;
+    width: 100%;
+}

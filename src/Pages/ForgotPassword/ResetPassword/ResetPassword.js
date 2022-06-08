@@ -1,52 +1,61 @@
 import React, { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import Button from "../../Components/Button/Button";
-import { postCall } from "../../DataFetch";
-import "./ChangePassword.css";
+import Button from "../../../Components/Button/Button";
+import { doPOSTCall } from "../../../DataFetch";
+import "./ResetPassword.css";
 import OtpInput from "react-otp-input";
-import Header from "../../Components/Header/Header";
+import Title from "../../../Components/Title/Title";
+import ConfirmPassword from "../ConfirmPassword/ConfirmPassword"
+import { useCookies } from "react-cookie";
 
-const ChangePassword = ({ setCookie, changeComp }) => {
+const ResetPassword = () => {
   const [otp, setOTP] = useState("");
   const [isOTP, updateOTP] = useState(false);
   const [phoneNo, setPhoneNo] = useState();
+  const [isConfirmPasswordPage, setConfirmPasswordPage] = useState(false);
+  const [cookies, setCookie] = useCookies("");
+
+  const inputStyle = {
+    width: "3.5rem",
+    height: "3.5rem",
+    margin: "1.5rem 1rem",
+    fontSize: "1rem",
+    borderRadius: 4,
+    border: "0.125rem solid rgba(0,0,0,0.3)",
+  }
   const phoneInput = async (e) => {
     e.preventDefault();
-    console.log(e.target);
     const phoneNo = e.target[0].value.replace(/-/g, "").replace(/ /g, "");
     setPhoneNo(phoneNo);
-    console.log(phoneNo);
-    const isNumber = await postCall("users/reset_password", {
+    const isNumber = await doPOSTCall("users/reset_password", {
       phone_no: phoneNo,
     });
     if (isNumber) {
       updateOTP(!isOTP);
     }
   };
-  const handleChange = (otp) => {
+  const handleOtpChange = (otp) => {
     setOTP(otp);
   };
   const validateOTP = async (e) => {
     e.preventDefault();
-    console.log(otp);
-    const otpValidate = await postCall("users/confirm_otp", {
+    const otpValidate = await doPOSTCall("users/confirm_otp", {
       phone_no: phoneNo,
       otp,
     });
     if (otpValidate) {
-      changeComp(2);
+      setConfirmPasswordPage(!isConfirmPasswordPage);
     }
     setCookie("access_token", otpValidate.reset_token, {
       path: "/",
     });
-    // setCookie(otpValidate.reset_token);
-    console.log(otpValidate.reset_token);
   };
 
   return (
     <>
-      <Header />
+    {isConfirmPasswordPage ? <ConfirmPassword /> : <>
+      <Title />
       {isOTP && <div className="otp-span">Enter OTP</div>}
       {!isOTP && <div className="phone-input-span"> Phone</div>}
       <form
@@ -56,16 +65,9 @@ const ChangePassword = ({ setCookie, changeComp }) => {
         {isOTP ? (
           <OtpInput
             numInputs={4}
-            inputStyle={{
-              width: "3.5rem",
-              height: "3.5rem",
-              margin: "1.5rem 1rem",
-              fontSize: "1rem",
-              borderRadius: 4,
-              border: "0.125rem solid rgba(0,0,0,0.3)",
-            }}
+            inputStyle={inputStyle}
             value={otp}
-            onChange={handleChange}
+            onChange={handleOtpChange}
             seperator={<span> </span>}
           />
         ) : (
@@ -88,8 +90,9 @@ const ChangePassword = ({ setCookie, changeComp }) => {
           btnContent={isOTP ? "Confirm" : "Send OTP"}
         />
       </form>
+      </>}
     </>
   );
 };
 
-export default React.memo(ChangePassword);
+export default React.memo(ResetPassword);

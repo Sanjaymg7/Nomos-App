@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "../../../Components/Image/Image";
 import "./HomeCard.css";
 
 const HomeCard = ({
@@ -16,7 +17,7 @@ const HomeCard = ({
     <div className="home-card-container">
       <div className="home-card-header">
         <div className="intro-container">
-          <img className="profile-photo" src={profilePicture} alt="Profile img" />
+          <Image className="profile-photo" src={profilePicture} alt="Profile img" />
           <div className="home-header-container">
             <div className="home-header-text">
               <h5>{userName}</h5>
@@ -32,7 +33,7 @@ const HomeCard = ({
           <span className="span-tag home-para">{description}</span>
         </div>
         <div>
-          <img className="post-img" src="" alt="img" />
+          <Image className="post-img" src="" alt="img" />
         </div>
       </div>
         <span className="home-date">{interested} interested</span>
