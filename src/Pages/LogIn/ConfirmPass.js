@@ -1,8 +1,8 @@
 import React from "react";
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Button/Button";
-import Title from "../../Components/Title/Title";
-import { doPUTCall } from "../../DataFetch";
+import Header from "../../Components/Header/Header";
+import { putCall } from "../../DataFetch";
 // import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { BrowserRouter } from "react-router-dom";
@@ -15,7 +15,7 @@ const ConfirmPass = ({ setComp }) => {
     const newPassword = e.target[0].value;
     const confirmPassword = e.target[1].value;
     if (newPassword === confirmPassword && newPassword !== "") {
-      const confirmPassword = await doPUTCall("users/reset_password", {
+      const confirmPassword = await putCall("users/reset_password", {
         new_password: newPassword,
         reset_token: cookies.access_token,
       });
@@ -33,7 +33,7 @@ const ConfirmPass = ({ setComp }) => {
   };
   return (
     <>
-      <Title />
+      <Header />
       <form className="signin" onSubmit={confirmPassword}>
         <label>Enter New Password</label>
         <br />

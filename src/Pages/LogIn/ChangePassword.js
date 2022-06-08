@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Button from "../../Components/Button/Button";
-import { doPOSTCall } from "../../DataFetch";
+import { postCall } from "../../DataFetch";
 import "./ChangePassword.css";
 import OtpInput from "react-otp-input";
-import Title from "../../Components/Title/Title";
+import Header from "../../Components/Header/Header";
 
 const ChangePassword = ({ setCookie, changeComp }) => {
   const [otp, setOTP] = useState("");
@@ -17,7 +17,9 @@ const ChangePassword = ({ setCookie, changeComp }) => {
     const phoneNo = e.target[0].value.replace(/-/g, "").replace(/ /g, "");
     setPhoneNo(phoneNo);
     console.log(phoneNo);
-    const isNumber = await doPOSTCall("users/reset_password", { phone_no: phoneNo });
+    const isNumber = await postCall("users/reset_password", {
+      phone_no: phoneNo,
+    });
     if (isNumber) {
       updateOTP(!isOTP);
     }
@@ -28,7 +30,7 @@ const ChangePassword = ({ setCookie, changeComp }) => {
   const validateOTP = async (e) => {
     e.preventDefault();
     console.log(otp);
-    const otpValidate = await doPOSTCall("users/confirm_otp", {
+    const otpValidate = await postCall("users/confirm_otp", {
       phone_no: phoneNo,
       otp,
     });
@@ -36,14 +38,15 @@ const ChangePassword = ({ setCookie, changeComp }) => {
       changeComp(2);
     }
     setCookie("access_token", otpValidate.reset_token, {
-        path: "/" });
+      path: "/",
+    });
     // setCookie(otpValidate.reset_token);
-    console.log(otpValidate.reset_token)
+    console.log(otpValidate.reset_token);
   };
 
   return (
     <>
-      <Title />
+      <Header />
       {isOTP && <div className="otp-span">Enter OTP</div>}
       {!isOTP && <div className="phone-input-span"> Phone</div>}
       <form

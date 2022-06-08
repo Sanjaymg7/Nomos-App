@@ -1,38 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
+import { PostContext } from "./Post";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { doGETCall, doPOSTCall, doPUTCall } from "../../DataFetch";
-import Button from "../../Components/Button";
-import Input from "../../Components/Input";
+import { getCall, postCall } from "../../DataFetch";
+import Button from "../../Components/Button/Button";
+import Input from "../../Components/Input/Input";
 import "./ServicePost.css";
+import Header from "../../Components/Header/Header";
 
-const ServicePost = ({ renderComponent, skills, categories }) => {
+const ServicePost = ({ renderComponent }) => {
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(["access_token"]);
-
-  const initState = {
-    dealing_type: 1,
-    is_gift: false,
-    items_service_name: "",
-    items_service_desc: "",
-    items_service_image: "",
-    skills_required: "",
-    category_required: "",
-    location:
-      '{"lat":12.9141417,"lng":74.8559568,"name":"Mangalore,Karnataka,India"}',
-  };
+  const [cookies] = useCookies(["access_token"]);
   const requestHeader = {
     "content-type": "application/json",
     access_token: cookies.access_token,
   };
-  let key = 0;
-  let isBtnActive = false;
-  const skillsName = skills || [];
-  const categoriesName = categories || [];
+  const [postData, setPostData] = useContext(PostContext);
+
+  const [isBtnActive, setBtnActive] = useState(false);
+  const [btnContent, setBtnContent] = useState("Create Post");
   const [uploadedImage, setUploadedImage] = useState("");
-  const [postData, setPostData] = useState(
-    JSON.parse(window.localStorage.getItem("postData")) || initState
-  );
 
   const enableCreatePostButton = () => {
     if (
@@ -42,85 +29,80 @@ const ServicePost = ({ renderComponent, skills, categories }) => {
       postData.skills_required !== "" &&
       postData.category_required !== ""
     ) {
-      isBtnActive = true;
+      setBtnActive(true);
     } else {
-      isBtnActive = false;
+      setBtnActive(false);
     }
   };
 
   const handlePostTitle = (val) => {
-    setPostData((prevState) => ({ ...prevState, items_service_name: val }));
+    setPostData({ ...postData, items_service_name: val });
   };
 
   const handleDescriptionChange = (val) => {
     if (val.length <= 200)
-      setPostData((prevState) => ({ ...prevState, items_service_desc: val }));
+      setPostData({ ...postData, items_service_desc: val });
   };
 
   const handlePostType = (val) => {
-    setPostData((prevState) => ({ ...prevState, dealing_type: val }));
+    setPostData({ ...postData, dealing_type: val });
   };
 
   const addSkillandDescriptionHandler = (val) => {
-    window.localStorage.setItem("postData", JSON.stringify(postData));
     renderComponent(val);
   };
 
   const handleGiftCheckChange = (val) => {
-    setPostData((prevState) => ({ ...prevState, is_gift: val.checked }));
+    setPostData({ ...postData, is_gift: val.checked });
   };
 
-  const fileUploadInputChange = (e) => {
-    if (e) {
+  const fileUploadInputChange = (file) => {
+    if (file) {
       let reader = new FileReader();
       reader.onload = function () {
         setUploadedImage(reader.result);
       };
-      reader.readAsText(e.target.files[0]);
+      reader.readAsText(file);
     }
   };
 
   const createServicePost = async (e) => {
     e.preventDefault();
-    e.target[4].innerHTML = "Please wait...";
-    const imageURL = e.target[3].value;
-    if (imageURL.length !== 0) {
-      const fileExtension = imageURL.slice(imageURL.lastIndexOf(".") + 1);
-      const getUploadData = await doGETCall(
-        `upload/url?file_extension=${fileExtension}`,
-        requestHeader
-      );
-      if (getUploadData) {
-        const data = await fetch(getUploadData.upload_url, {
-          method: "PUT",
-          body: uploadedImage,
-        });
-        if (data.status !== 200) {
-          alert("Something Went Wrong!! Try again..");
-          e.target[4].innerHTML = "Create Post";
-        } else {
-          postData.items_service_image = getUploadData.image_id;
-          const data = await doPOSTCall("/service", postData, requestHeader);
-          if (data) {
-            localStorage.clear();
-            navigate("/home");
+    setBtnContent("Please wait...");
+    try {
+      const imageURL = e.target[3].value;
+      if (imageURL.length !== 0) {
+        const fileExtension = imageURL.slice(imageURL.lastIndexOf(".") + 1);
+        const getUploadData = await getCall(
+          `upload/url?file_extension=${fileExtension}`,
+          requestHeader
+        );
+        if (getUploadData) {
+          const data = await fetch(getUploadData.upload_url, {
+            method: "PUT",
+            body: uploadedImage,
+          });
+          if (data.status !== 200) {
+            alert("Something Went Wrong!! Try again..");
+            setBtnContent("Create Post");
+          } else {
+            postData.items_service_image = getUploadData.image_id;
+            const data = await postCall("/service", postData, requestHeader);
+            if (data) {
+              navigate("/home");
+            }
           }
-          e.target[4].innerHTML = "Create Post";
         }
       }
+    } catch (err) {
+      setBtnContent("Create Post");
+      console.log(err);
     }
   };
 
-  enableCreatePostButton();
-
   return (
     <div>
-      <div className="headerConatiner">
-        <span className="homeNavigate" onClick={() => navigate("/home")}>
-          {"<"}
-        </span>
-        <span className="headerText">Give a Service</span>
-      </div>
+      <Header navigateTo="home" headerText="Give a Service" />
       <form onChange={enableCreatePostButton} onSubmit={createServicePost}>
         <div className="inputContainer">
           <span className="labelText">Post Type</span>
@@ -178,24 +160,24 @@ const ServicePost = ({ renderComponent, skills, categories }) => {
           <span className="labelText">Add Required Skills</span>
           <div
             className="addSkills"
-            onClick={() => addSkillandDescriptionHandler(2)}
+            onClick={() => addSkillandDescriptionHandler("skills")}
           >
             + Add Skill
           </div>
-          {skillsName.map((skill) => (
-            <span className="selectedSkills" key={key++}>
+          {postData.skills_array.map((skill, index) => (
+            <span className="selectedSkills" key={index}>
               {skill}
             </span>
           ))}
           <span className="labelText">Add Required Category</span>
           <div
             className="addCategory"
-            onClick={() => addSkillandDescriptionHandler(3)}
+            onClick={() => addSkillandDescriptionHandler("category")}
           >
             + Add Category
           </div>
-          {categoriesName.map((category) => (
-            <span className="selectedSkills" key={key++}>
+          {postData.categories_array.map((category, index) => (
+            <span className="selectedSkills" key={index}>
               {category}
             </span>
           ))}
@@ -204,11 +186,13 @@ const ServicePost = ({ renderComponent, skills, categories }) => {
             type={"file"}
             className={"postImageInput"}
             onChange={(e) =>
-              fileUploadInputChange(e.target.files[0] ? e : null)
+              fileUploadInputChange(
+                e.target.files[0] ? e.target.files[0] : null
+              )
             }
           />
           <Button
-            btnContent={"Create Post"}
+            btnContent={btnContent}
             className={
               isBtnActive ? "createPostBtn btnGreen" : "createPostBtn btnGrey"
             }

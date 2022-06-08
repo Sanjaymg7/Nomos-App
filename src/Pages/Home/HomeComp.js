@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./HomeComp.css";
-import { doGETCall } from "../../DataFetch";
+import { getCall } from "../../DataFetch";
 import { useCookies } from "react-cookie";
 import HomeCard from "./HomeCard";
 
@@ -9,7 +9,7 @@ const HomeComp = () => {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     const getData = async () => {
-      const data = await doGETCall("posts/", {
+      const data = await getCall("posts/", {
         "content-type": "application/json",
         access_token: cookies.access_token,
       });

@@ -8,31 +8,29 @@ const Register = () => {
   const [userData, setUserData] = useState({
     user_id: "",
   });
-  const [pageState, setPageState] = useState(1);
+  const [pageState, setPageState] = useState("userDataComponent");
 
   const handleSubmit = (val) => {
     setPageState(val);
   };
 
   const updateUserId = (id) => {
-    setUserData((prevState) => {
-      return { ...prevState, user_id: id };
-    });
+    setUserData({ ...userData, user_id: id });
   };
 
   return (
     <div>
-      {pageState === 1 ? (
+      {pageState === "userDataComponent" ? (
         <UserDataComponent
           renderSignupComponent={handleSubmit}
           updateId={updateUserId}
         />
-      ) : pageState === 2 ? (
+      ) : pageState === "otpComponent" ? (
         <OTPComponent
           renderSignupComponent={handleSubmit}
           userId={userData.user_id}
         />
-      ) : pageState === 3 ? (
+      ) : pageState === "skillsComponent" ? (
         <SkillsComponent renderComponent={handleSubmit} />
       ) : (
         <CommunityComponent />
