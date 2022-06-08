@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { doGETCall } from "../../DataFetch";
 import { doPUTCall } from "../../DataFetch";
-import Button from "../../Components/Button";
+import Button from "../../Components/Button/Button";
 import "./SkillsComponent.css";
 
 const SkillsComponent = ({ renderComponent }) => {

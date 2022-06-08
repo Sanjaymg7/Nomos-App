@@ -1,6 +1,7 @@
 .home-card-container {
   display: flex;
   flex-direction: column;
+  align-content: center;
   height: 50%;
   border-radius: 3px;
   border: 0.1rem solid #e6e6e6;
@@ -29,22 +30,21 @@
 .home-header-container {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
 }
 .home-header-text {
-  width: 100%;
+  background-color: aquamarine;
+  flex: 2;
 }
 .three-dots {
   font-weight: 1000;
   letter-spacing: 0.1cm;
-  width: 12.5%;
-  position: relative;
-  padding-left: 7rem;
-  padding-bottom: 1.5rem;
+  width: 22.5%;
+  background-color: aqua;
 }
 .home-card-body {
   height: 15%;
-  /* border: 0.1rem solid black; */
 }
 .body-text {
   padding: 0 0.75rem 0.75rem;
@@ -72,10 +72,11 @@
 .home-card-footer {
   display: flex;
   justify-content: space-between;
+  align-content: center;
   height: 8%;
-  padding: 1rem 1rem;
+  padding: 1rem 1.5rem;
 }
-.footer-icons {
+.footer-icons, .view-icon {
   display: flex;
   justify-content: space-around;
   gap: .6rem;
@@ -86,7 +87,7 @@
   height: 1.5rem;
 }
 .footer-text {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 }
 .p-tag {
   font-size: large;

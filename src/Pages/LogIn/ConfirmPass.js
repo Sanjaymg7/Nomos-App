@@ -1,25 +1,29 @@
 import React from "react";
-import Input from "../../Components/Input";
-import Button from "../../Components/Button";
-import Title from "../../Components/Title";
+import Input from "../../Components/Input/Input";
+import Button from "../../Components/Button/Button";
+import Title from "../../Components/Title/Title";
 import { doPUTCall } from "../../DataFetch";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { BrowserRouter } from "react-router-dom";
 
-const ConfirmPass = () => {
-    const [cookies, setCookie] = useCookies();
-  const navigate = useNavigate();
+const ConfirmPass = ({ setComp }) => {
+  const [cookies, setCookie, removeCookie] = useCookies();
+  //   const navigate = useNavigate();
   const confirmPassword = async (e) => {
     e.preventDefault();
     const newPassword = e.target[0].value;
     const confirmPassword = e.target[1].value;
-    if (newPassword === confirmPassword && newPassword != "") {
+    if (newPassword === confirmPassword && newPassword !== "") {
       const confirmPassword = await doPUTCall("users/reset_password", {
         new_password: newPassword,
         reset_token: cookies.access_token,
       });
       if (confirmPassword) {
-        document.location.reload();
+        // cookies.remove('token', { path: '/' });
+        removeCookie("access_token", { path: "/" });
+        console.log(cookies.access_token);
+        setComp(0);
       }
     } else if (newPassword === "" && confirmPassword === "") {
       alert("Please Enter password");

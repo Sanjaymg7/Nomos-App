@@ -1,14 +1,12 @@
-import React, { useState } from "react";
-import Button from "../../Components/Button";
-import Input from "../../Components/Input";
+import React from "react";
+import Button from "../../Components/Button/Button";
+import Input from "../../Components/Input/Input";
 import { doPOSTCall } from "../../DataFetch";
 import { useNavigate } from "react-router-dom";
 import "./SignInComp.css";
-import Title from "../../Components/Title";
-import { useCookies } from "react-cookie";
+import Title from "../../Components/Title/Title";
 
 const SignInComp = ({ setCookie, changeComp }) => {
-  
   const navigate = useNavigate();
   const userSignIn = async (e) => {
     e.preventDefault();
@@ -29,14 +27,13 @@ const SignInComp = ({ setCookie, changeComp }) => {
         type: "2",
       };
       const userDetail = await doPOSTCall("users/sign_in", body);
-      console.log(userDetail);
       if (userDetail) {
-        navigate("/home");
+        setCookie("access_token", userDetail.access_token, {
+          path: "/",
+        });
+        navigate("/home?type=3");
         e.target[2].innerHTML = "Sign In";
       }
-      setCookie("access_token", userDetail.access_token, {
-        path: "/" });
-      console.log(userDetail.access_token);
     }
   };
   const forgotPassword = (e) => {

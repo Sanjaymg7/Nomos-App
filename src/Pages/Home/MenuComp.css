@@ -1,0 +1,14 @@
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    font-size: x-large;
+    padding: 1.5rem;
+    background-color: rgb(234, 207, 172);
+    border-radius: 10% 10% 0 0;
+    position: fixed;
+    left: 0;
+    bottom: 0rem;
+    width: 100%;
+    z-index: 2;
+}
