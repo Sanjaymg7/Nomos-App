@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./HomeComp.css";
-import { doGETCall } from "../../DataFetch";
+import { doGETCall } from "../../../DataFetch";
 import { useCookies } from "react-cookie";
-import HomeCard from "./HomeCard";
+import HomeCard from "../HomeCard/HomeCard";
 
 const HomeComp = () => {
   const [cookies, setCookie] = useCookies();
@@ -14,7 +14,6 @@ const HomeComp = () => {
         access_token: cookies.access_token,
       });
       setPosts(data.posts);
-      console.log(posts);
     };
     getData();
   }, []);

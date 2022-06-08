@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { doGETCall } from "../../DataFetch";
+import { doGETCall } from "../../../DataFetch";
 import "./InboxComp.css";
 
 const InboxComp = () => {

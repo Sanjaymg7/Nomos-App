@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { doGETCall, doPOSTCall, doPUTCall } from "../../DataFetch";
-import Button from "../../Components/Button";
-import Input from "../../Components/Input";
+import Button from "../../Components/Button/Button";
+import Input from "../../Components/Input/Input";
 import "./ServicePost.css";
 
 const ServicePost = ({ renderComponent, skills, categories }) => {

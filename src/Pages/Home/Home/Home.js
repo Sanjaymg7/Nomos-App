@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import Button from "../../Components/Button/Button";
-import HomeComp from "./HomeComp";
-import MenuComp from "./MenuComp";
-import InboxComp from "./InboxComp";
-import Title from "../../Components/Title/Title";
+import Button from "../../../Components/Button/Button";
+import HomeComp from "../HomeComponent/HomeComp";
+import MenuComp from "../Menu/MenuComp";
+import InboxComp from "../Inbox/InboxComp";
+import Title from "../../../Components/Title/Title";
 import "./Home.css";
 
 const Home = () => {
-  const [component, setComponent] = useState(1);
+  const [component, setComponent] = useState(0);
   const [menu, toggleMenu] = useState(false);
 
   return (
