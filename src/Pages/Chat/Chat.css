@@ -1,0 +1,40 @@
+/* .chatHeader {
+  position: relative;
+  padding: 1em;
+  background-color: #00a86b;
+  color: #fff;
+}
+.navigateHome {
+  position: absolute;
+  font-size: 1.5em;
+  bottom: 0.6em;
+  left: 1em;
+  font-weight: 500;
+}
+.userName {
+  display: block;
+  font-size: 1.2em;
+  text-align: center;
+}
+.chatContainer {
+  background-color: #eee;
+  height: 44em;
+  overflow: auto;
+}
+.inputContainer {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  margin-top: 0.9em;
+}
+.messageInput {
+  height: 2.6em;
+  border-radius: 1.5em;
+}
+.btnSend {
+  background-color: #00a86b;
+  width: 70%;
+  height: 2.5em;
+  padding: 0.1em 0.5em;
+  margin-top: 0.5em;
+  margin-left: 2em;
+} */

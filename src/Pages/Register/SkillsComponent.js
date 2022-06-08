@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { doGETCall } from "../../DataFetch";
-import { doPUTCall } from "../../DataFetch";
+import { getCall, putCall } from "../../DataFetch";
 import Button from "../../Components/Button/Button";
 import "./SkillsComponent.css";
 
 const SkillsComponent = ({ renderComponent }) => {
-  const [cookies, setCookie] = useCookies(["access_token"]);
+  const [cookies] = useCookies(["access_token"]);
   const requestHeader = {
     "content-type": "application/json",
     access_token: cookies.access_token,
@@ -17,9 +16,15 @@ const SkillsComponent = ({ renderComponent }) => {
 
   useEffect(() => {
     const getData = async () => {
-      const data = await doGETCall("master/skills", requestHeader);
-      if (data) {
-        setSkillsArray(data.skills);
+      const data = await getCall("master/skills", requestHeader);
+      try {
+        if (data) {
+          setSkillsArray(
+            data.skills.map((skill) => ({ ...skill, isChecked: false }))
+          );
+        }
+      } catch (err) {
+        console.log(err);
       }
     };
     getData();
@@ -29,22 +34,28 @@ const SkillsComponent = ({ renderComponent }) => {
     const skillsAddBody = {
       skils_list: skills.join(","),
     };
-    const data = await doPUTCall("users", skillsAddBody, requestHeader);
-    if (data) {
-      renderComponent(4);
+    try {
+      const data = await putCall("users", skillsAddBody, requestHeader);
+      if (data) {
+        renderComponent("CommunityComponent");
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  const skillHandler = (e) => {
-    if (skills.includes(e.target.value)) {
-      skills.splice(skills.indexOf(e.target.value), 1);
+  const skillHandler = (skill, index) => {
+    if (skills.includes(skill.skill_id)) {
+      skills.splice(skills.indexOf(skill.skill_id), 1);
       setSkills(skills);
       setSkillCount(skillCount - 1);
-      e.target.className = "skillBtn";
+      skillsArray[index].isChecked = false;
+      setSkillsArray(skillsArray);
     } else {
-      setSkills([...skills, e.target.value]);
+      setSkills([...skills, skill.skill_id]);
       setSkillCount(skillCount + 1);
-      e.target.className += " skillBtnActive";
+      skillsArray[index].isChecked = true;
+      setSkillsArray(skillsArray);
     }
   };
 
@@ -53,13 +64,12 @@ const SkillsComponent = ({ renderComponent }) => {
       <h3 className="comp3h3">Selected Skills ({skillCount})</h3>
       <span className="comp3text">Skills are shown on your profile</span>
       <div className="skillContainer">
-        {skillsArray.map((skill) => (
+        {skillsArray.map((skill, index) => (
           <Button
-            key={skill.skill_id}
+            key={index}
             btnContent={skill.skill_name}
-            className={"skillBtn"}
-            onBtnClick={skillHandler}
-            btnValue={skill.skill_id}
+            className={skill.isChecked ? "skillBtn skillBtnActive" : "skillBtn"}
+            onBtnClick={() => skillHandler(skill, index)}
           />
         ))}
       </div>

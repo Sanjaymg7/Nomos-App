@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { doGETCall } from "../../DataFetch";
+import { getCall } from "../../DataFetch";
 import "./InboxComp.css";
+import Header from "../../Components/Header/Header";
 
 const InboxComp = () => {
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(["access_token"]);
+  const [cookies] = useCookies(["access_token"]);
   const requestHeader = {
     "content-type": "application/json",
     access_token: cookies.access_token,
@@ -15,16 +16,20 @@ const InboxComp = () => {
   const message =
     "Hello Rohan. How are you doing? hope everything is going great and easy";
 
-  useEffect(() => {
-    const getChats = async () => {
-      const data = await doGETCall("chat?chat_type=1", requestHeader);
-      if (data) {
-        console.log(data);
-      }
-    };
+  // useEffect(() => {
+  //   const getChats = async () => {
+  //     try {
+  //       const data = await getCall("chat?chat_type=1", requestHeader);
+  //       if (data) {
+  //         console.log(data);
+  //       }
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
 
-    getChats();
-  }, []);
+  //   getChats();
+  // }, []);
 
   const redirectToChatPage = () => {
     navigate("/chat");
@@ -32,6 +37,7 @@ const InboxComp = () => {
 
   return (
     <div>
+      <Header navigateTo="home" headerText="Inbox" />
       <div className="userMessageContainer" onClick={redirectToChatPage}>
         <img src="./nature.jpg" className="profilePicture" />
         <div>

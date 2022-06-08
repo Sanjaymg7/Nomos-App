@@ -15,7 +15,8 @@ button {
   background-color: #b4b4b4;
 }
 
-.skillBtn {
+.skillBtn,
+.categoryBtn {
   width: auto;
   color: #787878;
   background-color: #fff;
@@ -23,7 +24,8 @@ button {
   border-radius: 2em;
   margin: 0.3em;
 }
-.skillBtnActive {
+.skillBtnActive,
+.categoryBtnActive {
   background-color: #787878;
   color: #fff;
   border: none;
@@ -52,3 +54,11 @@ button {
   color: #fff;
   margin: -1.9em auto 1em;
 }
+/* .btnSend {
+  background-color: #00a86b;
+  width: 70%;
+  height: 2.5em;
+  padding: 0.1em 0.5em;
+  margin-top: 0.5em;
+  margin-left: 2em;
+} */

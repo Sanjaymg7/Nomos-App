@@ -3,7 +3,7 @@ import Button from "../../Components/Button/Button";
 import HomeComp from "./HomeComp";
 import MenuComp from "./MenuComp";
 import InboxComp from "./InboxComp";
-import Title from "../../Components/Title/Title";
+import Header from "../../Components/Header/Header";
 import "./Home.css";
 
 const Home = () => {
@@ -12,7 +12,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <Title />
+      <Header />
       {menu && <MenuComp toggleMenu={toggleMenu} />}
       {component === 0 && <HomeComp />}
       {component === 1 && <InboxComp />}

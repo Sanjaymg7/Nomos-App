@@ -4,12 +4,11 @@ const handleData = (data) => {
   if (data.responseCode === 200) {
     return data.responseData;
   } else {
-    alert(data.responseMessage);
-    return false;
+    throw data.responseMessage;
   }
 };
 
-const doGETCall = (
+const getCall = (
   endPoint,
   headers = { "content-type": "application/json" }
 ) => {
@@ -22,12 +21,11 @@ const doGETCall = (
       return handleData(data);
     })
     .catch((err) => {
-      alert(err);
-      return false;
+      throw err;
     });
 };
 
-const doPUTCall = (
+const putCall = (
   endPoint,
   body,
   headers = { "content-type": "application/json" }
@@ -42,12 +40,11 @@ const doPUTCall = (
       return handleData(data);
     })
     .catch((err) => {
-      alert(err);
-      return false;
+      throw err;
     });
 };
 
-const doPOSTCall = (
+const postCall = (
   endPoint,
   body,
   headers = { "content-type": "application/json" }
@@ -62,12 +59,11 @@ const doPOSTCall = (
       return handleData(data);
     })
     .catch((err) => {
-      alert(err);
-      return false;
+      throw err;
     });
 };
 
-const doDELETECall = (
+const deleteCall = (
   endPoint,
   headers = { "content-type": "application/json" }
 ) => {
@@ -79,9 +75,8 @@ const doDELETECall = (
       return handleData(data);
     })
     .catch((err) => {
-      alert(err);
-      return false;
+      throw err;
     });
 };
 
-export { doGETCall, doPUTCall, doPOSTCall, doDELETECall };
+export { getCall, putCall, postCall, deleteCall };

@@ -1,25 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { doGETCall, doPOSTCall } from "../../DataFetch";
+import { getCall, postCall } from "../../DataFetch";
 import Button from "../../Components/Button/Button";
 import "./CommunityComponent.css";
 
 const CommunityComponent = () => {
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(["access_token"]);
+  const [cookies] = useCookies(["access_token"]);
   const requestHeader = {
     "content-type": "application/json",
     access_token: cookies.access_token,
   };
+  const [isLoading, setIsLoading] = useState(true);
   const [community, setCommunity] = useState([]);
   const [addedCommunity, setAddedCommunity] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
-      const data = await doGETCall("community/list?type=5", requestHeader);
-      if (data) {
-        setCommunity(data.communities);
+      try {
+        const data = await getCall("community/list?type=5", requestHeader);
+        if (data) {
+          setCommunity(data.communities);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
       }
     };
     getData();
@@ -29,11 +36,14 @@ const CommunityComponent = () => {
     const requestBody = {
       community_id: id,
     };
-    const data = await doPOSTCall("community/join", requestBody, requestHeader);
-    if (data) {
-      setAddedCommunity(addedCommunity + 1);
-    } else {
+    try {
+      const data = await postCall("community/join", requestBody, requestHeader);
+      if (data) {
+        setAddedCommunity(addedCommunity + 1);
+      }
+    } catch (err) {
       setAddedCommunity(addedCommunity);
+      console.log(err);
     }
   };
 
@@ -47,11 +57,14 @@ const CommunityComponent = () => {
       <span className="comp4Text">
         Select from the list below or create your own
       </span>
+      {isLoading}
       {community.length === 0 ? (
         <div className="messageContainer">
           <span className="comp4Message">
-            No communities around.
-            <br /> You can skip or create your own.
+            {isLoading
+              ? "Please Wait..."
+              : `No communities around.
+            <br /> You can skip or create your own.`}
           </span>
         </div>
       ) : (
@@ -69,19 +82,14 @@ const CommunityComponent = () => {
               <p className="communityDescription">
                 {communityData.community_description}
               </p>
-              {communityData.joined ? (
-                <Button
-                  btnContent={"Joined"}
-                  className={"btnGrey"}
-                  btnDisable={true}
-                />
-              ) : (
-                <Button
-                  btnContent={"Join"}
-                  className={"joinCommunityBtn"}
-                  onBtnClick={() => handleCommunity(communityData.community_id)}
-                />
-              )}
+              <Button
+                btnContent={communityData.joined ? "Joined" : "Join"}
+                className={
+                  communityData.joined ? "btnGrey" : "joinCommunityBtn"
+                }
+                btnDisable={communityData.joined ? true : false}
+                onBtnClick={() => handleCommunity(communityData.community_id)}
+              />
             </div>
           );
         })

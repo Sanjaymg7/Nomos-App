@@ -1,10 +1,10 @@
 import React from "react";
 import Button from "../../Components/Button/Button";
 import Input from "../../Components/Input/Input";
-import { doPOSTCall } from "../../DataFetch";
+import { postCall } from "../../DataFetch";
 import { useNavigate } from "react-router-dom";
 import "./SignInComp.css";
-import Title from "../../Components/Title/Title";
+import Header from "../../Components/Header/Header";
 
 const SignInComp = ({ setCookie, changeComp }) => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const SignInComp = ({ setCookie, changeComp }) => {
         password: userPass,
         type: "2",
       };
-      const userDetail = await doPOSTCall("users/sign_in", body);
+      const userDetail = await postCall("users/sign_in", body);
       if (userDetail) {
         setCookie("access_token", userDetail.access_token, {
           path: "/",
@@ -42,7 +42,7 @@ const SignInComp = ({ setCookie, changeComp }) => {
   };
   return (
     <>
-      <Title />
+      <Header />
       <form className="signin" onSubmit={userSignIn}>
         <label className="signin-label">Email</label>
         <br />

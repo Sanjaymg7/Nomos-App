@@ -1,29 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { PostContext } from "./Post";
 import { useCookies } from "react-cookie";
-import { doGETCall } from "../../DataFetch";
+import { getCall } from "../../DataFetch";
 import Button from "../../Components/Button/Button";
 import "./../Register/SkillsComponent.css";
 
-const SkillsAndCategoryComponent = ({ handleData, component }) => {
-  const [cookies, setCookie] = useCookies(["access_token"]);
-  const initState = {
-    dealing_type: 1,
-    is_gift: false,
-    items_service_name: "",
-    items_service_desc: "",
-    skills_required: "",
-    category_required: "",
-    location:
-      '{"lat":12.9141417,"lng":74.8559568,"name":"Mangalore,Karnataka,India"}',
-  };
+const SkillsAndCategoryComponent = ({ renderComponent, component }) => {
+  const [cookies] = useCookies(["access_token"]);
   const requestHeader = {
     "content-type": "application/json",
     access_token: cookies.access_token,
   };
 
-  const [postData, setPostData] = useState(
-    JSON.parse(window.localStorage.getItem("postData")) || initState
-  );
+  const [postData, setPostData] = useContext(PostContext);
   const [dataArray, setdataArray] = useState([]);
   const [dataId, setdataId] = useState([]);
   const [dataName, setdataName] = useState([]);
@@ -31,45 +20,65 @@ const SkillsAndCategoryComponent = ({ handleData, component }) => {
 
   useEffect(() => {
     const getData = async () => {
-      if (component === "skills") {
-        const data = await doGETCall(`master/skills`, requestHeader);
-        if (data) {
-          setdataArray(data.skills);
+      try {
+        if (component === "skills") {
+          const data = await getCall(`master/skills`, requestHeader);
+          if (data) {
+            setdataArray(
+              data.skills.map((skill) => ({ ...skill, isChecked: false }))
+            );
+          }
+        } else {
+          const data = await getCall(`master/categories`, requestHeader);
+          if (data) {
+            setdataArray(
+              data.categories.map((category) => ({
+                ...category,
+                isChecked: false,
+              }))
+            );
+          }
         }
-      } else {
-        const data = await doGETCall(`master/categories`, requestHeader);
-        if (data) {
-          setdataArray(data.categories);
-        }
+      } catch (err) {
+        console.log(err);
       }
     };
     getData();
   }, []);
 
   const btnClickHandler = () => {
-    const dataAddBody = dataId.join(",");
+    const data = dataId.join(",");
     if (component === "skills") {
-      postData.skills_required = dataAddBody;
+      setPostData({
+        ...postData,
+        skills_required: data,
+        skills_array: dataName,
+      });
     } else {
-      postData.category_required = dataAddBody;
+      setPostData({
+        ...postData,
+        category_required: data,
+        categories_array: dataName,
+      });
     }
-    window.localStorage.setItem("postData", JSON.stringify(postData));
-    handleData(dataName);
+    renderComponent("postData");
   };
 
-  const dataHandler = (e, id, name) => {
+  const dataHandler = (id, name, index) => {
     if (dataName.includes(name) && dataId.includes(id)) {
       dataName.splice(dataName.indexOf(name), 1);
       dataId.splice(dataId.indexOf(id), 1);
       setdataName(dataName);
       setdataId(dataId);
       setDataCount(dataCount - 1);
-      e.target.className = "skillBtn";
+      dataArray[index].isChecked = false;
+      setdataArray(dataArray);
     } else {
       setdataName([...dataName, name]);
       setdataId([...dataId, id]);
       setDataCount(dataCount + 1);
-      e.target.className += " skillBtnActive";
+      dataArray[index].isChecked = true;
+      setdataArray(dataArray);
     }
   };
 
@@ -81,23 +90,29 @@ const SkillsAndCategoryComponent = ({ handleData, component }) => {
       <span className="comp3text">Please select required skills</span>
       <div className="skillContainer">
         {component === "skills"
-          ? dataArray.map((skill) => (
+          ? dataArray.map((skill, index) => (
               <Button
-                key={skill.skill_id}
+                key={index}
                 btnContent={skill.skill_name}
-                className={"skillBtn"}
-                onBtnClick={(e) =>
-                  dataHandler(e, skill.skill_id, skill.skill_name)
+                className={
+                  skill.isChecked ? "skillBtn skillBtnActive" : "skillBtn"
+                }
+                onBtnClick={() =>
+                  dataHandler(skill.skill_id, skill.skill_name, index)
                 }
               />
             ))
-          : dataArray.map((category) => (
+          : dataArray.map((category, index) => (
               <Button
                 key={category.category_id}
                 btnContent={category.name}
-                className={"skillBtn"}
-                onBtnClick={(e) =>
-                  dataHandler(e, category.category_id, category.name)
+                className={
+                  category.isChecked
+                    ? "categoryBtn categoryBtnActive"
+                    : "categoryBtn"
+                }
+                onBtnClick={() =>
+                  dataHandler(category.category_id, category.name, index)
                 }
               />
             ))}

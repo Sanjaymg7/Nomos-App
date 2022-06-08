@@ -6,5 +6,9 @@ input {
   background-color: #eee;
 }
 .input {
-    width: 90%;
+  width: 90%;
 }
+/* .messageInput {
+  height: 2.6em;
+  border-radius: 1.5em;
+} */

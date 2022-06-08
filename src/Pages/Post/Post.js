@@ -1,45 +1,47 @@
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import SkillsAndCategoryComponent from "./SkillsAndCategoryComponent";
 import ServicePost from "./ServicePost";
 
+export const PostContext = createContext();
+
 const Post = () => {
-  const [componentState, setComponentState] = useState(1);
-  const [skills, setSkills] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const initState = {
+    dealing_type: 1,
+    is_gift: false,
+    items_service_name: "",
+    items_service_desc: "",
+    items_service_image: "",
+    skills_required: "",
+    category_required: "",
+    skills_array: [],
+    categories_array: [],
+    location:
+      '{"lat":12.9141417,"lng":74.8559568,"name":"Mangalore,Karnataka,India"}',
+  };
+  const [postData, setPostData] = useState(initState);
+  const [componentState, setComponentState] = useState("postData");
 
   const renderComponent = (state) => {
     setComponentState(state);
   };
 
-  const handleSkills = (skill) => {
-    setSkills(skill);
-    renderComponent(1);
-  };
-
-  const handleCategories = (category) => {
-    setCategories(category);
-    renderComponent(1);
-  };
-
   return (
     <div>
-      {componentState === 1 ? (
-        <ServicePost
-          renderComponent={renderComponent}
-          skills={skills}
-          categories={categories}
-        />
-      ) : componentState === 2 ? (
-        <SkillsAndCategoryComponent
-          handleData={handleSkills}
-          component={"skills"}
-        />
-      ) : (
-        <SkillsAndCategoryComponent
-          handleData={handleCategories}
-          component={"category"}
-        />
-      )}
+      <PostContext.Provider value={[postData, setPostData]}>
+        {componentState === "postData" ? (
+          <ServicePost renderComponent={renderComponent} />
+        ) : componentState === "skills" ? (
+          <SkillsAndCategoryComponent
+            renderComponent={renderComponent}
+            component={"skills"}
+          />
+        ) : (
+          <SkillsAndCategoryComponent
+            renderComponent={renderComponent}
+            component={"category"}
+          />
+        )}
+      </PostContext.Provider>
     </div>
   );
 };

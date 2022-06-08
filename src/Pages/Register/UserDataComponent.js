@@ -1,5 +1,5 @@
-import React from "react";
-import { doPOSTCall } from "../../DataFetch";
+import React, { useState } from "react";
+import { postCall } from "../../DataFetch";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Button from "../../Components/Button/Button";
@@ -7,6 +7,7 @@ import Input from "../../Components/Input/Input";
 import "./UserDataComponent.css";
 
 const UserDataComponent = ({ renderSignupComponent, updateId }) => {
+  const [buttonContent, setButtonContent] = useState("Next");
   const validateUser = (userDetails) => {
     if (userDetails.user_name.trim() === "") {
       alert("Please provide valid name");
@@ -49,13 +50,17 @@ const UserDataComponent = ({ renderSignupComponent, updateId }) => {
     };
     const isValidUser = validateUser(userData);
     if (isValidUser) {
-      e.target[4].innerHTML = "Please Wait..";
-      const data = await doPOSTCall("users/", userData);
-      if (data) {
-        updateId(data.user_id);
-        renderSignupComponent(2);
-      } else {
-        e.target[4].innerHTML = "Next";
+      setButtonContent("Please Wait..");
+      const data = await postCall("users/", userData);
+      try {
+        if (data) {
+          updateId(data.user_id);
+          renderSignupComponent("otpComponent");
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setButtonContent("Next");
       }
     }
   };
@@ -91,7 +96,11 @@ const UserDataComponent = ({ renderSignupComponent, updateId }) => {
               <span className="textGreen">Privacy Policy</span>
             </span>
           </div>
-          <Button btnContent={"Next"} className={"btnGreen"} />
+          <Button
+            btnContent={buttonContent}
+            className={"btnGreen"}
+            btnDisable={buttonContent === "Next" ? false : true}
+          />
         </form>
       </div>
     </div>
