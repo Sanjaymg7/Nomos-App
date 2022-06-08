@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import Button from "../../Components/Button";
+import Button from "../../Components/Button/Button";
 import { doPOSTCall } from "../../DataFetch";
 import "./ChangePassword.css";
 import OtpInput from "react-otp-input";
-import Title from "../../Components/Title";
+import Title from "../../Components/Title/Title";
 
 const ChangePassword = ({ setCookie, changeComp }) => {
   const [otp, setOTP] = useState("");

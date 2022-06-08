@@ -1,10 +1,10 @@
 import React from "react";
-import Button from "../../Components/Button";
-import Input from "../../Components/Input";
+import Button from "../../Components/Button/Button";
+import Input from "../../Components/Input/Input";
 import { doPOSTCall } from "../../DataFetch";
 import { useNavigate } from "react-router-dom";
 import "./SignInComp.css";
-import Title from "../../Components/Title";
+import Title from "../../Components/Title/Title";
 
 const SignInComp = ({ setCookie, changeComp }) => {
   const navigate = useNavigate();
@@ -31,7 +31,6 @@ const SignInComp = ({ setCookie, changeComp }) => {
         setCookie("access_token", userDetail.access_token, {
           path: "/",
         });
-        console.log(userDetail.access_token);
         navigate("/home?type=3");
         e.target[2].innerHTML = "Sign In";
       }

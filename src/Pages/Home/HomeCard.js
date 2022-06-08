@@ -35,10 +35,7 @@ const HomeCard = ({
           <img className="post-img" src="" alt="img" />
         </div>
       </div>
-      <div className="home-date">
-        {/* <span className="date-month">Friday</span> */}
-        <span className="interested">{interested} interested</span>
-      </div>
+        <span className="home-date">{interested} interested</span>
       <div className="home-card-footer">
         <div className="footer-icons">
           <img
@@ -59,7 +56,7 @@ const HomeCard = ({
             alt="share"
           />
         </div>
-        <div className="seen-icon">
+        <div className="view-icon">
           <img
             className="icon"
             src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/84C21AF0-580D-42C4-B0B7-EF84792A81E2.png"

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { doGETCall, doPOSTCall } from "../../DataFetch";
-import Button from "../../Components/Button";
+import Button from "../../Components/Button/Button";
 import "./CommunityComponent.css";
 
 const CommunityComponent = () => {

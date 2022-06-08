@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { doGETCall } from "../../DataFetch";
-import Button from "../../Components/Button";
+import Button from "../../Components/Button/Button";
 import "./../Register/SkillsComponent.css";
 
 const SkillsAndCategoryComponent = ({ handleData, component }) => {

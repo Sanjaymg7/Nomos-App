@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../Components/Button";
+import Button from "../../Components/Button/Button";
 import { useCookies } from "react-cookie";
 import "./Intro.css";
 const Intro = () => {

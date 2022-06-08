@@ -2,8 +2,8 @@ import React from "react";
 import { doPOSTCall } from "../../DataFetch";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import Button from "../../Components/Button";
-import Input from "../../Components/Input";
+import Button from "../../Components/Button/Button";
+import Input from "../../Components/Input/Input";
 import "./UserDataComponent.css";
 
 const UserDataComponent = ({ renderSignupComponent, updateId }) => {

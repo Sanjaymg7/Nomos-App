@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Button from "../../Components/Button";
+import Button from "../../Components/Button/Button";
 import HomeComp from "./HomeComp";
 import MenuComp from "./MenuComp";
 import InboxComp from "./InboxComp";
-import Title from "../../Components/Title";
+import Title from "../../Components/Title/Title";
 import "./Home.css";
 
 const Home = () => {

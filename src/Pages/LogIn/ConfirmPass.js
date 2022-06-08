@@ -1,7 +1,7 @@
 import React from "react";
-import Input from "../../Components/Input";
-import Button from "../../Components/Button";
-import Title from "../../Components/Title";
+import Input from "../../Components/Input/Input";
+import Button from "../../Components/Button/Button";
+import Title from "../../Components/Title/Title";
 import { doPUTCall } from "../../DataFetch";
 // import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";

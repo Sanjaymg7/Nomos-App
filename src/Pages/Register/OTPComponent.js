@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { doPUTCall } from "../../DataFetch";
 import OtpInput from "react-otp-input";
-import Button from "../../Components/Button";
+import Button from "../../Components/Button/Button";
 import "./OTPComponent.css";
 
 const OTPComponent = ({ renderSignupComponent, userId }) => {
