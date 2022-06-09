@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
+import { modalInitialState } from "../../../Library/Constants";
 import { requestHeader } from "../../../Library/Constants";
 import { getCall, putCall } from "../../../Components/Services/DataFetch";
 import Button from "../../../Components/Button/Button";
 import "./SkillsComponent.css";
+import Modal from "../../../Components/Modal/Modal";
 
 const SkillsComponent = ({ renderComponent }) => {
   const [skillsArray, setSkillsArray] = useState([]);
   const [skills, setSkills] = useState([]);
   const [skillCount, setSkillCount] = useState(0);
+  const [modal, setModal] = useState(modalInitialState);
+
+  const handleCloseModal = (e) => {
+    setModal(modalInitialState);
+  };
 
   const getData = async () => {
     try {
@@ -18,7 +25,7 @@ const SkillsComponent = ({ renderComponent }) => {
         );
       }
     } catch (err) {
-      console.log(err);
+      setModal({ modalContent: err, showModal: true });
     }
   };
 
@@ -36,7 +43,7 @@ const SkillsComponent = ({ renderComponent }) => {
         renderComponent("CommunityComponent");
       }
     } catch (err) {
-      console.log(err);
+      setModal({ modalContent: err, showModal: true });
     }
   };
 
@@ -57,20 +64,26 @@ const SkillsComponent = ({ renderComponent }) => {
 
   return (
     <div className="comp3Container">
+      {modal.showModal && (
+        <Modal
+          modalContent={modal.modalContent}
+          closeModal={handleCloseModal}
+        />
+      )}
       <h3 className="comp3h3">Selected Skills ({skillCount})</h3>
       <span className="comp3text">Skills are shown on your profile</span>
       <div className="skillContainer">
         {skillsArray.map((skill, index) => (
           <Button
             key={index}
-            btnContent={skill.skill_name}
+            btnName={skill.skill_name}
             className={skill.isChecked ? "skillBtn skillBtnActive" : "skillBtn"}
             onBtnClick={() => skillHandler(skill, index)}
           />
         ))}
       </div>
       <Button
-        btnContent={"Next"}
+        btnName={"Next"}
         className={"btnGreen"}
         onBtnClick={btnClickHandler}
       />

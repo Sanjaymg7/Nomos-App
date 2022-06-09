@@ -30,7 +30,7 @@ const ConfirmPass = () => {
     };
     const isValidPassword = validatePassword(password);
     if (isValidPassword) {
-      const confirmPassword = await doPUTCall("users/reset_password", {
+      const confirmPassword = await putCall("users/reset_password", {
         new_password: newPassword,
         reset_token: cookies.access_token,
       });

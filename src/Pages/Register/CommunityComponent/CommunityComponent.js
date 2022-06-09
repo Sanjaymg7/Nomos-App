@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { modalInitialState } from "../../../Library/Constants";
 import { requestHeader } from "../../../Library/Constants";
-import { navigate } from "../../../Library/Constants";
 import { getCall, postCall } from "../../../Components/Services/DataFetch";
 import Button from "../../../Components/Button/Button";
 import "./CommunityComponent.css";
+import Modal from "../../../Components/Modal/Modal";
 
 const CommunityComponent = () => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [community, setCommunity] = useState([]);
   const [addedCommunity, setAddedCommunity] = useState(0);
+  const [modal, setModal] = useState(modalInitialState);
+
+  const handleCloseModal = (e) => {
+    setModal(modalInitialState);
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -18,7 +26,7 @@ const CommunityComponent = () => {
           setCommunity(data.communities);
         }
       } catch (err) {
-        console.log(err);
+        setModal({ modalContent: err, showModal: true });
       } finally {
         setIsLoading(false);
       }
@@ -37,7 +45,7 @@ const CommunityComponent = () => {
       }
     } catch (err) {
       setAddedCommunity(addedCommunity);
-      console.log(err);
+      setModal({ modalContent: err, showModal: true });
     }
   };
 
@@ -47,6 +55,12 @@ const CommunityComponent = () => {
 
   return (
     <div className="comp4Container">
+      {modal.showModal && (
+        <Modal
+          modalContent={modal.modalContent}
+          closeModal={handleCloseModal}
+        />
+      )}
       <h3 className="comp4h3">Join Community</h3>
       <span className="comp4Text">
         Select from the list below or create your own
@@ -77,7 +91,7 @@ const CommunityComponent = () => {
                 {communityData.community_description}
               </p>
               <Button
-                btnContent={communityData.joined ? "Joined" : "Join"}
+                btnName={communityData.joined ? "Joined" : "Join"}
                 className={
                   communityData.joined ? "btnGrey" : "joinCommunityBtn"
                 }
@@ -89,7 +103,7 @@ const CommunityComponent = () => {
         })
       )}
       <Button
-        btnContent={"Finish"}
+        btnName={"Finish"}
         className={"btnGreen"}
         onBtnClick={btnClickHandler}
       />

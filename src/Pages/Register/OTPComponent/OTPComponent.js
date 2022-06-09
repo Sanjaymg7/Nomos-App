@@ -1,11 +1,18 @@
 import React, { useState } from "react";
+import { modalInitialState } from "../../../Library/Constants";
 import { putCall } from "../../../Components/Services/DataFetch";
 import OtpInput from "react-otp-input";
 import Button from "../../../Components/Button/Button";
 import "./OTPComponent.css";
+import Modal from "../../../Components/Modal/Modal";
 
 const OTPComponent = ({ renderSignupComponent, userId }) => {
   const [otp, setOtp] = useState(0);
+  const [modal, setModal] = useState(modalInitialState);
+
+  const handleCloseModal = (e) => {
+    setModal(modalInitialState);
+  };
 
   const handleOtp = (val) => {
     setOtp(val);
@@ -23,7 +30,7 @@ const OTPComponent = ({ renderSignupComponent, userId }) => {
         renderSignupComponent("skillsComponent");
       }
     } catch (err) {
-      console.log(err);
+      setModal({ modalContent: err, showModal: true });
     }
   };
 
@@ -38,6 +45,12 @@ const OTPComponent = ({ renderSignupComponent, userId }) => {
 
   return (
     <div className="comp2Container">
+      {modal.showModal && (
+        <Modal
+          modalContent={modal.modalContent}
+          closeModal={handleCloseModal}
+        />
+      )}
       <h3 className="comp2h3">Confirm OTP</h3>
       <span className="comp2Text">
         OTP is sent to your registered mobile number
@@ -53,7 +66,7 @@ const OTPComponent = ({ renderSignupComponent, userId }) => {
         />
       </div>
       <Button
-        btnContent={"Confirm"}
+        btnName={"Confirm"}
         className={"btnGrey"}
         onBtnClick={btnClickHandler}
       />

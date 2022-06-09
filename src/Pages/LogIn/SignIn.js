@@ -5,7 +5,7 @@ import { postCall } from "../../Components/Services/DataFetch";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import "./SignIn.css";
-import Title from "../../Components/Title/Title";
+import Header from "../../Components/Header/Header";
 import Label from "../../Components/Label";
 
 const SignIn = () => {

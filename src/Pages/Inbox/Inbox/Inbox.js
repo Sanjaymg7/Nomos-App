@@ -1,11 +1,20 @@
-import React, { useEffect } from "react";
-import { navigate } from "../../../Library/Constants";
+import React, { useEffect, useState } from "react";
+import { modalInitialState } from "../../../Library/Constants";
+import { useNavigate } from "react-router-dom";
 import { requestHeader } from "../../../Library/Constants";
 import { getCall } from "../../../Components/Services/DataFetch";
 import "./Inbox.css";
 import Header from "../../../Components/Header/Header";
+import Modal from "../../../Components/Modal/Modal";
 
 const InboxComp = () => {
+  const navigate = useNavigate();
+  const [modal, setModal] = useState(modalInitialState);
+
+  const handleCloseModal = (e) => {
+    setModal(modalInitialState);
+  };
+
   const chatArray = [];
   const message =
     "Hello Rohan. How are you doing? hope everything is going great and easy";
@@ -18,7 +27,7 @@ const InboxComp = () => {
   //         console.log(data);
   //       }
   //     } catch (err) {
-  //       console.log(err);
+  //       setModal({ modalContent: err, showModal: true });
   //     }
   //   };
 
@@ -26,11 +35,17 @@ const InboxComp = () => {
   // }, []);
 
   const redirectToChatPage = () => {
-    navigate("/chat");
+    navigate("/chat?other=100");
   };
 
   return (
     <div>
+      {modal.showModal && (
+        <Modal
+          modalContent={modal.modalContent}
+          closeModal={handleCloseModal}
+        />
+      )}
       <Header navigateTo="home" headerText="Inbox" />
       <div className="userMessageContainer" onClick={redirectToChatPage}>
         <img src="./nature.jpg" className="profilePicture" />

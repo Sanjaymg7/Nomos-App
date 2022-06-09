@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Title from "../../../Components/Title/Title";
+import Header from "../../../Components/Header/Header";
 import "./Home.css";
-import { doGETCall } from "../../../DataFetch";
+import { getCall } from "../../../Components/Services/DataFetch";
 import { useCookies } from "react-cookie";
-import HomeCard from "../HomeCard/HomeCard"
+import HomeCard from "../HomeCard/HomeCard";
 import Footer from "../../../Components/FooterComponent/Footer";
 
 const Home = () => {
@@ -13,7 +13,7 @@ const Home = () => {
     getData();
   }, []);
   const getData = async () => {
-    const data = await doGETCall("posts/", {
+    const data = await getCall("posts/", {
       "content-type": "application/json",
       access_token: cookies.access_token,
     });
@@ -22,7 +22,7 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <Title />
+      <Header />
       {posts?.map((post) => (
         <HomeCard
           key={post.post_id}

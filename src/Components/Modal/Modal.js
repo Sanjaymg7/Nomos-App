@@ -9,7 +9,7 @@ const Modal = ({ modalContent, closeModal }) => {
         <div className="modal">
           <h1 className="modalMessage">{modalContent}</h1>
           <Button
-            btnContent="Close"
+            btnName="Close"
             className={"btnBlue"}
             onBtnClick={closeModal}
           />
