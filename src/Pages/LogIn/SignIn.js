@@ -6,17 +6,15 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import "./SignIn.css";
 import Title from "../../Components/Title/Title";
+import Label from "../../Components/Label";
 
 const SignIn = () => {
   const [, setCookie] = useCookies("");
   const navigate = useNavigate();
 
   const validateUser = (userData) => {
-    const {email , password } = userData;
-    if (
-      email === "" ||
-      !email.match("[a-zA-Z0-9]+@[a-z]+[.]+[a-z]{2,3}")
-    ) {
+    const { email, password } = userData;
+    if (email === "" || !email.match("[a-zA-Z0-9]+@[a-z]+[.]+[a-z]{2,3}")) {
       alert("Please enter valid User Email");
     } else if (password.length < 6) {
       alert("Password should be above 6 characters");
@@ -48,17 +46,17 @@ const SignIn = () => {
     <>
       <Title />
       <form className="signin" onSubmit={userSignIn}>
-        <label className="signin-label">Email</label>
+        <Label className="signin-label" labelContent="Email" />
         <br />
         <Input className="input" />
-        <label className="signin-label">Password</label>
+        <Label className="signin-label" labelContent="Password" />
         <br />
         <Input className="input" type="password" />
         <Button className="btn sign-in" btnContent="Sign In" />
-        <p onClick={() => navigate("/forgotpassword")} className="forgot-para">
-          Forgot password?
-        </p>
       </form>
+      <p onClick={() => navigate("/forgotpassword")} className="forgot-para">
+        Forgot password?
+      </p>
     </>
   );
 };

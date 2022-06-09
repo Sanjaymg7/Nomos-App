@@ -14,7 +14,7 @@ const ResetPassword = () => {
   const [isOTP, updateOTP] = useState(false);
   const [phoneNo, setPhoneNo] = useState();
   const [isConfirmPasswordPage, setConfirmPasswordPage] = useState(false);
-  const [cookies, setCookie] = useCookies("");
+  const [, setCookie] = useCookies("");
 
   const inputStyle = {
     width: "3.5rem",

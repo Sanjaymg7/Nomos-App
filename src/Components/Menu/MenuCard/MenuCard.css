@@ -1,0 +1,10 @@
+.menu-image {
+    width: 4rem;
+    height: 4rem;
+
+}
+.menu-item{
+    display: flex;
+    align-items: center;
+    gap: 1rem; 
+}

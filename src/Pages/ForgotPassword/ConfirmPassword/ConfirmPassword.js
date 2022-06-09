@@ -6,14 +6,30 @@ import { doPUTCall } from "../../../DataFetch";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
-const ConfirmPass = ({ setComp }) => {
+const ConfirmPass = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const validatePassword = (password) => {
+    const { newPassword, confirmPassword } = password;
+    if (newPassword === confirmPassword && newPassword !== "") {
+      return true;
+    } else if (newPassword === "" && confirmPassword === "") {
+      alert("Please Enter password");
+    } else {
+      alert("Password Mis match");
+    }
+  };
   const confirmPassword = async (e) => {
     e.preventDefault();
     const newPassword = e.target[0].value;
     const confirmPassword = e.target[1].value;
-    if (newPassword === confirmPassword && newPassword !== "") {
+    const password = {
+      newPassword,
+      confirmPassword,
+    };
+    const isValidPassword = validatePassword(password);
+    if (isValidPassword) {
       const confirmPassword = await doPUTCall("users/reset_password", {
         new_password: newPassword,
         reset_token: cookies.access_token,
@@ -22,10 +38,6 @@ const ConfirmPass = ({ setComp }) => {
         removeCookie("access_token", { path: "/" });
         navigate("/signin");
       }
-    } else if (newPassword === "" && confirmPassword === "") {
-      alert("Please Enter password");
-    } else {
-      alert("Password Mis match");
     }
   };
   return (
