@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 import SkillsAndCategoryComponent from "./SkillsAndCategoryComponent";
-import ServicePost from "./ServicePost";
+import ServicePost from "./ServicePost/ServicePost";
 
 export const PostContext = createContext();
 

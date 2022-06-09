@@ -1,81 +1,79 @@
 import React, { useState, useContext, useEffect } from "react";
 import { PostContext } from "./Post";
-import { useCookies } from "react-cookie";
-import { getCall } from "../../DataFetch";
+import { requestHeader } from "../../Library/Constants";
+import { getCall } from "../../Components/Services/DataFetch";
 import Button from "../../Components/Button/Button";
-import "./../Register/SkillsComponent.css";
+import "./../Register/SkillsComponent/SkillsComponent.css";
 
 const SkillsAndCategoryComponent = ({ renderComponent, component }) => {
-  const [cookies] = useCookies(["access_token"]);
-  const requestHeader = {
-    "content-type": "application/json",
-    access_token: cookies.access_token,
-  };
-
   const [postData, setPostData] = useContext(PostContext);
   const [dataArray, setdataArray] = useState([]);
-  const [dataId, setdataId] = useState([]);
-  const [dataName, setdataName] = useState([]);
+  const [inputData, setInputData] = useState({
+    dataId: [],
+    dataName: [],
+  });
   const [dataCount, setDataCount] = useState(0);
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        if (component === "skills") {
-          const data = await getCall(`master/skills`, requestHeader);
-          if (data) {
-            setdataArray(
-              data.skills.map((skill) => ({ ...skill, isChecked: false }))
-            );
-          }
-        } else {
-          const data = await getCall(`master/categories`, requestHeader);
-          if (data) {
-            setdataArray(
-              data.categories.map((category) => ({
-                ...category,
-                isChecked: false,
-              }))
-            );
-          }
+  const getData = async () => {
+    try {
+      if (component === "skills") {
+        const data = await getCall(`master/skills`, requestHeader);
+        if (data) {
+          setdataArray(
+            data.skills.map((skill) => ({ ...skill, isChecked: false }))
+          );
         }
-      } catch (err) {
-        console.log(err);
+      } else {
+        const data = await getCall(`master/categories`, requestHeader);
+        if (data) {
+          setdataArray(
+            data.categories.map((category) => ({
+              ...category,
+              isChecked: false,
+            }))
+          );
+        }
       }
-    };
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
     getData();
   }, []);
 
   const btnClickHandler = () => {
-    const data = dataId.join(",");
+    const data = inputData.dataId.join(",");
     if (component === "skills") {
       setPostData({
         ...postData,
         skills_required: data,
-        skills_array: dataName,
+        skills_array: inputData.dataName,
       });
     } else {
       setPostData({
         ...postData,
         category_required: data,
-        categories_array: dataName,
+        categories_array: inputData.dataName,
       });
     }
     renderComponent("postData");
   };
 
   const dataHandler = (id, name, index) => {
-    if (dataName.includes(name) && dataId.includes(id)) {
-      dataName.splice(dataName.indexOf(name), 1);
-      dataId.splice(dataId.indexOf(id), 1);
-      setdataName(dataName);
-      setdataId(dataId);
+    if (inputData.dataName.includes(name) && inputData.dataId.includes(id)) {
+      inputData.dataName.splice(inputData.dataName.indexOf(name), 1);
+      inputData.dataId.splice(inputData.dataId.indexOf(id), 1);
+      setInputData({ dataId: inputData.dataId, dataName: inputData.dataName });
       setDataCount(dataCount - 1);
       dataArray[index].isChecked = false;
       setdataArray(dataArray);
     } else {
-      setdataName([...dataName, name]);
-      setdataId([...dataId, id]);
+      setInputData({
+        dataId: [...inputData.dataId, id],
+        dataName: [...inputData.dataName, name],
+      });
       setDataCount(dataCount + 1);
       dataArray[index].isChecked = true;
       setdataArray(dataArray);

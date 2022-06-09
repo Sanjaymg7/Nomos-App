@@ -1,36 +1,52 @@
 import React, { useState } from "react";
-import { postCall } from "../../DataFetch";
+import { postCall } from "../../../Components/Services/DataFetch";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import Button from "../../Components/Button/Button";
-import Input from "../../Components/Input/Input";
+import Button from "../../../Components/Button/Button";
+import Input from "../../../Components/Input/Input";
 import "./UserDataComponent.css";
+import Modal from "../../../Components/Modal/Modal";
 
 const UserDataComponent = ({ renderSignupComponent, updateId }) => {
+  const modalInitialState = {
+    modalContent: "",
+    showModal: false,
+  };
   const [buttonContent, setButtonContent] = useState("Next");
+  const [modal, setModal] = useState(modalInitialState);
   const validateUser = (userDetails) => {
     if (userDetails.user_name.trim() === "") {
-      alert("Please provide valid name");
+      setModal({ modalContent: "Please provide valid name", showModal: true });
       return false;
     } else if (
       userDetails.phone_no.trim() === "" ||
       userDetails.phone_no.length !== 13
     ) {
-      alert("Please provide valid phone number (10 digits)");
+      setModal({
+        modalContent: "Please provide valid phone number (10 digits)",
+        showModal: true,
+      });
       return false;
     } else if (
       userDetails.email.trim() === "" ||
       userDetails.email.match("^[a-zA-Z0-9+_.-]+@[a-zA-Z]+[.]+[a-zA-Z]+$") ===
         null
     ) {
-      alert("Please provide valid email");
+      setModal({ modalContent: "Please provide valid email", showModal: true });
       return false;
     } else if (userDetails.password.trim() === "") {
-      alert("Please provide valid password");
+      setModal({
+        modalContent: "Please provide valid password",
+        showModal: true,
+      });
       return false;
     } else {
       return true;
     }
+  };
+
+  const handleCloseModal = (e) => {
+    setModal(modalInitialState);
   };
 
   const formSubmitHandler = async (e) => {
@@ -51,27 +67,37 @@ const UserDataComponent = ({ renderSignupComponent, updateId }) => {
     const isValidUser = validateUser(userData);
     if (isValidUser) {
       setButtonContent("Please Wait..");
-      const data = await postCall("users/", userData);
       try {
+        const data = await postCall("users/", userData);
         if (data) {
           updateId(data.user_id);
           renderSignupComponent("otpComponent");
         }
       } catch (err) {
-        console.log(err);
-      } finally {
         setButtonContent("Next");
+        setModal({ modalContent: err, showModal: true });
       }
     }
   };
 
   return (
     <div className="comp1Container">
+      {modal.showModal ? (
+        <Modal
+          modalContent={modal.modalContent}
+          closeModal={handleCloseModal}
+        />
+      ) : (
+        ""
+      )}
       <h3 className="comp1h3">Let's create an account</h3>
       <div className="inputContainer">
         <form onSubmit={formSubmitHandler}>
-          <span className="comp1Text">Full Name</span>
-          <Input type={"text"} className={"nameInput"} />
+          <Input
+            type={"text"}
+            className={"nameInput"}
+            labelContent="Full Name"
+          />
           <span className="comp1Text">Phone</span>
           <PhoneInput
             country={"in"}
@@ -84,10 +110,12 @@ const UserDataComponent = ({ renderSignupComponent, updateId }) => {
               backgroundColor: "#eee",
             }}
           />
-          <span className="comp1Text">Email</span>
-          <Input type={"email"} className={"emailInput"} />
-          <span className="comp1Text">Password</span>
-          <Input type={"password"} className={"passwordInput"} />
+          <Input type={"email"} className={"emailInput"} labelContent="Email" />
+          <Input
+            type={"password"}
+            className={"passwordInput"}
+            labelContent="Password"
+          />
           <div className="policyContainer">
             <span className="policyMessage">
               By continuing, I agree to the

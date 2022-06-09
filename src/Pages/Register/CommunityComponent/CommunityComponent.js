@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
-import { getCall, postCall } from "../../DataFetch";
-import Button from "../../Components/Button/Button";
+import { requestHeader } from "../../../Library/Constants";
+import { navigate } from "../../../Library/Constants";
+import { getCall, postCall } from "../../../Components/Services/DataFetch";
+import Button from "../../../Components/Button/Button";
 import "./CommunityComponent.css";
 
 const CommunityComponent = () => {
-  const navigate = useNavigate();
-  const [cookies] = useCookies(["access_token"]);
-  const requestHeader = {
-    "content-type": "application/json",
-    access_token: cookies.access_token,
-  };
   const [isLoading, setIsLoading] = useState(true);
   const [community, setCommunity] = useState([]);
   const [addedCommunity, setAddedCommunity] = useState(0);

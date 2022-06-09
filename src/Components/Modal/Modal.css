@@ -1,0 +1,23 @@
+.modalContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.modal {
+  height: 10em;
+  width: 20em;
+  padding: 1.5em;
+  background-color: #eee;
+}
+.modalMessage {
+  font-size: 1em;
+  color: #a30000;
+  text-align: center;
+}

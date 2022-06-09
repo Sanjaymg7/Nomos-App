@@ -1,22 +1,19 @@
 import React from "react";
 import Button from "../../Components/Button/Button";
 import Input from "../../Components/Input/Input";
-import { doPOSTCall } from "../../DataFetch";
+import { postCall } from "../../Components/Services/DataFetch";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import "./SignIn.css";
-import Title from "../../Components/Title/Title";
+import Header from "../../Components/Header/Header";
 
 const SignIn = () => {
   const [, setCookie] = useCookies("");
   const navigate = useNavigate();
 
   const validateUser = (userData) => {
-    const {email , password } = userData;
-    if (
-      email === "" ||
-      !email.match("[a-zA-Z0-9]+@[a-z]+[.]+[a-z]{2,3}")
-    ) {
+    const { email, password } = userData;
+    if (email === "" || !email.match("[a-zA-Z0-9]+@[a-z]+[.]+[a-z]{2,3}")) {
       alert("Please enter valid User Email");
     } else if (password.length < 6) {
       alert("Password should be above 6 characters");
@@ -35,7 +32,7 @@ const SignIn = () => {
     };
     const isValidUser = validateUser(userData);
     if (isValidUser) {
-      const userDetail = await doPOSTCall("users/sign_in", userData);
+      const userDetail = await postCall("users/sign_in", userData);
       if (userDetail) {
         setCookie("access_token", userDetail.access_token, {
           path: "/",
@@ -46,7 +43,7 @@ const SignIn = () => {
   };
   return (
     <>
-      <Title />
+      <Header />
       <form className="signin" onSubmit={userSignIn}>
         <label className="signin-label">Email</label>
         <br />

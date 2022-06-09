@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 1fr 4fr 1fr 1fr;
   width: 95%;
-  margin: 0em auto 1.5em;
+  margin: 1em auto 1.5em;
   border-bottom: 0.01em solid #f0f0f0;
   height: 4em;
 }

@@ -1,20 +1,14 @@
-import React, { useState, useContext } from "react";
-import { PostContext } from "./Post";
-import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
-import { getCall, postCall } from "../../DataFetch";
-import Button from "../../Components/Button/Button";
-import Input from "../../Components/Input/Input";
+import React, { useState, useContext, useEffect } from "react";
+import { PostContext } from "../Post";
+import { navigate } from "../../../Library/Constants";
+import { requestHeader } from "../../../Library/Constants";
+import { getCall, postCall } from "../../../Components/Services/DataFetch";
+import Button from "../../../Components/Button/Button";
+import Input from "../../../Components/Input/Input";
 import "./ServicePost.css";
-import Header from "../../Components/Header/Header";
+import Header from "../../../Components/Header/Header";
 
 const ServicePost = ({ renderComponent }) => {
-  const navigate = useNavigate();
-  const [cookies] = useCookies(["access_token"]);
-  const requestHeader = {
-    "content-type": "application/json",
-    access_token: cookies.access_token,
-  };
   const [postData, setPostData] = useContext(PostContext);
 
   const [isBtnActive, setBtnActive] = useState(false);
@@ -34,6 +28,10 @@ const ServicePost = ({ renderComponent }) => {
       setBtnActive(false);
     }
   };
+
+  useEffect(() => {
+    enableCreatePostButton();
+  }, []);
 
   const handlePostTitle = (val) => {
     setPostData({ ...postData, items_service_name: val });
@@ -135,12 +133,12 @@ const ServicePost = ({ renderComponent }) => {
               onChange={(e) => handleGiftCheckChange(e.target)}
             />
           </div>
-          <span className="labelText">Post Title</span>
           <Input
             type={"text"}
             value={postData.items_service_name}
             className={"postTitleInput"}
             onInputChange={handlePostTitle}
+            labelContent="Post Title"
           />
           <span className="labelText">Post Description</span>
           <div className="descriptionContainer">

@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Button from "../../../Components/Button/Button";
 import HomeComp from "../HomeComponent/HomeComp";
 import MenuComp from "../Menu/MenuComp";
-import InboxComp from "../Inbox/InboxComp";
-import Title from "../../../Components/Title/Title";
+import Header from "../../../Components/Header/Header";
 import "./Home.css";
 
 const Home = () => {
@@ -15,7 +14,6 @@ const Home = () => {
       <Header />
       {menu && <MenuComp toggleMenu={toggleMenu} />}
       {component === 0 && <HomeComp />}
-      {component === 1 && <InboxComp />}
 
       <div className="footer">
         <Button

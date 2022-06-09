@@ -1,32 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { useCookies } from "react-cookie";
-import { getCall, putCall } from "../../DataFetch";
-import Button from "../../Components/Button/Button";
+import { requestHeader } from "../../../Library/Constants";
+import { getCall, putCall } from "../../../Components/Services/DataFetch";
+import Button from "../../../Components/Button/Button";
 import "./SkillsComponent.css";
 
 const SkillsComponent = ({ renderComponent }) => {
-  const [cookies] = useCookies(["access_token"]);
-  const requestHeader = {
-    "content-type": "application/json",
-    access_token: cookies.access_token,
-  };
   const [skillsArray, setSkillsArray] = useState([]);
   const [skills, setSkills] = useState([]);
   const [skillCount, setSkillCount] = useState(0);
 
-  useEffect(() => {
-    const getData = async () => {
+  const getData = async () => {
+    try {
       const data = await getCall("master/skills", requestHeader);
-      try {
-        if (data) {
-          setSkillsArray(
-            data.skills.map((skill) => ({ ...skill, isChecked: false }))
-          );
-        }
-      } catch (err) {
-        console.log(err);
+      if (data) {
+        setSkillsArray(
+          data.skills.map((skill) => ({ ...skill, isChecked: false }))
+        );
       }
-    };
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
     getData();
   }, []);
 
