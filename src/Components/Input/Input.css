@@ -15,3 +15,8 @@ input {
   font-weight: 500;
   font-size: 1em;
 }
+.messagedata {
+  height: 2.6em;
+  margin: 0.2em 1em 0em;
+  border-radius: 1.5em;
+}

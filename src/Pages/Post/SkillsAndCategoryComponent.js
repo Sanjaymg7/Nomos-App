@@ -1,4 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
+import { modalInitialState } from "../../Library/Constants";
+import Modal from "../../Components/Modal/Modal";
 import { PostContext } from "./Post";
 import { requestHeader } from "../../Library/Constants";
 import { getCall } from "../../Components/Services/DataFetch";
@@ -13,6 +15,11 @@ const SkillsAndCategoryComponent = ({ renderComponent, component }) => {
     dataName: [],
   });
   const [dataCount, setDataCount] = useState(0);
+  const [modal, setModal] = useState(modalInitialState);
+
+  const handleCloseModal = (e) => {
+    setModal(modalInitialState);
+  };
 
   const getData = async () => {
     try {
@@ -35,7 +42,7 @@ const SkillsAndCategoryComponent = ({ renderComponent, component }) => {
         }
       }
     } catch (err) {
-      console.log(err);
+      setModal({ modalContent: err, showModal: true });
     }
   };
 
@@ -82,6 +89,12 @@ const SkillsAndCategoryComponent = ({ renderComponent, component }) => {
 
   return (
     <div className="comp3Container">
+      {modal.showModal && (
+        <Modal
+          modalContent={modal.modalContent}
+          closeModal={handleCloseModal}
+        />
+      )}
       <h3 className="comp3h3">
         Selected {component} ({dataCount})
       </h3>
@@ -91,7 +104,7 @@ const SkillsAndCategoryComponent = ({ renderComponent, component }) => {
           ? dataArray.map((skill, index) => (
               <Button
                 key={index}
-                btnContent={skill.skill_name}
+                btnName={skill.skill_name}
                 className={
                   skill.isChecked ? "skillBtn skillBtnActive" : "skillBtn"
                 }
@@ -103,7 +116,7 @@ const SkillsAndCategoryComponent = ({ renderComponent, component }) => {
           : dataArray.map((category, index) => (
               <Button
                 key={category.category_id}
-                btnContent={category.name}
+                btnName={category.name}
                 className={
                   category.isChecked
                     ? "categoryBtn categoryBtnActive"
@@ -116,7 +129,7 @@ const SkillsAndCategoryComponent = ({ renderComponent, component }) => {
             ))}
       </div>
       <Button
-        btnContent={"Next"}
+        btnName={"Next"}
         className={"btnGreen"}
         onBtnClick={btnClickHandler}
       />

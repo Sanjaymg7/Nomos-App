@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { postCall } from "../../../Components/Services/DataFetch";
+import { modalInitialState } from "../../../Library/Constants";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Button from "../../../Components/Button/Button";
@@ -8,10 +9,6 @@ import "./UserDataComponent.css";
 import Modal from "../../../Components/Modal/Modal";
 
 const UserDataComponent = ({ renderSignupComponent, updateId }) => {
-  const modalInitialState = {
-    modalContent: "",
-    showModal: false,
-  };
   const [buttonContent, setButtonContent] = useState("Next");
   const [modal, setModal] = useState(modalInitialState);
   const validateUser = (userDetails) => {
@@ -82,13 +79,11 @@ const UserDataComponent = ({ renderSignupComponent, updateId }) => {
 
   return (
     <div className="comp1Container">
-      {modal.showModal ? (
+      {modal.showModal && (
         <Modal
           modalContent={modal.modalContent}
           closeModal={handleCloseModal}
         />
-      ) : (
-        ""
       )}
       <h3 className="comp1h3">Let's create an account</h3>
       <div className="inputContainer">
@@ -125,7 +120,7 @@ const UserDataComponent = ({ renderSignupComponent, updateId }) => {
             </span>
           </div>
           <Button
-            btnContent={buttonContent}
+            btnName={buttonContent}
             className={"btnGreen"}
             btnDisable={buttonContent === "Next" ? false : true}
           />

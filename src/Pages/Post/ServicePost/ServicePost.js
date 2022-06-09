@@ -1,19 +1,26 @@
 import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { PostContext } from "../Post";
-import { navigate } from "../../../Library/Constants";
+import { modalInitialState } from "../../../Library/Constants";
 import { requestHeader } from "../../../Library/Constants";
 import { getCall, postCall } from "../../../Components/Services/DataFetch";
 import Button from "../../../Components/Button/Button";
 import Input from "../../../Components/Input/Input";
 import "./ServicePost.css";
 import Header from "../../../Components/Header/Header";
+import Modal from "../../../Components/Modal/Modal";
 
 const ServicePost = ({ renderComponent }) => {
+  const navigate = useNavigate();
   const [postData, setPostData] = useContext(PostContext);
-
   const [isBtnActive, setBtnActive] = useState(false);
   const [btnContent, setBtnContent] = useState("Create Post");
   const [uploadedImage, setUploadedImage] = useState("");
+  const [modal, setModal] = useState(modalInitialState);
+
+  const handleCloseModal = () => {
+    setModal(modalInitialState);
+  };
 
   const enableCreatePostButton = () => {
     if (
@@ -81,7 +88,10 @@ const ServicePost = ({ renderComponent }) => {
             body: uploadedImage,
           });
           if (data.status !== 200) {
-            alert("Something Went Wrong!! Try again..");
+            setModal({
+              modalContent: "Something Went Wrong!! Try again..",
+              showModal: true,
+            });
             setBtnContent("Create Post");
           } else {
             postData.items_service_image = getUploadData.image_id;
@@ -94,12 +104,18 @@ const ServicePost = ({ renderComponent }) => {
       }
     } catch (err) {
       setBtnContent("Create Post");
-      console.log(err);
+      setModal({ modalContent: err, showModal: true });
     }
   };
 
   return (
     <div>
+      {modal.showModal && (
+        <Modal
+          modalContent={modal.modalContent}
+          closeModal={handleCloseModal}
+        />
+      )}
       <Header navigateTo="home" headerText="Give a Service" />
       <form onChange={enableCreatePostButton} onSubmit={createServicePost}>
         <div className="inputContainer">
@@ -190,7 +206,7 @@ const ServicePost = ({ renderComponent }) => {
             }
           />
           <Button
-            btnContent={btnContent}
+            btnName={btnContent}
             className={
               isBtnActive ? "createPostBtn btnGreen" : "createPostBtn btnGrey"
             }
