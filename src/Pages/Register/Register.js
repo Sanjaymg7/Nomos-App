@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import UserDataComponent from "./UserDataComponent";
-import OTPComponent from "./OTPComponent";
-import SkillsComponent from "./SkillsComponent";
-import CommunityComponent from "./CommunityComponent";
+import UserDataComponent from "./UserDataComponent/UserDataComponent";
+import OTPComponent from "./OTPComponent/OTPComponent";
+import SkillsComponent from "./SkillsComponent/SkillsComponent";
+import CommunityComponent from "./CommunityComponent/CommunityComponent";
 
 const Register = () => {
   const [userData, setUserData] = useState({

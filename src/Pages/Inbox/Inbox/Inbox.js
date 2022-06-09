@@ -1,17 +1,11 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
-import { getCall } from "../../DataFetch";
-import "./InboxComp.css";
-import Header from "../../Components/Header/Header";
+import { navigate } from "../../../Library/Constants";
+import { requestHeader } from "../../../Library/Constants";
+import { getCall } from "../../../Components/Services/DataFetch";
+import "./Inbox.css";
+import Header from "../../../Components/Header/Header";
 
 const InboxComp = () => {
-  const navigate = useNavigate();
-  const [cookies] = useCookies(["access_token"]);
-  const requestHeader = {
-    "content-type": "application/json",
-    access_token: cookies.access_token,
-  };
   const chatArray = [];
   const message =
     "Hello Rohan. How are you doing? hope everything is going great and easy";

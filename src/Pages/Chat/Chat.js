@@ -32,6 +32,7 @@ const Chat = () => {
           value={message}
           onInputChange={handleMessageInput}
           className={"messageInput"}
+          isLabelRequired={false}
         />
         <Button
           btnContent={"Send"}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./HomeComp.css";
-import { getCall } from "../../DataFetch";
+import { getCall } from "../../../Components/Services/DataFetch";
 import { useCookies } from "react-cookie";
 import HomeCard from "../HomeCard/HomeCard";
 

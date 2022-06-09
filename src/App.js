@@ -6,6 +6,7 @@ import Home from "./Pages/Home/Home/Home";
 import Post from "./Pages/Post/Post";
 import Chat from "./Pages/Chat/Chat";
 import ResetPassword from "./Pages/ForgotPassword/ResetPassword/ResetPassword";
+import Inbox from "./Pages/Inbox/Inbox/Inbox";
 
 const App = () => {
   //   const routes = [{
@@ -42,6 +43,7 @@ const App = () => {
         <Route exact path="/home" element={<Home />} />
         <Route exact path="/post" element={<Post />} />
         <Route exact path="/chat" element={<Chat />} />
+        <Route exact path="/inbox" element={<Inbox />} />
       </Routes>
     </BrowserRouter>
   );

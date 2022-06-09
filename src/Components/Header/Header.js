@@ -1,9 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { navigate } from "../../Library/Constants";
 import "./Header.css";
 
 const Header = ({ navigateTo, headerText }) => {
-  const navigate = useNavigate();
   return (
     <div>
       <div className="headerContainer">

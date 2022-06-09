@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { useCookies } from "react-cookie";
-import { putCall } from "../../DataFetch";
+import { putCall } from "../../../Components/Services/DataFetch";
 import OtpInput from "react-otp-input";
-import Button from "../../Components/Button/Button";
+import Button from "../../../Components/Button/Button";
 import "./OTPComponent.css";
 
 const OTPComponent = ({ renderSignupComponent, userId }) => {
-  const [, setCookie] = useCookies(["access_token"]);
   const [otp, setOtp] = useState(0);
 
   const handleOtp = (val) => {
@@ -21,7 +19,7 @@ const OTPComponent = ({ renderSignupComponent, userId }) => {
     try {
       const data = await putCall("users/verify_otp", requestBody);
       if (data) {
-        setCookie("access_token", data.access_token, { path: "/" });
+        localStorage.setItem("access_token", data.access_token);
         renderSignupComponent("skillsComponent");
       }
     } catch (err) {

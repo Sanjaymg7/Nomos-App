@@ -1,14 +1,28 @@
 import React from "react";
 import "./Input.css";
 
-const Input = ({ value, onInputChange = () => {}, type, className }) => {
+const Input = ({
+  value,
+  onInputChange = () => {},
+  type,
+  className,
+  labelContent,
+  isLabelRequired = true,
+}) => {
   return (
-    <input
-      className={className}
-      type={type}
-      value={value}
-      onChange={(e) => onInputChange(e.target.value)}
-    />
+    <div>
+      {isLabelRequired ? (
+        <label className="inputLabel">{labelContent}</label>
+      ) : (
+        ""
+      )}
+      <input
+        className={className}
+        type={type}
+        value={value}
+        onChange={(e) => onInputChange(e.target.value)}
+      />
+    </div>
   );
 };
 

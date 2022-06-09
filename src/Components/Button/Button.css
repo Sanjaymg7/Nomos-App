@@ -14,6 +14,10 @@ button {
   margin: 3em 0em;
   background-color: #b4b4b4;
 }
+.btnBlue {
+  margin: 3em 0em 0em;
+  background-color: #0047ab;
+}
 
 .skillBtn,
 .categoryBtn {

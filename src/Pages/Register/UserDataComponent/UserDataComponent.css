@@ -12,7 +12,8 @@
 .comp1Text {
   font-size: 1em;
   font-weight: 500;
-  margin: 1em 0.7em;
+  margin: 1em 0em;
+  color: #787878;
 }
 .policyContainer {
   width: 100%;
