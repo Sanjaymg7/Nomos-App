@@ -5,7 +5,8 @@ import { postCall } from "../../Components/Services/DataFetch";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import "./SignIn.css";
-import Header from "../../Components/Header/Header";
+import Title from "../../Components/Title/Title";
+import Label from "../../Components/Label";
 
 const SignIn = () => {
   const [, setCookie] = useCookies("");
@@ -45,17 +46,17 @@ const SignIn = () => {
     <>
       <Header />
       <form className="signin" onSubmit={userSignIn}>
-        <label className="signin-label">Email</label>
+        <Label className="signin-label" labelContent="Email" />
         <br />
         <Input className="input" />
-        <label className="signin-label">Password</label>
+        <Label className="signin-label" labelContent="Password" />
         <br />
         <Input className="input" type="password" />
         <Button className="btn sign-in" btnContent="Sign In" />
-        <p onClick={() => navigate("/forgotpassword")} className="forgot-para">
-          Forgot password?
-        </p>
       </form>
+      <p onClick={() => navigate("/forgotpassword")} className="forgot-para">
+        Forgot password?
+      </p>
     </>
   );
 };

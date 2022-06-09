@@ -70,4 +70,4 @@ const HomeCard = ({
   );
 };
 
-export default HomeCard;
+export default React.memo(HomeCard);

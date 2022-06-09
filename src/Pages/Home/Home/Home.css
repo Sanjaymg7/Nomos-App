@@ -10,17 +10,7 @@
 .title {
     padding-top: .8rem;
 }
-.footer {
-    display: inline-flex;
-    flex-direction: row;
-    width: 100%;
-    height: 4rem;
-    background-color: rgb(68, 65, 65);
-    border-top: .1rem solid grey;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-}
+
 
 .home-btn {
     color: #036843;

@@ -12,3 +12,15 @@
     width: 100%;
     z-index: 2;
 }
+.menu-close-btn {
+    display: flex;
+    justify-content: center;
+    border-radius: 100%;
+    padding-top: .45rem;
+    width: 3.6rem;
+    height: 3.6rem;
+    background-color: #00a86b;
+    color: white;
+    margin-left: 8.5rem;
+    font-size: xx-large;
+}
