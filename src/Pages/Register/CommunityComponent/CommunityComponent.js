@@ -62,18 +62,18 @@ const CommunityComponent = () => {
         />
       )}
       <h3 className="comp4h3">Join Community</h3>
-      <span className="comp4Text">
+      <h4 className="comp4Text">
         Select from the list below or create your own
-      </span>
+      </h4>
       {isLoading}
       {community.length === 0 ? (
         <div className="messageContainer">
-          <span className="comp4Message">
+          <p className="comp4Message">
             {isLoading
               ? "Please Wait..."
               : `No communities around.
             <br /> You can skip or create your own.`}
-          </span>
+          </p>
         </div>
       ) : (
         community.map((communityData) => {
