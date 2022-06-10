@@ -6,6 +6,7 @@ import { requestHeader } from "../../../Library/Constants";
 import { getCall, postCall } from "../../../Components/Services/DataFetch";
 import Button from "../../../Components/Button/Button";
 import Input from "../../../Components/Input/Input";
+import Label from "../../../Components/Label/Label";
 import "./ServicePost.css";
 import Header from "../../../Components/Header/Header";
 import Modal from "../../../Components/Modal/Modal";
@@ -58,7 +59,7 @@ const ServicePost = ({ renderComponent }) => {
   };
 
   const handleGiftCheckChange = (val) => {
-    setPostData({ ...postData, is_gift: val.checked });
+    setPostData({ ...postData, is_gift: val });
   };
 
   const fileUploadInputChange = (file) => {
@@ -119,7 +120,7 @@ const ServicePost = ({ renderComponent }) => {
       <Header navigateTo="home" headerText="Give a Service" />
       <form onChange={enableCreatePostButton} onSubmit={createServicePost}>
         <div className="inputContainer">
-          <span className="labelText">Post Type</span>
+          <Label className="labelText" labelName="Post Type" />
           <div className="postTypeButtons">
             <div
               className={
@@ -141,12 +142,12 @@ const ServicePost = ({ renderComponent }) => {
             </div>
           </div>
           <div className="giftContainer">
-            <span className="labelText">Gift</span>
-            <input
+            <Label className="labelText" labelName="Gift" />
+            <Input
               type={"checkbox"}
               className={"giftCheck"}
-              checked={postData.is_gift}
-              onChange={(e) => handleGiftCheckChange(e.target)}
+              isChecked={postData.is_gift}
+              onInputChange={handleGiftCheckChange}
             />
           </div>
           <Input
@@ -156,7 +157,7 @@ const ServicePost = ({ renderComponent }) => {
             onInputChange={handlePostTitle}
             labelContent="Post Title"
           />
-          <span className="labelText">Post Description</span>
+          <Label className="labelText" labelName="Post Description" />
           <div className="descriptionContainer">
             <textarea
               className="descriptionInput"
@@ -170,8 +171,7 @@ const ServicePost = ({ renderComponent }) => {
               {postData.items_service_desc.length} / 200
             </span>
           </div>
-
-          <span className="labelText">Add Required Skills</span>
+          <Label className="labelText" labelName="Add Required Skills" />
           <div
             className="addSkills"
             onClick={() => addSkillandDescriptionHandler("skills")}
@@ -183,7 +183,7 @@ const ServicePost = ({ renderComponent }) => {
               {skill}
             </span>
           ))}
-          <span className="labelText">Add Required Category</span>
+          <Label className="labelText" labelName="Add Required Category" />
           <div
             className="addCategory"
             onClick={() => addSkillandDescriptionHandler("category")}
@@ -195,7 +195,7 @@ const ServicePost = ({ renderComponent }) => {
               {category}
             </span>
           ))}
-          <span className="labelText">Post Image</span>
+          <Label className="labelText" labelName="Post Image" />
           <input
             type={"file"}
             className={"postImageInput"}

@@ -20,21 +20,22 @@ const Register = () => {
 
   return (
     <div>
-      {pageState === "userDataComponent" ? (
+      {pageState === "userDataComponent" && (
         <UserDataComponent
           renderSignupComponent={handleSubmit}
           updateId={updateUserId}
         />
-      ) : pageState === "otpComponent" ? (
+      )}
+      {pageState === "otpComponent" && (
         <OTPComponent
           renderSignupComponent={handleSubmit}
           userId={userData.user_id}
         />
-      ) : pageState === "skillsComponent" ? (
-        <SkillsComponent renderComponent={handleSubmit} />
-      ) : (
-        <CommunityComponent />
       )}
+      {pageState === "skillsComponent" && (
+        <SkillsComponent renderComponent={handleSubmit} />
+      )}
+      {pageState === "CommunityComponent" && <CommunityComponent />}
     </div>
   );
 };

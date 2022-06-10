@@ -52,9 +52,7 @@ const OTPComponent = ({ renderSignupComponent, userId }) => {
         />
       )}
       <h3 className="comp2h3">Confirm OTP</h3>
-      <span className="comp2Text">
-        OTP is sent to your registered mobile number
-      </span>
+      <p className="comp2Text">OTP is sent to your registered mobile number</p>
       <div className="otpContainer">
         <OtpInput
           containerStyle="otpModal"
@@ -70,7 +68,7 @@ const OTPComponent = ({ renderSignupComponent, userId }) => {
         className={"btnGrey"}
         onBtnClick={btnClickHandler}
       />
-      <span className="resendMessage">Didn't receive? Resend OTP</span>
+      <p className="resendMessage">Didn't receive? Resend OTP</p>
     </div>
   );
 };

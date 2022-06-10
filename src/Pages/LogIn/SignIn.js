@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import "./SignIn.css";
 import Header from "../../Components/Header/Header";
-import Label from "../../Components/Label";
+import Label from "../../Components/Label/Label";
 
 const SignIn = () => {
   const [, setCookie] = useCookies("");

@@ -8,6 +8,7 @@ const Input = ({
   className,
   labelContent,
   isLabelRequired = true,
+  isChecked,
 }) => {
   return (
     <div>
@@ -20,7 +21,12 @@ const Input = ({
         className={className}
         type={type}
         value={value}
-        onChange={(e) => onInputChange(e.target.value)}
+        checked={isChecked}
+        onChange={(e) =>
+          type === "checkbox"
+            ? onInputChange(e.target.checked)
+            : onInputChange(e.target.value)
+        }
       />
     </div>
   );

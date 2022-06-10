@@ -71,7 +71,7 @@ const SkillsComponent = ({ renderComponent }) => {
         />
       )}
       <h3 className="comp3h3">Selected Skills ({skillCount})</h3>
-      <span className="comp3text">Skills are shown on your profile</span>
+      <h4 className="comp3text">Skills are shown on your profile</h4>
       <div className="skillContainer">
         {skillsArray.map((skill, index) => (
           <Button

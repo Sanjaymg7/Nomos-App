@@ -28,14 +28,16 @@ const Post = () => {
   return (
     <div>
       <PostContext.Provider value={[postData, setPostData]}>
-        {componentState === "postData" ? (
+        {componentState === "postData" && (
           <ServicePost renderComponent={renderComponent} />
-        ) : componentState === "skills" ? (
+        )}
+        {componentState === "skills" && (
           <SkillsAndCategoryComponent
             renderComponent={renderComponent}
             component={"skills"}
           />
-        ) : (
+        )}
+        {componentState === "category" && (
           <SkillsAndCategoryComponent
             renderComponent={renderComponent}
             component={"category"}

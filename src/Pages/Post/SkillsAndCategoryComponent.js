@@ -98,7 +98,7 @@ const SkillsAndCategoryComponent = ({ renderComponent, component }) => {
       <h3 className="comp3h3">
         Selected {component} ({dataCount})
       </h3>
-      <span className="comp3text">Please select required skills</span>
+      <h4 className="comp3text">Please select required skills</h4>
       <div className="skillContainer">
         {component === "skills"
           ? dataArray.map((skill, index) => (

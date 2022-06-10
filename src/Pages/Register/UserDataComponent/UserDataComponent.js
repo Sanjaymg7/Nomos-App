@@ -5,6 +5,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Button from "../../../Components/Button/Button";
 import Input from "../../../Components/Input/Input";
+import Label from "../../../Components/Label/Label";
 import "./UserDataComponent.css";
 import Modal from "../../../Components/Modal/Modal";
 
@@ -93,7 +94,7 @@ const UserDataComponent = ({ renderSignupComponent, updateId }) => {
             className={"nameInput"}
             labelContent="Full Name"
           />
-          <span className="comp1Text">Phone</span>
+          <Label className="comp1Text" labelName="Phone" />
           <PhoneInput
             country={"in"}
             containerStyle={{
