@@ -6,9 +6,11 @@
 }
 .headerNavigate {
   position: absolute;
-  font-size: 1.5em;
-  bottom: 0.6em;
-  left: 1em;
+  width: 1.4rem;
+  height: 1rem;
+  bottom: 1.2rem;
+  left: 1rem;
+  color: wheat;
   font-weight: 500;
 }
 .headerText {

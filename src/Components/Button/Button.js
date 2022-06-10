@@ -3,7 +3,7 @@ import "./Button.css";
 
 const Button = ({
   onBtnClick,
-  btnContent,
+  btnName,
   className,
   btnValue,
   btnDisable,
@@ -15,7 +15,7 @@ const Button = ({
       onClick={onBtnClick}
       disabled={btnDisable}
     >
-      {btnContent}
+      {btnName}
     </button>
   );
 };

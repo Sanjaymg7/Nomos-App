@@ -4,6 +4,7 @@ import { requestHeader } from "../../../Library/Constants";
 import { getCall } from "../../../Components/Services/DataFetch";
 import "./Inbox.css";
 import Header from "../../../Components/Header/Header";
+import Footer from "../../../Components/FooterComponent/Footer";
 
 const InboxComp = () => {
   const chatArray = [];
@@ -60,6 +61,7 @@ const InboxComp = () => {
         </div>
         <span className="enterChat">{">"}</span>
       </div>
+      <Footer />
     </div>
   );
 };

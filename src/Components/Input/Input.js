@@ -11,11 +11,7 @@ const Input = ({
 }) => {
   return (
     <div>
-      {isLabelRequired ? (
-        <label className="inputLabel">{labelContent}</label>
-      ) : (
-        ""
-      )}
+      {isLabelRequired && <label className="inputLabel">{labelContent}</label>}
       <input
         className={className}
         type={type}

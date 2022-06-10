@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from "../../../Components/Input/Input";
 import Button from "../../../Components/Button/Button";
 import Header from "../../../Components/Header/Header";
+import { modalInitialState } from "../../../Library/Constants";
 import { putCall } from "../../../Components/Services/DataFetch";
 import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import Modal from "../../../Components/Modal/Modal";
 
 const ConfirmPass = () => {
-  const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
+
+  const [modal, setModal] = useState(modalInitialState);
 
   const validatePassword = (password) => {
     const { newPassword, confirmPassword } = password;
@@ -20,6 +22,10 @@ const ConfirmPass = () => {
       alert("Password Mis match");
     }
   };
+  const handleCloseModal = (e) => {
+    setModal(modalInitialState);
+  };
+  
   const confirmPassword = async (e) => {
     e.preventDefault();
     const newPassword = e.target[0].value;
@@ -30,18 +36,28 @@ const ConfirmPass = () => {
     };
     const isValidPassword = validatePassword(password);
     if (isValidPassword) {
-      const confirmPassword = await doPUTCall("users/reset_password", {
-        new_password: newPassword,
-        reset_token: cookies.access_token,
-      });
-      if (confirmPassword) {
-        removeCookie("access_token", { path: "/" });
-        navigate("/signin");
+      try {
+        const confirmPassword = await putCall("users/reset_password", {
+          new_password: newPassword,
+          reset_token: localStorage.getItem("access_token"),
+        });
+        if (confirmPassword) {
+          localStorage.removeItem("access_token");
+          navigate("/signin");
+        }
+      } catch (err) {
+        setModal({ modalContent: err, showModal: true });
       }
     }
   };
   return (
     <>
+      {modal.showModal && (
+        <Modal
+          modalContent={modal.modalContent}
+          closeModal={handleCloseModal}
+        />
+      )}
       <Header />
       <form className="signin" onSubmit={confirmPassword}>
         <label>Enter New Password</label>
