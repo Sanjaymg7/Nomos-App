@@ -3,14 +3,14 @@ import Header from "../../../Components/Header/Header";
 import "./Home.css";
 import { getCall, putCall } from "../../../Components/Services/DataFetch";
 import HomeCard from "../HomeCard/HomeCard";
-import { requestHeader } from "../../../Library/Constants";
+import { getRequestHeader } from "../../../Library/Constants";
 import { modalInitialState } from "../../../Library/Constants";
 import Footer from "../../../Components/FooterComponent/Footer";
 import Modal from "../../../Components/Modal/Modal";
 
 const Home = () => {
   const [modal, setModal] = useState(modalInitialState);
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState();
   const [likeCount, setLikescount] = useState(false);
   const [isLoading, setLoading] = useState(false);
 
@@ -19,12 +19,12 @@ const Home = () => {
   };
   useEffect(() => {
     getData();
-  }, [likeCount]);
+  }, []);
 
   const getData = async () => {
     try {
       setLoading(true);
-      const data = await getCall("posts/?type=3", requestHeader);
+      const data = await getCall("posts/?type=3", getRequestHeader());
       setPosts(data.posts);
       setLoading(false);
       console.log(data.posts)
@@ -35,7 +35,7 @@ const Home = () => {
   };
   const updateLikes = async (postId) => {
     try {
-      await putCall("posts/like/", { post_id: postId }, requestHeader);
+      await putCall("posts/like/", { post_id: postId }, getRequestHeader());
       setLikescount(!likeCount);
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
@@ -44,7 +44,7 @@ const Home = () => {
 
   return (
     <>
-    {isLoading&&<div>Loading...</div>}
+    {isLoading&&<div className="loading-text">Loading...</div>}
       {modal.showModal && (
         <Modal
           modalContent={modal.modalContent}

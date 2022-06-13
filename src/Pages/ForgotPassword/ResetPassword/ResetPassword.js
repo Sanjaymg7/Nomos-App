@@ -106,7 +106,7 @@ const ResetPassword = () => {
             )}
             <Button
               className="phone-input-btn"
-              btnContent={isOTP ? "Confirm" : "Send OTP"}
+              btnName={isOTP ? "Confirm" : "Send OTP"}
             />
           </form>
         </>

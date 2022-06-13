@@ -4,10 +4,15 @@
 //   const navigate = useNavigate();
 //   return navigate;
 // };
-const getRequestHeader = () => ({
+export const getRequestHeader = () => {
+  
+  console.log("localstorage called",localStorage.getItem("access_token"));
+
+  return{
   "content-type": "application/json",
   "access_token": localStorage.getItem("access_token"),
-});
+  }
+}
 
 export const requestHeader = getRequestHeader();
 // export const requestHeader = () =>{

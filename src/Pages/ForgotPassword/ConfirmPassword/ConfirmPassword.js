@@ -66,7 +66,7 @@ const ConfirmPass = () => {
         <label>Confirm New Password</label>
         <br />
         <Input className="input" type="password" />
-        <Button className="btn sign-in" btnContent="Reset Password" />
+        <Button className="btn sign-in" btnName="Reset Password" />
       </form>
     </>
   );
