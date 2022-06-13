@@ -1,0 +1,14 @@
+.descriptionContainer {
+  position: relative;
+}
+.descriptionInput {
+  width: 100%;
+  background-color: #eee;
+  border: none;
+}
+.descriptionCount {
+  position: absolute;
+  bottom: 1em;
+  right: 0.5em;
+  font-size: 0.7em;
+}

@@ -5,7 +5,7 @@ import { getCall, putCall } from "../../../Components/Services/DataFetch";
 import HomeCard from "../HomeCard/HomeCard";
 import { getRequestHeader } from "../../../Library/Constants";
 import { modalInitialState } from "../../../Library/Constants";
-import Footer from "../../../Components/FooterComponent/Footer";
+import Footer from "../../../Components/Footer/Footer";
 import Modal from "../../../Components/Modal/Modal";
 
 const Home = () => {
@@ -27,9 +27,9 @@ const Home = () => {
       const data = await getCall("posts/?type=3", getRequestHeader());
       setPosts(data.posts);
       setLoading(false);
-      console.log(data.posts)
+      console.log(data.posts);
     } catch (err) {
-      setLoading(false)
+      setLoading(false);
       setModal({ modalContent: err, showModal: true });
     }
   };
@@ -44,7 +44,7 @@ const Home = () => {
 
   return (
     <>
-    {isLoading&&<div className="loading-text">Loading...</div>}
+      {isLoading && <div className="loading-text">Loading...</div>}
       {modal.showModal && (
         <Modal
           modalContent={modal.modalContent}

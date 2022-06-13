@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "./SignIn.css";
 import { modalInitialState } from "../../Library/Constants";
 import Header from "../../Components/Header/Header";
-import Label from "../../Components/Label";
+import Label from "../../Components/Label/Label";
 import Modal from "../../Components/Modal/Modal";
 
 const SignIn = () => {

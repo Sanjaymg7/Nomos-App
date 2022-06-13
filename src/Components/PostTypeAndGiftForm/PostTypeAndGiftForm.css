@@ -1,0 +1,27 @@
+.postTypeButtons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 1em 0em;
+}
+.giveBtn,
+.receiveBtn {
+  width: 100%;
+  padding: 0.8em 2em;
+  background-color: #fff;
+  color: #b4b4b4;
+  border-radius: 0.2em;
+  border: 0.01em solid #b4b4b4;
+}
+.postActive {
+  color: #00a86b;
+  background-color: #f0f0f0;
+  border: 0.01em solid #787878;
+}
+.giftContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 1em 0em;
+}
+.giftCheck {
+  display: block;
+}
