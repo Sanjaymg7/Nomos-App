@@ -17,3 +17,9 @@
     font-size: larger;
     border: .1rem solid blanchedalmond;
 }
+.loading-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

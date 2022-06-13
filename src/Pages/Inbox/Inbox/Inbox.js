@@ -75,6 +75,7 @@ const InboxComp = () => {
         </div>
         <span className="enterChat">{">"}</span>
       </div>
+      <Footer />
     </div>
   );
 };

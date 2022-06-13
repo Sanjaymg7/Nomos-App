@@ -1,4 +1,4 @@
-const getRequestHeader = () => ({
+export const getRequestHeader = () => ({
   "content-type": "application/json",
   access_token: localStorage.getItem("access_token"),
 });

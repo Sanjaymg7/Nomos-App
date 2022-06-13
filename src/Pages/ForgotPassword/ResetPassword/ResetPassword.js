@@ -6,15 +6,16 @@ import { postCall } from "../../../Components/Services/DataFetch";
 import "./ResetPassword.css";
 import OtpInput from "react-otp-input";
 import ConfirmPassword from "../ConfirmPassword/ConfirmPassword";
-import { useCookies } from "react-cookie";
+import { modalInitialState } from "../../../Library/Constants";
 import Header from "../../../Components/Header/Header";
+import Modal from "../../../Components/Modal/Modal";
 
 const ResetPassword = () => {
   const [otp, setOTP] = useState("");
   const [isOTP, updateOTP] = useState(false);
   const [phoneNo, setPhoneNo] = useState();
+  const [modal, setModal] = useState(modalInitialState);
   const [isConfirmPasswordPage, setConfirmPasswordPage] = useState(false);
-  const [, setCookie] = useCookies("");
 
   const inputStyle = {
     width: "3.5rem",
@@ -24,15 +25,22 @@ const ResetPassword = () => {
     borderRadius: 4,
     border: "0.125rem solid rgba(0,0,0,0.3)",
   };
+  const handleCloseModal = (e) => {
+    setModal(modalInitialState);
+  };
   const phoneInput = async (e) => {
     e.preventDefault();
     const phoneNo = e.target[0].value.replace(/-/g, "").replace(/ /g, "");
     setPhoneNo(phoneNo);
-    const isNumber = await postCall("users/reset_password", {
-      phone_no: phoneNo,
-    });
-    if (isNumber) {
-      updateOTP(!isOTP);
+    try {
+      const isNumber = await postCall("users/reset_password", {
+        phone_no: phoneNo,
+      });
+      if (isNumber) {
+        updateOTP(!isOTP);
+      }
+    } catch (err) {
+      setModal({ modalContent: err, showModal: true });
     }
   };
   const handleOtpChange = (otp) => {
@@ -40,20 +48,28 @@ const ResetPassword = () => {
   };
   const validateOTP = async (e) => {
     e.preventDefault();
-    const otpValidate = await postCall("users/confirm_otp", {
-      phone_no: phoneNo,
-      otp,
-    });
-    if (otpValidate) {
-      setConfirmPasswordPage(!isConfirmPasswordPage);
+    try {
+      const otpValidate = await postCall("users/confirm_otp", {
+        phone_no: phoneNo,
+        otp,
+      });
+      if (otpValidate) {
+        setConfirmPasswordPage(!isConfirmPasswordPage);
+      }
+      localStorage.setItem("access_token", otpValidate.reset_token);
+    } catch (err) {
+      setModal({ modalContent: err, showModal: true });
     }
-    setCookie("access_token", otpValidate.reset_token, {
-      path: "/",
-    });
   };
 
   return (
     <>
+      {modal.showModal && (
+        <Modal
+          modalContent={modal.modalContent}
+          closeModal={handleCloseModal}
+        />
+      )}
       {isConfirmPasswordPage ? (
         <ConfirmPassword />
       ) : (
@@ -90,7 +106,7 @@ const ResetPassword = () => {
             )}
             <Button
               className="phone-input-btn"
-              btnContent={isOTP ? "Confirm" : "Send OTP"}
+              btnName={isOTP ? "Confirm" : "Send OTP"}
             />
           </form>
         </>

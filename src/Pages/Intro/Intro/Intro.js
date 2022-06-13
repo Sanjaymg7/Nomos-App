@@ -1,18 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../Components/Button/Button";
 import Image from "../../../Components/Image/Image";
-// import { useCookies } from "react-cookie";
 import "./Intro.css";
 const Intro = () => {
-  // const [cookies, setCookie] = useCookies();
   const navigate = useNavigate();
-  // const hasAccessToken = () => {
-  //   if (cookies.access_token !== "") {
+  // useEffect(() => {
+  //   if (localStorage.getItem("access_token")) {
   //     navigate("/home");
   //   }
-  // };
-  // hasAccessToken();
+  // });
   return (
     <div className="container">
       <Image

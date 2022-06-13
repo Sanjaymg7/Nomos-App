@@ -24,10 +24,10 @@ const Footer = () => {
             alt="footer-image"
           />
           <div onClick={menuHandler} className="menu-btn">
-            X
+            +
           </div>
           <Image
-            onClick={() => navigate("/chat")}
+            onClick={() => navigate("/inbox")}
             className="footer-image"
             src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/BFAA1882-80B9-49F7-B412-4788306C01BD.png"
             alt="inbox-image"
