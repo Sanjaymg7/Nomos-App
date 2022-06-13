@@ -69,6 +69,8 @@ const ServicePost = ({ renderComponent }) => {
         setUploadedImage(reader.result);
       };
       reader.readAsText(file);
+    } else {
+      setUploadedImage("");
     }
   };
 
