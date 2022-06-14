@@ -11,7 +11,6 @@
     padding-top: .8rem;
 }
 
-
 .home-btn {
     color: #036843;
     font-size: larger;
@@ -19,6 +18,8 @@
 }
 .loading-text {
     position: absolute;
+    color: #036843;
+    font-size: xx-large;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
