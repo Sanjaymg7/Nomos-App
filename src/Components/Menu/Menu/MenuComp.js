@@ -15,6 +15,7 @@ const MenuComp = ({toggleMenu}) => {
       <MenuCard
         src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/D2C2C345-4727-4FD0-A6B5-7887AE1E89BB.png"
         menuContent="offer or request an item"
+        onClick = {()=>navigate("/itempost")}
       />
       <MenuCard
         src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/649EE7EE-1A1A-4D66-8FA0-3D602EA367B1.png"

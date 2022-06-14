@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { requestHeader } from "../../../Library/Constants";
 import { getCall } from "../../../Components/Services/DataFetch";
 import "./Inbox.css";
+import Footer from "../../../Components/FooterComponent/Footer";
 import Header from "../../../Components/Header/Header";
 import Modal from "../../../Components/Modal/Modal";
 import Footer from "../../../Components/Footer/Footer";

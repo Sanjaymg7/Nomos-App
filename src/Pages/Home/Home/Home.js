@@ -7,30 +7,37 @@ import { getRequestHeader } from "../../../Library/Constants";
 import { modalInitialState } from "../../../Library/Constants";
 import Footer from "../../../Components/Footer/Footer";
 import Modal from "../../../Components/Modal/Modal";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [modal, setModal] = useState(modalInitialState);
   const [posts, setPosts] = useState();
   const [likeCount, setLikescount] = useState(false);
+  // const [updateLiked, setUpdateLiked] = useState(false);
   const [isLoading, setLoading] = useState(false);
+
+  const setCommentsPage = (postId) => {
+    localStorage.setItem("post_id", postId);
+    navigate("/comments");
+  }
 
   const handleCloseModal = () => {
     setModal(modalInitialState);
   };
   useEffect(() => {
     getData();
-  }, []);
+  }, [likeCount]);
 
   const getData = async () => {
     try {
       setLoading(true);
       const data = await getCall("posts/?type=3", getRequestHeader());
       setPosts(data.posts);
-      setLoading(false);
-      console.log(data.posts);
     } catch (err) {
-      setLoading(false);
       setModal({ modalContent: err, showModal: true });
+    } finally {
+      setLoading(false);
     }
   };
   const updateLikes = async (postId) => {
@@ -68,6 +75,7 @@ const Home = () => {
             likes={post.like_count}
             isLiked={post.is_liked}
             updateLikes={updateLikes}
+            setCommentsPage={setCommentsPage}
           />
         ))}
         <Footer />
