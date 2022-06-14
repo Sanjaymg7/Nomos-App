@@ -26,7 +26,8 @@ const Chat = () => {
     try {
       console.log("Component mounted");
       const chats = await getCall(
-        `chat/messages?user_id=${other_user_id}`,
+        // `chat/messages?user_id=${other_user_id}`,
+        `chat/messages?user_id=318`,
         requestHeader
       );
       console.log(chats.messages);
@@ -48,22 +49,22 @@ const Chat = () => {
       "wss://ws2.juegogames.com/NOMOS-V3?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMTcsImlhdCI6MTY1NTA5NzkyM30.qJM5iW6yMuExIoRigiifp66yiupKbwNdU3VtDaGXnoA"
     );
 
-    webSocket.current.onopen = (event) => {
-      console.log("Open: ", event);
-    };
+    // webSocket.current.onopen = (event) => {
+    //   console.log("Open: ", event);
+    // };
 
-    webSocket.current.onclose = (event) => {
-      console.log("Close: ", event);
-    };
+    // webSocket.current.onclose = (event) => {
+    //   console.log("Close: ", event);
+    // };
 
-    webSocket.current.onerror = (event) => {
-      console.log("Error: ", event);
-    };
+    // webSocket.current.onerror = (event) => {
+    //   console.log("Error: ", event);
+    // };
 
-    return () => {
-      console.log("Closing WebSocket");
-      webSocket.current.close();
-    };
+    // return () => {
+    //   console.log("Closing WebSocket");
+    //   // webSocket.current.close();
+    // };
   }, []);
 
   useEffect(() => {

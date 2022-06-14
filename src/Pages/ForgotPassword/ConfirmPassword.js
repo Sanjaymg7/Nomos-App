@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import Input from "../../../Components/Input/Input";
-import Button from "../../../Components/Button/Button";
-import Header from "../../../Components/Header/Header";
-import { modalInitialState } from "../../../Library/Constants";
-import { putCall } from "../../../Components/Services/DataFetch";
+import Input from "../../Components/Input/Input";
+import Button from "../../Components/Button/Button";
+import Header from "../../Components/Header/Header";
+import { modalInitialState } from "../../Library/Constants";
+import { putCall } from "../../Components/Services/DataFetch";
 import { useNavigate } from "react-router-dom";
-import Modal from "../../../Components/Modal/Modal";
+import Modal from "../../Components/Modal/Modal";
+import Label from "../../Components/Label/Label";
 
 const ConfirmPass = () => {
   const navigate = useNavigate();
@@ -34,8 +35,7 @@ const ConfirmPass = () => {
       newPassword,
       confirmPassword,
     };
-    const isValidPassword = validatePassword(password);
-    if (isValidPassword) {
+    if (validatePassword(password)) {
       try {
         const confirmPassword = await putCall("users/reset_password", {
           new_password: newPassword,
@@ -60,10 +60,10 @@ const ConfirmPass = () => {
       )}
       <Header />
       <form className="signin" onSubmit={confirmPassword}>
-        <label>Enter New Password</label>
+        <Label labelName="Enter New Password"/>
         <br />
         <Input className="input" type="password" />
-        <label>Confirm New Password</label>
+        <Label labelName="Confirm New Password"/>
         <br />
         <Input className="input" type="password" />
         <Button className="btn sign-in" btnName="Reset Password" />

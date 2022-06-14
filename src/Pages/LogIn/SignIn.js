@@ -11,20 +11,27 @@ import Modal from "../../Components/Modal/Modal";
 
 const SignIn = () => {
   const [modal, setModal] = useState(modalInitialState);
-  const [buttonName, setButtonName]= useState("Sign In")
+  const [buttonName, setButtonName] = useState("Sign In");
   const navigate = useNavigate();
 
-  const handleCloseModal = (e) => {
+  const handleCloseModal = () => {
     setModal(modalInitialState);
   };
 
   const validateUser = (userData) => {
     const { email, password } = userData;
     if (email === "" || !email.match("[a-zA-Z0-9]+@[a-z]+[.]+[a-z]{2,3}")) {
-      alert("Please enter valid User Email");
+      setModal({
+        modalContent: "Please enter valid User Email",
+        showModal: true,
+      });
       return false;
     } else if (password.length < 6) {
-      alert("Password should be above 6 characters");
+      setModal({
+        modalContent: "Password should be above 6 characters",
+        showModal: true,
+      });
+
       return false;
     } else {
       return true;
@@ -39,18 +46,17 @@ const SignIn = () => {
       password,
       type: 2,
     };
-    const isValidUser = validateUser(userData);
-    if (isValidUser) {
+    if (validateUser(userData)) {
       try {
-        setButtonName("Signing in...")
+        setButtonName("Signing in...");
         const userDetail = await postCall("users/sign_in", userData);
         if (userDetail) {
-          setButtonName("Sign In")
+          setButtonName("Sign In");
           localStorage.setItem("access_token", userDetail.access_token);
           navigate("/home");
         }
       } catch (err) {
-        setButtonName("Sign In")
+        setButtonName("Sign In");
         setModal({ modalContent: err, showModal: true });
       }
     }

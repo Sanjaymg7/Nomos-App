@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Image from "../../../Components/Image/Image";
 import "./HomeCard.css";
 
@@ -9,16 +9,16 @@ const HomeCard = ({
   profilePicture,
   description,
   imageURL,
-  interested,
   views,
   comments,
   likes,
   isLiked,
+  postViews,
   updateLikes,
-  setCommentsPage
+  setCommentsPage,
 }) => {
   return (
-    <div className="home-card-container">
+    <div className="home-card-container" onFocus={() => postViews(postId)}>
       <div className="home-card-header">
         <div className="intro-container">
           <div className="home-header-container">
@@ -29,7 +29,7 @@ const HomeCard = ({
             />
             <div className="home-header-text">
               <h5>{userName}</h5>
-              <div className="">{title}</div>
+              <div >{title}</div>
             </div>
           </div>
           <div className="three-dots">...</div>
@@ -37,11 +37,10 @@ const HomeCard = ({
       </div>
       <div className="home-card-body">
         <div className="body-text">
-          <h5>Welcome fhdksjflfds</h5>
           <div className="span-tag home-para">{description}</div>
         </div>
         <div>
-          <Image className="post-img" src="" alt="img" />
+          <Image className="post-img" src={imageURL} alt="img" />
         </div>
       </div>
       <div className="home-card-footer">
@@ -54,21 +53,16 @@ const HomeCard = ({
                 : "https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/C6DF2E4F-8890-4608-9274-5E4F21FB295E.png"
             }
             alt="like"
-            onClick={() => updateLikes(postId)}
+            onClick={() => updateLikes(postId, isLiked, likes)}
           />
           <div className="footer-text">{likes}</div>
           <Image
             className="icon"
             src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/A0438201-1D9D-4041-9FC2-71DAAF64B89F.png"
             alt="comments icon"
-            onClick={()=>setCommentsPage(postId)}
+            onClick={() => setCommentsPage(postId)}
           />
           <div className="footer-text">{comments}</div>
-          <Image
-            className="icon"
-            src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/E139024C-F8BF-4722-A3C2-2DD2136B26C4.png"
-            alt="share"
-          />
         </div>
         <div className="view-icon">
           <Image

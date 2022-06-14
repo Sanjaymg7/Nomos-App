@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../../Components/Header/Header";
 import "./Home.css";
-import { getCall, putCall } from "../../../Components/Services/DataFetch";
+import {
+  getCall,
+  putCall,
+  postCall,
+} from "../../../Components/Services/DataFetch";
 import HomeCard from "../HomeCard/HomeCard";
 import { getRequestHeader } from "../../../Library/Constants";
 import { modalInitialState } from "../../../Library/Constants";
@@ -13,21 +17,21 @@ const Home = () => {
   const navigate = useNavigate();
   const [modal, setModal] = useState(modalInitialState);
   const [posts, setPosts] = useState();
-  const [likeCount, setLikescount] = useState(false);
-  // const [updateLiked, setUpdateLiked] = useState(false);
+  const [likeCount, setLikescount] = useState();
   const [isLoading, setLoading] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
   const setCommentsPage = (postId) => {
     localStorage.setItem("post_id", postId);
     navigate("/comments");
-  }
+  };
 
   const handleCloseModal = () => {
     setModal(modalInitialState);
   };
   useEffect(() => {
     getData();
-  }, [likeCount]);
+  }, []);
 
   const getData = async () => {
     try {
@@ -40,10 +44,24 @@ const Home = () => {
       setLoading(false);
     }
   };
-  const updateLikes = async (postId) => {
+  const updateLikes = async (postId, isLiked, likes) => {
+    if (isLiked) {
+      setIsLiked(!isLiked);
+      setLikescount(likes - 1);
+    }else {
+      setIsLiked(!isLiked);
+      setLikescount(likes + 1);
+    }
     try {
       await putCall("posts/like/", { post_id: postId }, getRequestHeader());
-      setLikescount(!likeCount);
+    } catch (err) {
+      setModal({ modalContent: err, showModal: true });
+    }
+  };
+  const postViews = async (postId) => {
+    console.log("View");
+    try {
+      await postCall("posts/view/", { post_id: postId }, getRequestHeader());
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
     }
@@ -69,11 +87,11 @@ const Home = () => {
             profilePicture={post.profile_picture_url}
             description={post.description}
             imageURL={post.image_url}
-            interested={post.interested_user_count}
             views={post.views_count}
             comments={post.comment_count}
             likes={post.like_count}
             isLiked={post.is_liked}
+            postViews={postViews}
             updateLikes={updateLikes}
             setCommentsPage={setCommentsPage}
           />

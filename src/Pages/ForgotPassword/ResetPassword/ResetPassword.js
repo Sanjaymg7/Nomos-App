@@ -5,14 +5,14 @@ import Button from "../../../Components/Button/Button";
 import { postCall } from "../../../Components/Services/DataFetch";
 import "./ResetPassword.css";
 import OtpInput from "react-otp-input";
-import ConfirmPassword from "../ConfirmPassword/ConfirmPassword";
+import ConfirmPassword from "../ConfirmPassword";
 import { modalInitialState } from "../../../Library/Constants";
 import Header from "../../../Components/Header/Header";
 import Modal from "../../../Components/Modal/Modal";
 
 const ResetPassword = () => {
   const [otp, setOTP] = useState("");
-  const [isOTP, updateOTP] = useState(false);
+  const [isOTP, setIsOTP] = useState(false);
   const [phoneNo, setPhoneNo] = useState();
   const [modal, setModal] = useState(modalInitialState);
   const [isConfirmPasswordPage, setConfirmPasswordPage] = useState(false);
@@ -37,7 +37,7 @@ const ResetPassword = () => {
         phone_no: phoneNo,
       });
       if (isNumber) {
-        updateOTP(!isOTP);
+        setIsOTP(!isOTP);
       }
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
