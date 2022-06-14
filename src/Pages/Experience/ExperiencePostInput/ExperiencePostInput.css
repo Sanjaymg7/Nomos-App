@@ -1,0 +1,18 @@
+.moderatorContainer {
+  display: grid;
+  grid-template-columns: 5fr 1fr;
+  margin-top: 0.5em;
+}
+.moderatorTitle {
+  font-size: 1em;
+  font-weight: 600;
+}
+.moderators {
+  font-size: 0.9em;
+  color: #00a86b;
+}
+.selectModerators {
+  color: #00a86b;
+  font-size: 1.5em;
+  font-weight: 600;
+}

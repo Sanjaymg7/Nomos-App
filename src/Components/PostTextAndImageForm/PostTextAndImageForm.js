@@ -12,14 +12,13 @@ const PostTextAndImageForm = ({
   const [descriptionCount, setDescriptionCount] = useState(0);
 
   const fileUploadInputChange = (file) => {
-    const imageURL = file.name;
-    const fileExtension = imageURL.slice(imageURL.lastIndexOf(".") + 1);
     if (file) {
-      let reader = new FileReader();
-      reader.onload = function () {
-        handlePostImage(reader.result, fileExtension);
-      };
-      reader.readAsText(file);
+      const imageURL = file.name;
+      const fileExtension = imageURL.slice(imageURL.lastIndexOf(".") + 1);
+      handlePostImage(
+        new Blob([file], { type: `image/${fileExtension}` }),
+        fileExtension
+      );
     } else {
       handlePostImage("");
     }

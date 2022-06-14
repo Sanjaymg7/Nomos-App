@@ -10,10 +10,6 @@ const OTPComponent = ({ renderSignupComponent, userId }) => {
   const [otp, setOtp] = useState(0);
   const [modal, setModal] = useState(modalInitialState);
 
-  const handleCloseModal = (e) => {
-    setModal(modalInitialState);
-  };
-
   const handleOtp = (val) => {
     setOtp(val);
   };
@@ -46,10 +42,7 @@ const OTPComponent = ({ renderSignupComponent, userId }) => {
   return (
     <div className="comp2Container">
       {modal.showModal && (
-        <Modal
-          modalContent={modal.modalContent}
-          closeModal={handleCloseModal}
-        />
+        <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
       <h3 className="comp2h3">Confirm OTP</h3>
       <p className="comp2Text">OTP is sent to your registered mobile number</p>

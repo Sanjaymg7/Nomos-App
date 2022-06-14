@@ -11,12 +11,8 @@ import Modal from "../../Components/Modal/Modal";
 
 const SignIn = () => {
   const [modal, setModal] = useState(modalInitialState);
-  const [buttonName, setButtonName]= useState("Sign In")
+  const [buttonName, setButtonName] = useState("Sign In");
   const navigate = useNavigate();
-
-  const handleCloseModal = (e) => {
-    setModal(modalInitialState);
-  };
 
   const validateUser = (userData) => {
     const { email, password } = userData;
@@ -42,15 +38,15 @@ const SignIn = () => {
     const isValidUser = validateUser(userData);
     if (isValidUser) {
       try {
-        setButtonName("Signing in...")
+        setButtonName("Signing in...");
         const userDetail = await postCall("users/sign_in", userData);
         if (userDetail) {
-          setButtonName("Sign In")
+          setButtonName("Sign In");
           localStorage.setItem("access_token", userDetail.access_token);
           navigate("/home");
         }
       } catch (err) {
-        setButtonName("Sign In")
+        setButtonName("Sign In");
         setModal({ modalContent: err, showModal: true });
       }
     }
@@ -58,10 +54,7 @@ const SignIn = () => {
   return (
     <>
       {modal.showModal ? (
-        <Modal
-          modalContent={modal.modalContent}
-          closeModal={handleCloseModal}
-        />
+        <Modal modalContent={modal.modalContent} closeModal={setModal} />
       ) : (
         <>
           <Header />
@@ -86,4 +79,4 @@ const SignIn = () => {
   );
 };
 
-export default React.memo(SignIn);
+export default SignIn;

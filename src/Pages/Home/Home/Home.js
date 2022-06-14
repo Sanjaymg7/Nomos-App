@@ -20,11 +20,8 @@ const Home = () => {
   const setCommentsPage = (postId) => {
     localStorage.setItem("post_id", postId);
     navigate("/comments");
-  }
-
-  const handleCloseModal = () => {
-    setModal(modalInitialState);
   };
+
   useEffect(() => {
     getData();
   }, [likeCount]);
@@ -35,7 +32,7 @@ const Home = () => {
       const data = await getCall("posts/?type=3", getRequestHeader());
       setPosts(data.posts);
     } catch (err) {
-      setModal({ modalContent: err, showModal: true });
+      setModal({ modalContent: "Something went wrong!!", showModal: true });
     } finally {
       setLoading(false);
     }
@@ -45,7 +42,7 @@ const Home = () => {
       await putCall("posts/like/", { post_id: postId }, getRequestHeader());
       setLikescount(!likeCount);
     } catch (err) {
-      setModal({ modalContent: err, showModal: true });
+      setModal({ modalContent: "Something went wrong!!", showModal: true });
     }
   };
 
@@ -53,10 +50,7 @@ const Home = () => {
     <>
       {isLoading && <div className="loading-text">Loading...</div>}
       {modal.showModal && (
-        <Modal
-          modalContent={modal.modalContent}
-          closeModal={handleCloseModal}
-        />
+        <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
       <div className="home-container">
         <Header />
@@ -84,4 +78,4 @@ const Home = () => {
   );
 };
 
-export default React.memo(Home);
+export default Home;

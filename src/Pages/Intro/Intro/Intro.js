@@ -39,4 +39,4 @@ const Intro = () => {
   );
 };
 
-export default React.memo(Intro);
+export default Intro;

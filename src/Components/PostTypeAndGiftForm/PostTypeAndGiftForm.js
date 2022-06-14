@@ -44,4 +44,4 @@ const PostTypeAndGiftForm = ({
   );
 };
 
-export default PostTypeAndGiftForm;
+export default React.memo(PostTypeAndGiftForm);

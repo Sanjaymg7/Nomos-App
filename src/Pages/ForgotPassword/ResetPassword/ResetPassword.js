@@ -25,9 +25,7 @@ const ResetPassword = () => {
     borderRadius: 4,
     border: "0.125rem solid rgba(0,0,0,0.3)",
   };
-  const handleCloseModal = (e) => {
-    setModal(modalInitialState);
-  };
+
   const phoneInput = async (e) => {
     e.preventDefault();
     const phoneNo = e.target[0].value.replace(/-/g, "").replace(/ /g, "");
@@ -65,10 +63,7 @@ const ResetPassword = () => {
   return (
     <>
       {modal.showModal && (
-        <Modal
-          modalContent={modal.modalContent}
-          closeModal={handleCloseModal}
-        />
+        <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
       {isConfirmPasswordPage ? (
         <ConfirmPassword />
@@ -115,4 +110,4 @@ const ResetPassword = () => {
   );
 };
 
-export default React.memo(ResetPassword);
+export default ResetPassword;

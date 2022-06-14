@@ -8,8 +8,9 @@ import PostTextAndImageForm from "../../../Components/PostTextAndImageForm/PostT
 import "./ItemPostInput.css";
 import PostTypeAndGiftForm from "../../../Components/PostTypeAndGiftForm/PostTypeAndGiftForm";
 import Button from "../../../Components/Button/Button";
-import Label from "../../../Components/Label/Label";
 import Modal from "../../../Components/Modal/Modal";
+import SkillAndCategoryDisplay from "../../../Components/SkillAndCategoryDisplay/SkillAndCategoryDisplay";
+import StartDate from "../../../Components/StartDate/StartDate";
 
 const ItemPostInput = ({ renderComponent }) => {
   const navigate = useNavigate();
@@ -19,10 +20,6 @@ const ItemPostInput = ({ renderComponent }) => {
     isActive: false,
   });
   const [modal, setModal] = useState(modalInitialState);
-
-  const handleCloseModal = () => {
-    setModal(modalInitialState);
-  };
 
   const handleItemPostTitle = (val) => {
     setItemPostData({ ...itemPostData, items_service_name: val });
@@ -86,12 +83,13 @@ const ItemPostInput = ({ renderComponent }) => {
             setButtonData({ value: "Create Post", isActive: true });
           } else {
             itemPostData.items_service_image = getUploadData.image_id;
-            const data = await postCall("/items", itemPostData, requestHeader);
-            if (data) {
-              navigate("/home");
-            }
           }
         }
+      }
+      itemPostData.start_time = new Date(itemPostData.start_time).getTime();
+      const data = await postCall("/items", itemPostData, requestHeader);
+      if (data) {
+        navigate("/home");
       }
     } catch (err) {
       setButtonData({ value: "Create Post", isActive: true });
@@ -117,10 +115,7 @@ const ItemPostInput = ({ renderComponent }) => {
   return (
     <div>
       {modal.showModal && (
-        <Modal
-          modalContent={modal.modalContent}
-          closeModal={handleCloseModal}
-        />
+        <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
       <Header navigateTo="home" headerText="Offer or Request an Item" />
       <form onChange={enableCreatePostButton} onSubmit={createItemPost}>
@@ -136,24 +131,15 @@ const ItemPostInput = ({ renderComponent }) => {
             handlePostDescription={handleItemPostDescription}
             handlePostImage={handleItemPostImage}
           />
-          <Label className="labelText" labelName="Add Required Category" />
-          <div
-            className="addCategory"
-            onClick={() => renderComponent("category")}
-          >
-            + Add Category
-          </div>
-          {itemPostData.categories_array.map((category, index) => (
-            <span className="selectedCategories" key={index}>
-              {category}
-            </span>
-          ))}
-          <Label className="labelText" labelName="Start Date (optional)" />
-          <input
-            type="datetime-local"
-            value={itemPostData.start_time}
-            onChange={(e) => handleStartDate(e.target.value)}
-          ></input>
+          <SkillAndCategoryDisplay
+            type="category"
+            renderComponent={renderComponent}
+            dataArray={itemPostData.categories_array}
+          />
+          <StartDate
+            dateValue={itemPostData.start_time}
+            handleStartDate={handleStartDate}
+          />
           <Button
             btnName={buttonData.value}
             className={
@@ -169,4 +155,4 @@ const ItemPostInput = ({ renderComponent }) => {
   );
 };
 
-export default ItemPostInput;
+export default React.memo(ItemPostInput);

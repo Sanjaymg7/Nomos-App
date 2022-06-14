@@ -18,10 +18,6 @@ const Chat = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleMessageInput = (val) => {
-    setMessage(val);
-  };
-
   const getPreviousChats = async () => {
     try {
       console.log("Component mounted");
@@ -29,7 +25,6 @@ const Chat = () => {
         `chat/messages?user_id=${other_user_id}`,
         requestHeader
       );
-      console.log(chats.messages);
       setChatMessages(chats.messages);
     } catch (err) {
       console.log(err);
@@ -42,11 +37,15 @@ const Chat = () => {
     getPreviousChats();
   }, []);
 
-  useEffect(() => {
+  const connectWebsocket = () => {
     console.log("Opening WebSocket");
     webSocket.current = new WebSocket(
-      "wss://ws2.juegogames.com/NOMOS-V3?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMTcsImlhdCI6MTY1NTA5NzkyM30.qJM5iW6yMuExIoRigiifp66yiupKbwNdU3VtDaGXnoA"
+      "wss://ws2.juegogames.com/NOMOS-V3?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMTcsImlhdCI6MTY1NTIwMzc0MH0.uNEDMojIqWkSD9twp_DC864OhN6CD2n3K5kQ4Cf8yQ0"
     );
+  };
+
+  useEffect(() => {
+    connectWebsocket();
 
     webSocket.current.onopen = (event) => {
       console.log("Open: ", event);
@@ -54,6 +53,7 @@ const Chat = () => {
 
     webSocket.current.onclose = (event) => {
       console.log("Close: ", event);
+      connectWebsocket();
     };
 
     webSocket.current.onerror = (event) => {
@@ -73,6 +73,16 @@ const Chat = () => {
       // setChatMessages([...chatMessages, { message: event }]);
     };
   }, []);
+
+  const handleMessageInput = (val) => {
+    setMessage(val);
+  };
+
+  const handleKeyDown = (val) => {
+    if (val.keyCode === 13) {
+      sendMessage();
+    }
+  };
 
   const sendMessage = () => {
     if (message.trim()) {
@@ -120,6 +130,7 @@ const Chat = () => {
               onInputChange={handleMessageInput}
               className={"messagedata"}
               isLabelRequired={false}
+              onKeyDown={handleKeyDown}
             />
             <Button
               btnName={"Send"}

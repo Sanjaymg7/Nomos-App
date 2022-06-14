@@ -4,6 +4,7 @@ import "./Input.css";
 const Input = ({
   value,
   onInputChange = () => {},
+  onKeyDown = () => {},
   type,
   className,
   labelContent,
@@ -17,6 +18,7 @@ const Input = ({
         className={className}
         type={type}
         value={value}
+        onKeyDown={onKeyDown}
         checked={isChecked}
         onChange={(e) =>
           type === "checkbox"

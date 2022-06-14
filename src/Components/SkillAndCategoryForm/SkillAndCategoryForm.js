@@ -14,10 +14,6 @@ const SkillAndCategoryForm = ({ component, handleSkillOrCategorySubmit }) => {
   const [dataCount, setDataCount] = useState(0);
   const [modal, setModal] = useState(modalInitialState);
 
-  const handleCloseModal = (e) => {
-    setModal(modalInitialState);
-  };
-
   const getData = async () => {
     try {
       if (component === "skills") {
@@ -77,10 +73,7 @@ const SkillAndCategoryForm = ({ component, handleSkillOrCategorySubmit }) => {
   return (
     <div className="comp3Container">
       {modal.showModal && (
-        <Modal
-          modalContent={modal.modalContent}
-          closeModal={handleCloseModal}
-        />
+        <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
       <h3 className="comp3h3">
         Selected {component} ({dataCount})
@@ -124,4 +117,4 @@ const SkillAndCategoryForm = ({ component, handleSkillOrCategorySubmit }) => {
   );
 };
 
-export default SkillAndCategoryForm;
+export default React.memo(SkillAndCategoryForm);
