@@ -11,4 +11,4 @@ const MenuCard = ({ src, menuContent, onClick }) => {
   );
 };
 
-export default MenuCard;
+export default React.memo(MenuCard);

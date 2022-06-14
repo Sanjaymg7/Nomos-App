@@ -51,4 +51,4 @@ const CommentCard = ({ profileURL, userName, comment, commentedAt }) => {
   );
 };
 
-export default CommentCard;
+export default React.memo(CommentCard);

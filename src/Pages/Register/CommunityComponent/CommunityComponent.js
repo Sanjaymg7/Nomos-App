@@ -14,10 +14,6 @@ const CommunityComponent = () => {
   const [addedCommunity, setAddedCommunity] = useState(0);
   const [modal, setModal] = useState(modalInitialState);
 
-  const handleCloseModal = (e) => {
-    setModal(modalInitialState);
-  };
-
   useEffect(() => {
     const getData = async () => {
       try {
@@ -50,16 +46,13 @@ const CommunityComponent = () => {
   };
 
   const btnClickHandler = () => {
-    navigate("/post");
+    navigate("/home");
   };
 
   return (
     <div className="comp4Container">
       {modal.showModal && (
-        <Modal
-          modalContent={modal.modalContent}
-          closeModal={handleCloseModal}
-        />
+        <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
       <h3 className="comp4h3">Join Community</h3>
       <h4 className="comp4Text">
@@ -111,4 +104,4 @@ const CommunityComponent = () => {
   );
 };
 
-export default React.memo(CommunityComponent);
+export default CommunityComponent;

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { requestHeader } from "../../../Library/Constants";
 import { getCall } from "../../../Components/Services/DataFetch";
 import "./Inbox.css";
-import Footer from "../../../Components/FooterComponent/Footer";
 import Header from "../../../Components/Header/Header";
 import Modal from "../../../Components/Modal/Modal";
 import Footer from "../../../Components/Footer/Footer";
@@ -14,10 +13,6 @@ const InboxComp = () => {
   const [modal, setModal] = useState(modalInitialState);
   const [chatConversations, setChatConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const handleCloseModal = (e) => {
-    setModal(modalInitialState);
-  };
 
   const getChats = async () => {
     try {
@@ -88,10 +83,7 @@ const InboxComp = () => {
   return (
     <div>
       {modal.showModal && (
-        <Modal
-          modalContent={modal.modalContent}
-          closeModal={handleCloseModal}
-        />
+        <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
       <Header navigateTo="home" headerText="Inbox" />
       {isLoading ? (

@@ -12,10 +12,6 @@ const SkillsComponent = ({ renderComponent }) => {
   const [skillCount, setSkillCount] = useState(0);
   const [modal, setModal] = useState(modalInitialState);
 
-  const handleCloseModal = (e) => {
-    setModal(modalInitialState);
-  };
-
   const getData = async () => {
     try {
       const data = await getCall("master/skills", requestHeader);
@@ -65,10 +61,7 @@ const SkillsComponent = ({ renderComponent }) => {
   return (
     <div className="comp3Container">
       {modal.showModal && (
-        <Modal
-          modalContent={modal.modalContent}
-          closeModal={handleCloseModal}
-        />
+        <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
       <h3 className="comp3h3">Selected Skills ({skillCount})</h3>
       <h4 className="comp3text">Skills are shown on your profile</h4>

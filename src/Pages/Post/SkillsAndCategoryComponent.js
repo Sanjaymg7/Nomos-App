@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { modalInitialState } from "../../Library/Constants";
 import Modal from "../../Components/Modal/Modal";
-import { PostContext } from "./Post";
+import { PostContext } from "./ServicePost";
 import { requestHeader } from "../../Library/Constants";
 import { getCall } from "../../Components/Services/DataFetch";
 import Button from "../../Components/Button/Button";

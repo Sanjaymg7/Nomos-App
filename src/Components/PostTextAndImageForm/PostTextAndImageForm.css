@@ -4,6 +4,7 @@
 .descriptionInput {
   width: 100%;
   background-color: #eee;
+  padding: 0.5em;
   border: none;
 }
 .descriptionCount {

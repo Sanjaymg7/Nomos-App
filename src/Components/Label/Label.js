@@ -5,4 +5,4 @@ const Label = ({ labelName, className }) => {
   return <label className={className}>{labelName}</label>;
 };
 
-export default Label;
+export default React.memo(Label);

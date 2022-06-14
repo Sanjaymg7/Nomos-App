@@ -22,10 +22,7 @@ const ConfirmPass = () => {
       alert("Password Mis match");
     }
   };
-  const handleCloseModal = (e) => {
-    setModal(modalInitialState);
-  };
-  
+
   const confirmPassword = async (e) => {
     e.preventDefault();
     const newPassword = e.target[0].value;
@@ -53,10 +50,7 @@ const ConfirmPass = () => {
   return (
     <>
       {modal.showModal && (
-        <Modal
-          modalContent={modal.modalContent}
-          closeModal={handleCloseModal}
-        />
+        <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
       <Header />
       <form className="signin" onSubmit={confirmPassword}>
@@ -72,4 +66,4 @@ const ConfirmPass = () => {
   );
 };
 
-export default React.memo(ConfirmPass);
+export default ConfirmPass;

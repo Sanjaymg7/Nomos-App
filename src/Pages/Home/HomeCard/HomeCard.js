@@ -15,7 +15,7 @@ const HomeCard = ({
   likes,
   isLiked,
   updateLikes,
-  setCommentsPage
+  setCommentsPage,
 }) => {
   return (
     <div className="home-card-container">
@@ -41,7 +41,7 @@ const HomeCard = ({
           <div className="span-tag home-para">{description}</div>
         </div>
         <div>
-          <Image className="post-img" src="" alt="img" />
+          <Image className="post-img" src={imageURL} alt="img" />
         </div>
       </div>
       <div className="home-card-footer">
@@ -61,7 +61,7 @@ const HomeCard = ({
             className="icon"
             src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/A0438201-1D9D-4041-9FC2-71DAAF64B89F.png"
             alt="comments icon"
-            onClick={()=>setCommentsPage(postId)}
+            onClick={() => setCommentsPage(postId)}
           />
           <div className="footer-text">{comments}</div>
           <Image

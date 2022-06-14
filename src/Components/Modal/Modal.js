@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import { modalInitialState } from "../../Library/Constants";
 import Button from "../Button/Button";
 import "./Modal.css";
 
 const Modal = ({ modalContent, closeModal }) => {
+  const handleCloseModal = () => {
+    closeModal(modalInitialState);
+  };
+
   return (
     <div>
       <div className="modalContainer">
@@ -11,7 +16,7 @@ const Modal = ({ modalContent, closeModal }) => {
           <Button
             btnName="Close"
             className={"btnBlue"}
-            onBtnClick={closeModal}
+            onBtnClick={handleCloseModal}
           />
         </div>
       </div>
@@ -19,4 +24,4 @@ const Modal = ({ modalContent, closeModal }) => {
   );
 };
 
-export default Modal;
+export default React.memo(Modal);

@@ -12,6 +12,7 @@ import Modal from "../../../Components/Modal/Modal";
 const UserDataComponent = ({ renderSignupComponent, updateId }) => {
   const [buttonContent, setButtonContent] = useState("Next");
   const [modal, setModal] = useState(modalInitialState);
+
   const validateUser = (userDetails) => {
     if (userDetails.user_name.trim() === "") {
       setModal({ modalContent: "Please provide valid name", showModal: true });
@@ -43,10 +44,6 @@ const UserDataComponent = ({ renderSignupComponent, updateId }) => {
     }
   };
 
-  const handleCloseModal = (e) => {
-    setModal(modalInitialState);
-  };
-
   const formSubmitHandler = async (e) => {
     e.preventDefault();
     const user_name = e.target[0].value;
@@ -62,8 +59,7 @@ const UserDataComponent = ({ renderSignupComponent, updateId }) => {
       user_location:
         '{"lat":12.9141417,"lng":74.8559568,"name":"Mangalore,Karnataka,India"}',
     };
-    const isValidUser = validateUser(userData);
-    if (isValidUser) {
+    if (validateUser(userData)) {
       setButtonContent("Please Wait..");
       try {
         const data = await postCall("users/", userData);
@@ -81,10 +77,7 @@ const UserDataComponent = ({ renderSignupComponent, updateId }) => {
   return (
     <div className="comp1Container">
       {modal.showModal && (
-        <Modal
-          modalContent={modal.modalContent}
-          closeModal={handleCloseModal}
-        />
+        <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
       <h3 className="comp1h3">Let's create an account</h3>
       <div className="inputContainer">
