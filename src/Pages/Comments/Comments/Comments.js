@@ -26,29 +26,27 @@ const Comments = () => {
       }
     } catch (err) {
       console.log(err);
-    } finally {
-      setCommentMessage("");
     }
   };
   const sendMessage = async () => {
-    console.log(commentMessage);
     try {
       const data = await putCall(
         "posts/comment/",
         { post_id: localStorage.getItem("post_id"), comment: commentMessage },
         getRequestHeader()
       );
-      if(data) {
-        navigate("/comments");
+      if (data) {
+        document.location.reload();
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      setCommentMessage("");
     }
   };
   return (
     <>
       <Header navigateTo="home" headerText="Details" />
-      {/* {isTyping && <div className="typingContainer">Typing...</div>} */}
       <div className="chatwrapper">
         {commentData?.map((comment) => (
           <CommentCard
@@ -69,7 +67,7 @@ const Comments = () => {
           isLabelRequired={false}
         />
         <Button
-          btnName="Send"
+          btnName="Comment"
           className="btnSendMessage"
           onBtnClick={sendMessage}
         />

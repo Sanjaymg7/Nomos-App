@@ -17,10 +17,17 @@ const SignIn = () => {
   const validateUser = (userData) => {
     const { email, password } = userData;
     if (email === "" || !email.match("[a-zA-Z0-9]+@[a-z]+[.]+[a-z]{2,3}")) {
-      alert("Please enter valid User Email");
+      setModal({
+        modalContent: "Please enter valid User Email",
+        showModal: true,
+      });
       return false;
     } else if (password.length < 6) {
-      alert("Password should be above 6 characters");
+      setModal({
+        modalContent: "Password should be above 6 characters",
+        showModal: true,
+      });
+
       return false;
     } else {
       return true;
@@ -35,8 +42,7 @@ const SignIn = () => {
       password,
       type: 2,
     };
-    const isValidUser = validateUser(userData);
-    if (isValidUser) {
+    if (validateUser(userData)) {
       try {
         setButtonName("Signing in...");
         const userDetail = await postCall("users/sign_in", userData);

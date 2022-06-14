@@ -22,7 +22,8 @@ const Chat = () => {
     try {
       console.log("Component mounted");
       const chats = await getCall(
-        `chat/messages?user_id=${other_user_id}`,
+        // `chat/messages?user_id=${other_user_id}`,
+        `chat/messages?user_id=318`,
         requestHeader
       );
       setChatMessages(chats.messages);
@@ -47,23 +48,26 @@ const Chat = () => {
   useEffect(() => {
     connectWebsocket();
 
-    webSocket.current.onopen = (event) => {
-      console.log("Open: ", event);
-    };
+    // webSocket.current.onopen = (event) => {
+    //   console.log("Open: ", event);
+    // };
 
     webSocket.current.onclose = (event) => {
       console.log("Close: ", event);
       connectWebsocket();
     };
+    // webSocket.current.onclose = (event) => {
+    //   console.log("Close: ", event);
+    // };
 
-    webSocket.current.onerror = (event) => {
-      console.log("Error: ", event);
-    };
+    // webSocket.current.onerror = (event) => {
+    //   console.log("Error: ", event);
+    // };
 
-    return () => {
-      console.log("Closing WebSocket");
-      webSocket.current.close();
-    };
+    // return () => {
+    //   console.log("Closing WebSocket");
+    //   // webSocket.current.close();
+    // };
   }, []);
 
   useEffect(() => {
