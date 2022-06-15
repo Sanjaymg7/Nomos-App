@@ -5,11 +5,11 @@ import Image from "../../../Components/Image/Image";
 import "./Intro.css";
 const Intro = () => {
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (localStorage.getItem("access_token")) {
-  //     navigate("/home");
-  //   }
-  // });
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      navigate("/home");
+    }
+  });
   return (
     <div className="container">
       <Image

@@ -7,6 +7,18 @@
     background-color: #00a86b;
     text-align: center;
 }
+.home-container-logout-div {
+    background: transparent;
+    color: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 1rem;
+    padding: .2rem;
+    font-weight: 400;
+    border: .1rem solid white;
+    border-radius: 15%;
+}
 .title {
     padding-top: .8rem;
 }
