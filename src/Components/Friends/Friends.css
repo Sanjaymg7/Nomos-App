@@ -1,0 +1,24 @@
+.friendsContainer {
+  width: 90%;
+  margin: 1em auto 0;
+}
+.friendsTitle {
+  text-align: center;
+  font-size: 1.2em;
+  background-color: #00a86b;
+  padding: 0.7em;
+  color: #fff;
+  font-weight: 500;
+}
+.friendCard {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  border-bottom: 0.125em solid #f0f0f0;
+  padding: 0.8em;
+}
+.activeFriendCard {
+  background-color: #eee;
+}
+.friendName {
+  margin-left: 2em;
+}

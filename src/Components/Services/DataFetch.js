@@ -21,7 +21,7 @@ const getCall = (
       return handleData(data);
     })
     .catch((err) => {
-      throw err;
+      throw "Something Went Wrong!!!";
     });
 };
 
@@ -40,7 +40,7 @@ const putCall = (
       return handleData(data);
     })
     .catch((err) => {
-      throw err;
+      throw "Something Went Wrong!!!";
     });
 };
 
@@ -59,7 +59,7 @@ const postCall = (
       return handleData(data);
     })
     .catch((err) => {
-      throw err;
+      throw "Something Went Wrong!!!";
     });
 };
 
@@ -75,7 +75,7 @@ const deleteCall = (
       return handleData(data);
     })
     .catch((err) => {
-      throw err;
+      throw "Something Went Wrong!!!";
     });
 };
 

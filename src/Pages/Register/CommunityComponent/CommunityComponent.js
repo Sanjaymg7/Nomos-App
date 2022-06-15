@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { modalInitialState } from "../../../Library/Constants";
-import { requestHeader } from "../../../Library/Constants";
+import { getRequestHeader } from "../../../Library/Constants";
 import { getCall, postCall } from "../../../Components/Services/DataFetch";
 import Button from "../../../Components/Button/Button";
 import "./CommunityComponent.css";
@@ -17,7 +17,7 @@ const CommunityComponent = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const data = await getCall("community/list?type=5", requestHeader);
+        const data = await getCall("community/list?type=5", getRequestHeader());
         if (data) {
           setCommunity(data.communities);
         }
@@ -35,7 +35,11 @@ const CommunityComponent = () => {
       community_id: id,
     };
     try {
-      const data = await postCall("community/join", requestBody, requestHeader);
+      const data = await postCall(
+        "community/join",
+        requestBody,
+        getRequestHeader()
+      );
       if (data) {
         setAddedCommunity(addedCommunity + 1);
       }
@@ -77,7 +81,8 @@ const CommunityComponent = () => {
             >
               <img
                 className="communityImage"
-                src={communityData.community_cover_picture_url}
+                src={communityData.community_picture_url}
+                alt="Community"
               />
               <h2 className="communityName">{communityData.community_name}</h2>
               <p className="communityDescription">

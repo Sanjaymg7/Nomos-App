@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
-import ExperiencePostInput from "./ExperiencePostInput/ExperiencePostInput";
+import ExperiencePostInput from "./ExperiencePostInput";
 import SkillAndCategoryForm from "../../Components/SkillAndCategoryForm/SkillAndCategoryForm";
+import Friends from "../../Components/Friends/Friends";
 
 export const ExperiencePostContext = createContext();
 
@@ -18,7 +19,8 @@ const ExperiencePost = () => {
     image_url: "",
     required_hours: "",
     moderator_user_id: "",
-    max_participants: "",
+    moderator_user_name: [],
+    max_participants: 10,
   };
 
   const [experiencePostData, setExperiencePostData] = useState(initState);
@@ -37,6 +39,15 @@ const ExperiencePost = () => {
     renderComponent("ExperiencePostInput");
   };
 
+  const handleFriendsSubmit = (userIds, userNames) => {
+    setExperiencePostData({
+      ...experiencePostData,
+      moderator_user_id: userIds.join(","),
+      moderator_user_name: userNames,
+    });
+    renderComponent("ExperiencePostInput");
+  };
+
   return (
     <div>
       <ExperiencePostContext.Provider
@@ -49,6 +60,13 @@ const ExperiencePost = () => {
           <SkillAndCategoryForm
             component={"skills"}
             handleSkillOrCategorySubmit={handleSkillOrCategorySubmit}
+          />
+        )}
+        {componentState === "moderator" && (
+          <Friends
+            handleFriendsSubmit={handleFriendsSubmit}
+            selectType="single"
+            userType="Moderator"
           />
         )}
       </ExperiencePostContext.Provider>

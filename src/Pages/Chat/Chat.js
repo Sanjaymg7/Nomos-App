@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { requestHeader } from "../../Library/Constants";
+import { getRequestHeader } from "../../Library/Constants";
 import { useLocation } from "react-router-dom";
 import { getCall } from "../../Components/Services/DataFetch";
 import Header from "../../Components/Header/Header";
@@ -24,7 +24,7 @@ const Chat = () => {
       const chats = await getCall(
         // `chat/messages?user_id=${other_user_id}`,
         `chat/messages?user_id=318`,
-        requestHeader
+        getRequestHeader()
       );
       setChatMessages(chats.messages);
     } catch (err) {

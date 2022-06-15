@@ -1,5 +1,4 @@
 import React, { createContext, useState } from "react";
-import SkillsAndCategoryComponent from "./SkillsAndCategoryComponent";
 import ServicePostInput from "./ServicePost/ServicePostInput";
 import SkillAndCategoryForm from "../../Components/SkillAndCategoryForm/SkillAndCategoryForm";
 
