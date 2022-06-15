@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { modalInitialState } from "../../../Library/Constants";
-import { requestHeader } from "../../../Library/Constants";
+import { getRequestHeader } from "../../../Library/Constants";
 import { getCall, putCall } from "../../../Components/Services/DataFetch";
 import Button from "../../../Components/Button/Button";
 import "./SkillsComponent.css";
@@ -14,7 +14,7 @@ const SkillsComponent = ({ renderComponent }) => {
 
   const getData = async () => {
     try {
-      const data = await getCall("master/skills", requestHeader);
+      const data = await getCall("master/skills", getRequestHeader());
       if (data) {
         setSkillsArray(
           data.skills.map((skill) => ({ ...skill, isChecked: false }))
@@ -34,7 +34,7 @@ const SkillsComponent = ({ renderComponent }) => {
       skils_list: skills.join(","),
     };
     try {
-      const data = await putCall("users", skillsAddBody, requestHeader);
+      const data = await putCall("users", skillsAddBody, getRequestHeader());
       if (data) {
         renderComponent("CommunityComponent");
       }

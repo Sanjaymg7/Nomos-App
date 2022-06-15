@@ -1,6 +1,6 @@
 import React, { useState, createContext } from "react";
 import SkillAndCategoryForm from "../../Components/SkillAndCategoryForm/SkillAndCategoryForm";
-import ItemPostInput from "./ItemPostInput/ItemPostInput";
+import ItemPostInput from "./ItemPostInput";
 
 export const ItemPostContext = createContext();
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { modalInitialState } from "../../../Library/Constants";
 import { useNavigate } from "react-router-dom";
-import { requestHeader } from "../../../Library/Constants";
+import { getRequestHeader } from "../../../Library/Constants";
 import { getCall } from "../../../Components/Services/DataFetch";
 import "./Inbox.css";
 import Header from "../../../Components/Header/Header";
@@ -16,13 +16,13 @@ const InboxComp = () => {
 
   const getChats = async () => {
     try {
-      const data = await getCall("chat?chat_type=1", requestHeader);
+      const data = await getCall("chat?chat_type=1", getRequestHeader());
       if (data) {
         setChatConversations(data.chat_conversations);
       }
     } catch (err) {
       setModal({
-        modalContent: "Something went wrong.. Please try again!!",
+        modalContent: err,
         showModal: true,
       });
     } finally {
@@ -71,7 +71,10 @@ const InboxComp = () => {
     } else {
       return displayDate(
         chatDate,
-        `${chatDate.getDate()}-${+chatDate.getMonth + 1}`
+        `${chatDate.getDate()}-${chatDate.getMonth() + 1}-${chatDate
+          .getFullYear()
+          .toString()
+          .slice(2)}`
       );
     }
   };

@@ -1,15 +1,19 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ExperiencePostContext } from "../ExperiencePost";
-import { modalInitialState, requestHeader } from "../../../Library/Constants";
-import { getCall, postCall } from "../../../Components/Services/DataFetch";
-import Header from "../../../Components/Header/Header";
-import Modal from "../../../Components/Modal/Modal";
-import PostTextAndImageForm from "../../../Components/PostTextAndImageForm/PostTextAndImageForm";
-import "./ExperiencePostInput.css";
-import Button from "../../../Components/Button/Button";
-import StartDate from "../../../Components/StartDate/StartDate";
-import SkillAndCategoryDisplay from "../../../Components/SkillAndCategoryDisplay/SkillAndCategoryDisplay";
+import { ExperiencePostContext } from "./ExperiencePost";
+import {
+  modalInitialState,
+  getRequestHeader,
+  getImageURL,
+} from "../../Library/Constants";
+import { postCall } from "../../Components/Services/DataFetch";
+import Header from "../../Components/Header/Header";
+import Modal from "../../Components/Modal/Modal";
+import PostTextAndImageForm from "../../Components/PostTextAndImageForm/PostTextAndImageForm";
+import Button from "../../Components/Button/Button";
+import StartDate from "../../Components/StartDate/StartDate";
+import SkillAndCategoryDisplay from "../../Components/SkillAndCategoryDisplay/SkillAndCategoryDisplay";
+import UserDisplay from "../../Components/UserDisplay/UserDisplay";
 
 const ExperiencePostInput = ({ renderComponent }) => {
   const navigate = useNavigate();
@@ -21,7 +25,6 @@ const ExperiencePostInput = ({ renderComponent }) => {
     value: "Create Experience",
     isActive: false,
   });
-  const moderatorsArray = ["John", "Shawn", "Riya", "Chris", "Tom"];
 
   const handleExperiencePostTitle = (val) => {
     setExperiencePostData({ ...experiencePostData, experience_name: val });
@@ -65,41 +68,24 @@ const ExperiencePostInput = ({ renderComponent }) => {
     postImageLabel: "Post Images",
   };
 
-  const createItemPost = async (e) => {
+  const createExperiencePost = async (e) => {
     e.preventDefault();
     setButtonData({ value: "Please wait...", isActive: false });
     try {
-      if (experiencePostData.image_url) {
-        const getUploadData = await getCall(
-          `upload/url?file_extension=${experiencePostData.image_url}`,
-          requestHeader
-        );
-        if (getUploadData) {
-          const data = await fetch(getUploadData.upload_url, {
-            method: "PUT",
-            body: experiencePostData.experience_image,
-          });
-          if (data.status !== 200) {
-            setModal({
-              modalContent: "Something Went Wrong!! Try again..",
-              showModal: true,
-            });
-            setButtonData({ value: "Create Experience", isActive: true });
-          } else {
-            experiencePostData.experience_image = getUploadData.image_id;
-            experiencePostData.start_time = new Date(
-              experiencePostData.start_time
-            ).getTime();
-            const data = await postCall(
-              "/items",
-              experiencePostData,
-              requestHeader
-            );
-            if (data) {
-              navigate("/home");
-            }
-          }
-        }
+      experiencePostData.experience_image = await getImageURL(
+        experiencePostData.image_url,
+        experiencePostData.experience_image
+      );
+      experiencePostData.start_time = new Date(
+        experiencePostData.start_time
+      ).getTime();
+      const data = await postCall(
+        "/experience",
+        experiencePostData,
+        getRequestHeader()
+      );
+      if (data) {
+        navigate("/home");
       }
     } catch (err) {
       setButtonData({ value: "Create Experience", isActive: true });
@@ -113,7 +99,7 @@ const ExperiencePostInput = ({ renderComponent }) => {
         <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
       <Header navigateTo="home" headerText="Create an Experience" />
-      <form onChange={enableCreatePostButton} onSubmit={createItemPost}>
+      <form onChange={enableCreatePostButton} onSubmit={createExperiencePost}>
         <div className="inputContainer">
           <PostTextAndImageForm
             postData={textAndImageData}
@@ -130,24 +116,11 @@ const ExperiencePostInput = ({ renderComponent }) => {
             dateValue={experiencePostData.start_time}
             handleStartDate={handleStartDate}
           />
-          <div className="moderatorContainer">
-            <div className="moderatorInput">
-              <h3 className="moderatorTitle">Moderators</h3>
-              <div className="moderators">
-                {moderatorsArray.length <= 4
-                  ? moderatorsArray.join(",")
-                  : moderatorsArray.slice(0, 4).join(",") +
-                    "..." +
-                    ` +${+moderatorsArray.length - 4} others`}
-              </div>
-            </div>
-            <div
-              className="selectModerators"
-              onClick={() => renderComponent("moderators")}
-            >
-              {">"}
-            </div>
-          </div>
+          <UserDisplay
+            namesArray={experiencePostData.moderator_user_name}
+            renderComponent={renderComponent}
+            userType="Moderator"
+          />
           <Button
             btnName={buttonData.value}
             className={

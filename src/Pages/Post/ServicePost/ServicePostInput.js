@@ -1,9 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PostContext } from "../ServicePost";
-import { modalInitialState } from "../../../Library/Constants";
-import { requestHeader } from "../../../Library/Constants";
-import { getCall, postCall } from "../../../Components/Services/DataFetch";
+import {
+  modalInitialState,
+  getImageURL,
+  getRequestHeader,
+} from "../../../Library/Constants";
+import { postCall } from "../../../Components/Services/DataFetch";
 import Button from "../../../Components/Button/Button";
 import "./ServicePostInput.css";
 import Header from "../../../Components/Header/Header";
@@ -70,32 +73,16 @@ const ServicePostInput = ({ renderComponent }) => {
     e.preventDefault();
     setButtonData({ value: "Please wait...", isActive: false });
     try {
-      if (postData.image_url) {
-        const getUploadData = await getCall(
-          `upload/url?file_extension=${postData.image_url}`,
-          requestHeader
-        );
-        if (getUploadData) {
-          const data = await fetch(getUploadData.upload_url, {
-            method: "PUT",
-            body: postData.items_service_image,
-          });
-          if (data.status !== 200) {
-            setModal({
-              modalContent: "Something Went Wrong!! Try again..",
-              showModal: true,
-            });
-          } else {
-            postData.items_service_image = getUploadData.image_id;
-          }
-        }
-      }
-      const data = await postCall("/service", postData, requestHeader);
+      postData.items_service_image = await getImageURL(
+        postData.image_url,
+        postData.items_service_image
+      );
+      const data = await postCall("/service", postData, getRequestHeader());
       if (data) {
         navigate("/home");
       }
     } catch (err) {
-      setModal({ modalContent: "Server Error", showModal: true });
+      setModal({ modalContent: err, showModal: true });
     } finally {
       setButtonData({ value: "Create Post", isActive: true });
     }

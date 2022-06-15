@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../Pages/Register/SkillsComponent/SkillsComponent.css";
-import { modalInitialState, requestHeader } from "../../Library/Constants";
+import { modalInitialState, getRequestHeader } from "../../Library/Constants";
 import { getCall } from "../../Components/Services/DataFetch";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
@@ -17,14 +17,14 @@ const SkillAndCategoryForm = ({ component, handleSkillOrCategorySubmit }) => {
   const getData = async () => {
     try {
       if (component === "skills") {
-        const data = await getCall(`master/skills`, requestHeader);
+        const data = await getCall(`master/skills`, getRequestHeader());
         if (data) {
           setdataArray(
             data.skills.map((skill) => ({ ...skill, isChecked: false }))
           );
         }
       } else {
-        const data = await getCall(`master/categories`, requestHeader);
+        const data = await getCall(`master/categories`, getRequestHeader());
         if (data) {
           setdataArray(
             data.categories.map((category) => ({
@@ -109,8 +109,8 @@ const SkillAndCategoryForm = ({ component, handleSkillOrCategorySubmit }) => {
             ))}
       </div>
       <Button
-        btnName={"Next"}
-        className={"btnGreen"}
+        btnName="Next"
+        className="btnGreen"
         onBtnClick={btnClickHandler}
       />
     </div>

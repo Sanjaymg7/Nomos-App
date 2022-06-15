@@ -1,16 +1,19 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ItemPostContext } from "../ItemPost";
-import { requestHeader, modalInitialState } from "../../../Library/Constants";
-import { getCall, postCall } from "../../../Components/Services/DataFetch";
-import Header from "../../../Components/Header/Header";
-import PostTextAndImageForm from "../../../Components/PostTextAndImageForm/PostTextAndImageForm";
-import "./ItemPostInput.css";
-import PostTypeAndGiftForm from "../../../Components/PostTypeAndGiftForm/PostTypeAndGiftForm";
-import Button from "../../../Components/Button/Button";
-import Modal from "../../../Components/Modal/Modal";
-import SkillAndCategoryDisplay from "../../../Components/SkillAndCategoryDisplay/SkillAndCategoryDisplay";
-import StartDate from "../../../Components/StartDate/StartDate";
+import { ItemPostContext } from "./ItemPost";
+import {
+  getRequestHeader,
+  modalInitialState,
+  getImageURL,
+} from "../../Library/Constants";
+import { postCall } from "../../Components/Services/DataFetch";
+import Header from "../../Components/Header/Header";
+import PostTextAndImageForm from "../../Components/PostTextAndImageForm/PostTextAndImageForm";
+import PostTypeAndGiftForm from "../../Components/PostTypeAndGiftForm/PostTypeAndGiftForm";
+import Button from "../../Components/Button/Button";
+import Modal from "../../Components/Modal/Modal";
+import SkillAndCategoryDisplay from "../../Components/SkillAndCategoryDisplay/SkillAndCategoryDisplay";
+import StartDate from "../../Components/StartDate/StartDate";
 
 const ItemPostInput = ({ renderComponent }) => {
   const navigate = useNavigate();
@@ -65,29 +68,12 @@ const ItemPostInput = ({ renderComponent }) => {
     e.preventDefault();
     setButtonData({ value: "Please wait...", isActive: false });
     try {
-      if (itemPostData.image_url) {
-        const getUploadData = await getCall(
-          `upload/url?file_extension=${itemPostData.image_url}`,
-          requestHeader
-        );
-        if (getUploadData) {
-          const data = await fetch(getUploadData.upload_url, {
-            method: "PUT",
-            body: itemPostData.items_service_image,
-          });
-          if (data.status !== 200) {
-            setModal({
-              modalContent: "Something Went Wrong!! Try again..",
-              showModal: true,
-            });
-            setButtonData({ value: "Create Post", isActive: true });
-          } else {
-            itemPostData.items_service_image = getUploadData.image_id;
-          }
-        }
-      }
+      itemPostData.items_service_image = await getImageURL(
+        itemPostData.image_url,
+        itemPostData.items_service_image
+      );
       itemPostData.start_time = new Date(itemPostData.start_time).getTime();
-      const data = await postCall("/items", itemPostData, requestHeader);
+      const data = await postCall("/items", itemPostData, getRequestHeader());
       if (data) {
         navigate("/home");
       }

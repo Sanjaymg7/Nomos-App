@@ -15,12 +15,11 @@ const OTPComponent = ({ renderSignupComponent, userId }) => {
   };
 
   const btnClickHandler = async () => {
-    const requestBody = {
-      user_id: userId,
-      otp,
-    };
     try {
-      const data = await putCall("users/verify_otp", requestBody);
+      const data = await putCall("users/verify_otp", {
+        user_id: userId,
+        otp,
+      });
       if (data) {
         localStorage.setItem("access_token", data.access_token);
         renderSignupComponent("skillsComponent");

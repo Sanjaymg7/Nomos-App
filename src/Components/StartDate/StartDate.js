@@ -14,4 +14,4 @@ const StartDate = ({ dateValue, handleStartDate }) => {
   );
 };
 
-export default StartDate;
+export default React.memo(StartDate);
