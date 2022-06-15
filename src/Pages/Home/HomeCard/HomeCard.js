@@ -3,6 +3,7 @@ import Image from "../../../Components/Image/Image";
 import "./HomeCard.css";
 
 const HomeCard = ({
+  post,
   postId,
   userName,
   title,
@@ -29,7 +30,7 @@ const HomeCard = ({
             />
             <div className="home-header-text">
               <h5>{userName}</h5>
-              <div >{title}</div>
+              <div>{title}</div>
             </div>
           </div>
           <div className="three-dots">...</div>
@@ -53,7 +54,7 @@ const HomeCard = ({
                 : "https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/C6DF2E4F-8890-4608-9274-5E4F21FB295E.png"
             }
             alt="like"
-            onClick={() => updateLikes(postId, isLiked, likes)}
+            onClick={() => updateLikes(postId, post)}
           />
           <div className="footer-text">{likes}</div>
           <Image

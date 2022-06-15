@@ -51,6 +51,7 @@ const Comments = () => {
         {commentData?.map((comment) => (
           <CommentCard
             key={comment.comment_id}
+            commentItem={comment}
             profileURL={comment.profile_picture_url}
             userName={comment.user_name}
             comment={comment.comment}

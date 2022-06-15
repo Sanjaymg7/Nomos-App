@@ -4,7 +4,7 @@ const handleData = (data) => {
   if (data.responseCode === 200) {
     return data.responseData;
   } else {
-    throw data.responseMessage;
+    throw "Something went wrong!";
   }
 };
 
@@ -63,20 +63,4 @@ const postCall = (
     });
 };
 
-const deleteCall = (
-  endPoint,
-  headers = { "content-type": "application/json" }
-) => {
-  return fetch(url + endPoint, {
-    method: "DELETE",
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      return handleData(data);
-    })
-    .catch((err) => {
-      throw "Something Went Wrong!!!";
-    });
-};
-
-export { getCall, putCall, postCall, deleteCall };
+export { getCall, putCall, postCall };

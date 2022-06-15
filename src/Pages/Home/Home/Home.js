@@ -14,12 +14,11 @@ import Modal from "../../../Components/Modal/Modal";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const navigate = useNavigate();
   const [modal, setModal] = useState(modalInitialState);
-  const [posts, setPosts] = useState();
-  const [likeCount, setLikescount] = useState();
+  const [posts, setPosts] = useState([]);
   const [isLoading, setLoading] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+
+  const navigate = useNavigate();
 
   const setCommentsPage = (postId) => {
     localStorage.setItem("post_id", postId);
@@ -36,23 +35,30 @@ const Home = () => {
       const data = await getCall("posts/?type=3", getRequestHeader());
       setPosts(data.posts);
     } catch (err) {
-      setModal({ modalContent: "Something went wrong!!", showModal: true });
+      setModal({ modalContent: err, showModal: true });
     } finally {
       setLoading(false);
     }
   };
-  const updateLikes = async (postId, isLiked, likes) => {
-    if (isLiked) {
-      setIsLiked(!isLiked);
-      setLikescount(likes - 1);
-    }else {
-      setIsLiked(!isLiked);
-      setLikescount(likes + 1);
-    }
+  const updateLikesSetter = (post) => {
+    posts.filter((postItem, index) => {
+      if (postItem.post_id === post.post_id) {
+        posts[index].is_liked = !post.is_liked;
+        posts[index].like_count = post.is_liked
+          ? post.like_count + 1
+          : post.like_count - 1;
+      }
+    });
+    setPosts([...posts]);
+  };
+  const updateLikes = async (postId, post) => {
+    updateLikesSetter(post);
+
     try {
       await putCall("posts/like/", { post_id: postId }, getRequestHeader());
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
+      updateLikesSetter(post);
     }
   };
   const postViews = async (postId) => {
@@ -60,10 +66,19 @@ const Home = () => {
     try {
       await postCall("posts/view/", { post_id: postId }, getRequestHeader());
     } catch (err) {
-      setModal({ modalContent: "Something went wrong!!", showModal: true });
+      setModal({ modalContent: err, showModal: true });
     }
   };
 
+  const logOutHandler = async () => {
+    try {
+      await postCall("users/logout", {}, getRequestHeader());
+      localStorage.removeItem("access_token");
+      navigate("/signin");
+    } catch (err) {
+      setModal({ modalContent: err, showModal: true });
+    }
+  };
   return (
     <>
       {isLoading && <div className="loading-text">Loading...</div>}
@@ -72,9 +87,13 @@ const Home = () => {
       )}
       <div className="home-container">
         <Header />
+        <div onClick={logOutHandler} className="home-container-logout-div">
+          Logout
+        </div>
         {posts?.map((post) => (
           <HomeCard
             key={post.post_id}
+            post={post}
             postId={post.post_id}
             userName={post.user_name}
             title={post.title}

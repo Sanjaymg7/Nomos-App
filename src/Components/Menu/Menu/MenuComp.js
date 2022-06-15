@@ -20,6 +20,7 @@ const MenuComp = ({ toggleMenu }) => {
       <MenuCard
         src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/649EE7EE-1A1A-4D66-8FA0-3D602EA367B1.png"
         menuContent="Create an experience"
+        onClick={() => navigate("/experience")}
       />
       <MenuCard
         src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/516E629A-3DA0-4ACB-9823-887880C051DF.png"
