@@ -41,7 +41,9 @@ const CommunityPostInput = ({ renderComponent }) => {
     if (
       communityPostData.community_name.trim() !== "" &&
       communityPostData.community_description.trim() !== "" &&
-      communityPostData.community_description.trim().length < 201
+      communityPostData.community_description.trim().length < 201 &&
+      communityPostData.administrator_id !== "" &&
+      communityPostData.participants_id !== ""
     ) {
       setButtonData({ ...buttonData, isActive: true });
     } else {

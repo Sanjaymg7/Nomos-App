@@ -9,7 +9,7 @@ import Label from "../../../Components/Label/Label";
 import "./UserDataComponent.css";
 import Modal from "../../../Components/Modal/Modal";
 
-const UserDataComponent = ({ renderSignupComponent, updateId }) => {
+const UserDataComponent = ({ renderSignupComponent, updateData }) => {
   const [buttonContent, setButtonContent] = useState("Next");
   const [modal, setModal] = useState(modalInitialState);
 
@@ -64,7 +64,7 @@ const UserDataComponent = ({ renderSignupComponent, updateId }) => {
       try {
         const data = await postCall("users/", userData);
         if (data) {
-          updateId(data.user_id);
+          updateData(data.user_id, userData.phone_no);
           renderSignupComponent("otpComponent");
         }
       } catch (err) {

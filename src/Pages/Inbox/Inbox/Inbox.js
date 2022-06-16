@@ -7,12 +7,14 @@ import "./Inbox.css";
 import Header from "../../../Components/Header/Header";
 import Modal from "../../../Components/Modal/Modal";
 import Footer from "../../../Components/Footer/Footer";
+import Friends from "../../../Components/Friends/Friends";
 
 const InboxComp = () => {
   const navigate = useNavigate();
   const [modal, setModal] = useState(modalInitialState);
   const [chatConversations, setChatConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isInbox, setIsInbox] = useState(true);
 
   const getChats = async () => {
     try {
@@ -89,9 +91,12 @@ const InboxComp = () => {
         <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
       <Header navigateTo="home" headerText="Inbox" />
+      <div className="addChatFriends" onClick={() => setIsInbox(!isInbox)}>
+        +
+      </div>
       {isLoading ? (
         <h1 className="loadingWrapper">Loading....</h1>
-      ) : (
+      ) : isInbox ? (
         chatConversations.map((chat, index) => (
           <div
             key={index}
@@ -116,6 +121,12 @@ const InboxComp = () => {
             <span className="enterChat">{">"}</span>
           </div>
         ))
+      ) : (
+        <Friends
+          handleFriendsSubmit={redirectToChatPage}
+          selectType="single"
+          userType="chatUser"
+        />
       )}
       <Footer />
     </div>

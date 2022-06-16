@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import { modalInitialState } from "../../../Library/Constants";
-import { putCall } from "../../../Components/Services/DataFetch";
+import { putCall, postCall } from "../../../Components/Services/DataFetch";
 import OtpInput from "react-otp-input";
 import Button from "../../../Components/Button/Button";
 import "./OTPComponent.css";
 import Modal from "../../../Components/Modal/Modal";
 
-const OTPComponent = ({ renderSignupComponent, userId }) => {
+const OTPComponent = ({ renderSignupComponent, userId, phoneNumber }) => {
   const [otp, setOtp] = useState(0);
   const [modal, setModal] = useState(modalInitialState);
 
   const handleOtp = (val) => {
     setOtp(val);
+  };
+
+  const handleResendOTP = async () => {
+    try {
+      await postCall("users/reset_password", {
+        phone_no: phoneNumber,
+      });
+    } catch (err) {
+      setModal({ modalContent: err, showModal: true });
+    }
   };
 
   const btnClickHandler = async () => {
@@ -64,7 +74,9 @@ const OTPComponent = ({ renderSignupComponent, userId }) => {
         className={"btnGrey"}
         onBtnClick={btnClickHandler}
       />
-      <p className="resendMessage">Didn't receive? Resend OTP</p>
+      <p className="resendMessage" onClick={handleResendOTP}>
+        Didn't receive? Resend OTP
+      </p>
     </div>
   );
 };

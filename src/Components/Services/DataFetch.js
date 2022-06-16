@@ -4,7 +4,15 @@ const handleData = (data) => {
   if (data.responseCode === 200) {
     return data.responseData;
   } else {
-    throw "Something went wrong!";
+    throw data.responseMessage;
+  }
+};
+
+const handleError = (err) => {
+  if (typeof err === "string") {
+    throw err;
+  } else {
+    throw "Something went wrong!!";
   }
 };
 
@@ -21,7 +29,7 @@ const getCall = (
       return handleData(data);
     })
     .catch((err) => {
-      throw "Something Went Wrong!!!";
+      handleError(err);
     });
 };
 
@@ -40,7 +48,7 @@ const putCall = (
       return handleData(data);
     })
     .catch((err) => {
-      throw "Something Went Wrong!!!";
+      handleError(err);
     });
 };
 
@@ -59,7 +67,7 @@ const postCall = (
       return handleData(data);
     })
     .catch((err) => {
-      throw "Something Went Wrong!!!";
+      handleError(err);
     });
 };
 

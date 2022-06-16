@@ -1,0 +1,8 @@
+.selectedCategories {
+  display: inline-block;
+  margin: 0.3em 0.2em;
+  padding: 0.2em;
+  color: #787878;
+  border: 0.0125em solid #b4b4b4;
+  border-radius: 1em;
+}

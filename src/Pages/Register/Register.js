@@ -7,6 +7,7 @@ import CommunityComponent from "./CommunityComponent/CommunityComponent";
 const Register = () => {
   const [userData, setUserData] = useState({
     user_id: "",
+    phone_number: "",
   });
   const [pageState, setPageState] = useState("userDataComponent");
 
@@ -14,8 +15,8 @@ const Register = () => {
     setPageState(val);
   };
 
-  const updateUserId = (id) => {
-    setUserData({ ...userData, user_id: id });
+  const updateUserData = (id, phone) => {
+    setUserData({ user_id: id, phone_number: phone });
   };
 
   return (
@@ -23,13 +24,14 @@ const Register = () => {
       {pageState === "userDataComponent" && (
         <UserDataComponent
           renderSignupComponent={handleSubmit}
-          updateId={updateUserId}
+          updateData={updateUserData}
         />
       )}
       {pageState === "otpComponent" && (
         <OTPComponent
           renderSignupComponent={handleSubmit}
           userId={userData.user_id}
+          phoneNumber={userData.phone_number}
         />
       )}
       {pageState === "skillsComponent" && (

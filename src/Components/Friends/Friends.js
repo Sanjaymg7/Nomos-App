@@ -51,14 +51,18 @@ const Friends = ({ handleFriendsSubmit, selectType, userType }) => {
     }
   };
 
-  const handleSingleFriendSelect = (index) => {
-    friends.forEach((friend) => {
-      friend.isSelected = false;
-    });
-    friends[index].isSelected = true;
-    setFriends(friends);
-    setSelectedUsersName([friends[index].user_name]);
-    setSelectedUsersId([friends[index].user_id]);
+  const handleSingleFriendSelect = (index, id, name) => {
+    if (userType === "chatUser") {
+      handleFriendsSubmit(id, name);
+    } else {
+      friends.forEach((friend) => {
+        friend.isSelected = false;
+      });
+      friends[index].isSelected = true;
+      setFriends(friends);
+      setSelectedUsersName([friends[index].user_name]);
+      setSelectedUsersId([friends[index].user_id]);
+    }
   };
 
   const handleFriendSubmit = () => {
@@ -70,7 +74,12 @@ const Friends = ({ handleFriendsSubmit, selectType, userType }) => {
       {modal.showModal && (
         <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
-      <h1 className="friendsTitle">Select {userType}</h1>
+      {userType === "chatUser" ? (
+        ""
+      ) : (
+        <h1 className="friendsTitle">Select {userType}</h1>
+      )}
+
       <div className="friendsContainer">
         {friends.map((friend, index) => (
           <div
@@ -80,19 +89,28 @@ const Friends = ({ handleFriendsSubmit, selectType, userType }) => {
             }
             onClick={() =>
               selectType === "single"
-                ? handleSingleFriendSelect(index)
+                ? handleSingleFriendSelect(
+                    index,
+                    friend.user_id,
+                    friend.user_name
+                  )
                 : handleMultipleFriendSelect(index)
             }
           >
-            <Image src={friend.profile_picture} />
+            <Image
+              src={friend.profile_picture}
+              className="friendsProfilePicture"
+            />
             <h4 className="friendName">{friend.user_name}</h4>
           </div>
         ))}
-        <Button
-          btnName="Submit"
-          className="btnGreen"
-          onBtnClick={handleFriendSubmit}
-        />
+        {userType !== "chatUser" && (
+          <Button
+            btnName="Submit"
+            className="btnGreen"
+            onBtnClick={handleFriendSubmit}
+          />
+        )}
       </div>
     </div>
   );
