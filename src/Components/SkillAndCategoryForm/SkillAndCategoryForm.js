@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../Pages/Register/SkillsComponent/SkillsComponent.css";
+import "./SkillAndCategoryForm.css";
 import { modalInitialState, getRequestHeader } from "../../Library/Constants";
 import { getCall } from "../../Components/Services/DataFetch";
 import Button from "../Button/Button";

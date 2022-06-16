@@ -1,60 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { modalInitialState } from "../../../Library/Constants";
 import { getRequestHeader } from "../../../Library/Constants";
-import { getCall, putCall } from "../../../Components/Services/DataFetch";
-import Button from "../../../Components/Button/Button";
-import "./SkillsComponent.css";
+import { putCall } from "../../../Components/Services/DataFetch";
 import Modal from "../../../Components/Modal/Modal";
+import SkillAndCategoryForm from "../../../Components/SkillAndCategoryForm/SkillAndCategoryForm";
 
 const SkillsComponent = ({ renderComponent }) => {
-  const [skillsArray, setSkillsArray] = useState([]);
-  const [skills, setSkills] = useState([]);
-  const [skillCount, setSkillCount] = useState(0);
   const [modal, setModal] = useState(modalInitialState);
 
-  const getData = async () => {
+  const btnClickHandler = async ([, skillsData]) => {
     try {
-      const data = await getCall("master/skills", getRequestHeader());
-      if (data) {
-        setSkillsArray(
-          data.skills.map((skill) => ({ ...skill, isChecked: false }))
-        );
-      }
-    } catch (err) {
-      setModal({ modalContent: err, showModal: true });
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const btnClickHandler = async (e) => {
-    const skillsAddBody = {
-      skils_list: skills.join(","),
-    };
-    try {
-      const data = await putCall("users", skillsAddBody, getRequestHeader());
+      const data = await putCall(
+        "users",
+        {
+          skils_list: skillsData,
+        },
+        getRequestHeader()
+      );
       if (data) {
         renderComponent("CommunityComponent");
       }
     } catch (err) {
-      setModal({ modalContent: err, showModal: true });
-    }
-  };
-
-  const skillHandler = (skill, index) => {
-    if (skills.includes(skill.skill_id)) {
-      skills.splice(skills.indexOf(skill.skill_id), 1);
-      setSkills(skills);
-      setSkillCount(skillCount - 1);
-      skillsArray[index].isChecked = false;
-      setSkillsArray(skillsArray);
-    } else {
-      setSkills([...skills, skill.skill_id]);
-      setSkillCount(skillCount + 1);
-      skillsArray[index].isChecked = true;
-      setSkillsArray(skillsArray);
+      setModal({ modalContent: "Error", showModal: true });
     }
   };
 
@@ -63,22 +30,9 @@ const SkillsComponent = ({ renderComponent }) => {
       {modal.showModal && (
         <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
-      <h3 className="comp3h3">Selected Skills ({skillCount})</h3>
-      <h4 className="comp3text">Skills are shown on your profile</h4>
-      <div className="skillContainer">
-        {skillsArray.map((skill, index) => (
-          <Button
-            key={index}
-            btnName={skill.skill_name}
-            className={skill.isChecked ? "skillBtn skillBtnActive" : "skillBtn"}
-            onBtnClick={() => skillHandler(skill, index)}
-          />
-        ))}
-      </div>
-      <Button
-        btnName={"Next"}
-        className={"btnGreen"}
-        onBtnClick={btnClickHandler}
+      <SkillAndCategoryForm
+        component={"skills"}
+        handleSkillOrCategorySubmit={btnClickHandler}
       />
     </div>
   );
