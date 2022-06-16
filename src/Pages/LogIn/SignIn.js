@@ -27,7 +27,6 @@ const SignIn = () => {
         modalContent: "Password should be above 6 characters",
         showModal: true,
       });
-
       return false;
     } else {
       return true;
@@ -66,10 +65,8 @@ const SignIn = () => {
           <Header />
           <form className="signin" onSubmit={userSignIn}>
             <Label className="signin-label" labelName="Email" />
-            <br />
             <Input className="input" />
             <Label className="signin-label" labelName="Password" />
-            <br />
             <Input className="input" type="password" />
             <Button className="btn sign-in" btnName={buttonName} />
           </form>

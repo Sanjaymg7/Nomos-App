@@ -54,11 +54,9 @@ const ConfirmPass = () => {
       )}
       <Header />
       <form className="signin" onSubmit={confirmPassword}>
-        <Label labelName="Enter New Password"/>
-        <br />
+        <Label labelName="Enter New Password" />
         <Input className="input" type="password" />
-        <Label labelName="Confirm New Password"/>
-        <br />
+        <Label labelName="Confirm New Password" />
         <Input className="input" type="password" />
         <Button className="btn sign-in" btnName="Reset Password" />
       </form>
