@@ -20,7 +20,7 @@ const ExperiencePost = () => {
     required_hours: "",
     moderator_user_id: "",
     moderator_user_name: [],
-    max_participants: 10,
+    max_participants: "",
   };
 
   const [experiencePostData, setExperiencePostData] = useState(initState);

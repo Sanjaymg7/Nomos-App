@@ -14,6 +14,7 @@ import Button from "../../Components/Button/Button";
 import StartDate from "../../Components/StartDate/StartDate";
 import SkillAndCategoryDisplay from "../../Components/SkillAndCategoryDisplay/SkillAndCategoryDisplay";
 import UserDisplay from "../../Components/UserDisplay/UserDisplay";
+import Input from "../../Components/Input/Input";
 
 const ExperiencePostInput = ({ renderComponent }) => {
   const navigate = useNavigate();
@@ -32,6 +33,10 @@ const ExperiencePostInput = ({ renderComponent }) => {
   const handleExperiencePostDescription = (val) => {
     setExperiencePostData({ ...experiencePostData, experience_desc: val });
   };
+  const handleExperienceParticipants = (val) => {
+    if (val)
+      setExperiencePostData({ ...experiencePostData, max_participants: val });
+  };
   const handleExperiencePostImage = (val, fileExtension) => {
     setExperiencePostData({
       ...experiencePostData,
@@ -48,7 +53,9 @@ const ExperiencePostInput = ({ renderComponent }) => {
       experiencePostData.experience_name.trim() !== "" &&
       experiencePostData.experience_desc.trim() !== "" &&
       experiencePostData.experience_desc.trim().length < 201 &&
-      experiencePostData.skills_required !== ""
+      experiencePostData.skills_required !== "" &&
+      experiencePostData.max_participants !== "" &&
+      experiencePostData.moderator_user_id !== ""
     ) {
       setButtonData({ ...buttonData, isActive: true });
     } else {
@@ -112,14 +119,20 @@ const ExperiencePostInput = ({ renderComponent }) => {
             renderComponent={renderComponent}
             dataArray={experiencePostData.skills_array}
           />
-          <StartDate
-            dateValue={experiencePostData.start_time}
-            handleStartDate={handleStartDate}
-          />
           <UserDisplay
             namesArray={experiencePostData.moderator_user_name}
             renderComponent={renderComponent}
             userType="Moderator"
+          />
+          <Input
+            type="number"
+            value={experiencePostData.max_participants}
+            labelContent="Total No: of Participants"
+            onInputChange={handleExperienceParticipants}
+          />
+          <StartDate
+            dateValue={experiencePostData.start_time}
+            handleStartDate={handleStartDate}
           />
           <Button
             btnName={buttonData.value}

@@ -5,6 +5,11 @@ export const getRequestHeader = () => ({
   access_token: localStorage.getItem("access_token"),
 });
 
+export const getWebsocketURL = () =>
+  `wss://ws2.juegogames.com/NOMOS-V3?access_token=${localStorage.getItem(
+    "access_token"
+  )}`;
+
 export const modalInitialState = {
   modalContent: "",
   showModal: false,

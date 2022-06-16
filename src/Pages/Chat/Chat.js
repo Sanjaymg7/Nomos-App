@@ -1,7 +1,12 @@
-import React, { useRef, useState, useEffect } from "react";
-import { getRequestHeader } from "../../Library/Constants";
+import React, { useState, useEffect } from "react";
+import {
+  getRequestHeader,
+  modalInitialState,
+  getWebsocketURL,
+} from "../../Library/Constants";
 import { useLocation } from "react-router-dom";
 import { getCall } from "../../Components/Services/DataFetch";
+import Modal from "../../Components/Modal/Modal";
 import Header from "../../Components/Header/Header";
 import "./Chat.css";
 import Input from "../../Components/Input/Input";
@@ -11,9 +16,10 @@ const Chat = () => {
   const search = useLocation().search;
   const other_user_id = new URLSearchParams(search).get("other");
   const other_user_name = new URLSearchParams(search).get("name");
-  const webSocket = useRef(null);
+  const [webSocket, setWebSocket] = useState(new WebSocket(getWebsocketURL()));
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
+  const [modal, setModal] = useState(modalInitialState);
   const [isTyping, setIsTyping] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -21,59 +27,88 @@ const Chat = () => {
     try {
       console.log("Component mounted");
       const chats = await getCall(
-        // `chat/messages?user_id=${other_user_id}`,
-        `chat/messages?user_id=318`,
+        `chat/messages?user_id=${other_user_id}&limit=100`,
         getRequestHeader()
       );
       setChatMessages(chats.messages);
     } catch (err) {
-      console.log(err);
+      setModal({ modalContent: err, showModal: true });
     } finally {
       setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    getPreviousChats();
-  }, []);
+  const sendMessage = () => {
+    if (message.trim()) {
+      console.log("Sending message");
+      webSocket.send(
+        JSON.stringify({
+          action: "send_chat_message",
+          access_token: localStorage.getItem("access_token"),
+          chat_type: 1,
+          user_id: other_user_id,
+          message_type: 1,
+          message,
+        })
+      );
+      setMessage("");
+    }
+  };
 
-  const connectWebsocket = () => {
-    console.log("Opening WebSocket");
-    webSocket.current = new WebSocket(
-      "wss://ws2.juegogames.com/NOMOS-V3?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMTcsImlhdCI6MTY1NTIwMzc0MH0.uNEDMojIqWkSD9twp_DC864OhN6CD2n3K5kQ4Cf8yQ0"
+  const sendTyping = () => {
+    webSocket.send(
+      JSON.stringify({
+        action: "send_typing",
+        access_token: localStorage.getItem("access_token"),
+        chat_type: 1,
+        user_id: other_user_id,
+      })
+    );
+  };
+
+  const sendChatRead = (messageId) => {
+    webSocket.send(
+      JSON.stringify({
+        action: "send_chat_read",
+        access_token: localStorage.getItem("access_token"),
+        chat_type: 1,
+        user_id: other_user_id,
+        last_message_id: messageId,
+      })
     );
   };
 
   useEffect(() => {
-    connectWebsocket();
+    getPreviousChats();
 
-    // webSocket.current.onopen = (event) => {
-    //   console.log("Open: ", event);
-    // };
-
-    webSocket.current.onclose = (event) => {
-      console.log("Close: ", event);
-      connectWebsocket();
+    webSocket.onopen = (event) => {
+      console.log("Open: ", event);
     };
-    // webSocket.current.onclose = (event) => {
-    //   console.log("Close: ", event);
-    // };
 
-    // webSocket.current.onerror = (event) => {
-    //   console.log("Error: ", event);
-    // };
+    webSocket.onclose = (event) => {
+      console.log("Close: ", event);
+      setWebSocket(new WebSocket(getWebsocketURL()));
+    };
 
-    // return () => {
-    //   console.log("Closing WebSocket");
-    //   // webSocket.current.close();
-    // };
-  }, []);
+    webSocket.onmessage = (response) => {
+      const messageData = JSON.parse(response.data);
+      console.log(messageData);
+      if (messageData.event === "chat_message_received") {
+        console.log("Chat received");
+        setChatMessages([messageData.data, ...chatMessages]);
+        if (messageData.data.sender_id === other_user_id) {
+          // sendChatRead(messageData.data.message_id);
+        }
+      }
+    };
 
-  useEffect(() => {
-    webSocket.current.onmessage = (event) => {
-      console.log("On message...");
-      console.log(event);
-      // setChatMessages([...chatMessages, { message: event }]);
+    webSocket.onerror = (event) => {
+      console.log("Error: ", event);
+    };
+
+    return () => {
+      console.log("Closing WebSocket");
+      webSocket.close();
     };
   }, []);
 
@@ -87,25 +122,11 @@ const Chat = () => {
     }
   };
 
-  const sendMessage = () => {
-    if (message.trim()) {
-      webSocket.current.send(
-        JSON.stringify({
-          action: "send_chat_message",
-          access_token:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMTcsImlhdCI6MTY1NTA5NzkyM30.qJM5iW6yMuExIoRigiifp66yiupKbwNdU3VtDaGXnoA",
-          chat_type: 1,
-          user_id: 318,
-          message_type: 1,
-          message,
-        })
-      );
-      setMessage("");
-    }
-  };
-
   return (
     <div>
+      {modal.showModal && (
+        <Modal modalContent={modal.modalContent} closeModal={setModal} />
+      )}
       <Header navigateTo="inbox" headerText={other_user_name} />
       {isLoading ? (
         <h1 className="loadingWrapper">Loading....</h1>
@@ -117,7 +138,7 @@ const Chat = () => {
               <div
                 key={index}
                 className={
-                  messageData.sender_id == "318"
+                  messageData.sender_id == other_user_id
                     ? "chatMessage chatReceiver"
                     : "chatMessage chatSender"
                 }

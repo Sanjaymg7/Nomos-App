@@ -1,12 +1,13 @@
 import React from "react";
 import Label from "../Label/Label";
+import "./SkillAndCategoryDisplay.css";
 
 const SkillAndCategoryDisplay = ({ type, renderComponent, dataArray }) => {
   return (
     <div>
       {type === "skills" ? (
         <div>
-          <Label className="labelText" labelName="Add Required Skills" />
+          <Label className="skillLabelText" labelName="Add Required Skills" />
           <div className="addSkills" onClick={() => renderComponent("skills")}>
             + Add Skill
           </div>
@@ -18,7 +19,7 @@ const SkillAndCategoryDisplay = ({ type, renderComponent, dataArray }) => {
         </div>
       ) : (
         <div>
-          <Label className="labelText" labelName="Add Required Category" />
+          <Label className="skillLabelText" labelName="Add Required Category" />
           <div
             className="addCategory"
             onClick={() => renderComponent("category")}
