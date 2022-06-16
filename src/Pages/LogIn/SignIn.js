@@ -27,7 +27,6 @@ const SignIn = () => {
         modalContent: "Password should be above 6 characters",
         showModal: true,
       });
-
       return false;
     } else {
       return true;

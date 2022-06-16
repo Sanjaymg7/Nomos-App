@@ -53,7 +53,6 @@ const Home = () => {
   };
   const updateLikes = async (postId, post) => {
     updateLikesSetter(post);
-
     try {
       await putCall("posts/like/", { post_id: postId }, getRequestHeader());
     } catch (err) {

@@ -9,6 +9,7 @@ import ConfirmPassword from "../ConfirmPassword";
 import { modalInitialState } from "../../../Library/Constants";
 import Header from "../../../Components/Header/Header";
 import Modal from "../../../Components/Modal/Modal";
+import Label from "../../../Components/Label/Label";
 
 const ResetPassword = () => {
   const [otp, setOTP] = useState("");
@@ -29,16 +30,23 @@ const ResetPassword = () => {
   const phoneInput = async (e) => {
     e.preventDefault();
     const phoneNo = e.target[0].value.replace(/-/g, "").replace(/ /g, "");
-    setPhoneNo(phoneNo);
-    try {
-      const isNumber = await postCall("users/reset_password", {
-        phone_no: phoneNo,
+    if (phoneNo === "" || phoneNo.length !== 13) {
+      setModal({
+        modalContent: "Please provide valid phone number (10 digits)",
+        showModal: true,
       });
-      if (isNumber) {
-        setIsOTP(!isOTP);
+    } else {
+      setPhoneNo(phoneNo);
+      try {
+        const isNumber = await postCall("users/reset_password", {
+          phone_no: phoneNo,
+        });
+        if (isNumber) {
+          setIsOTP(!isOTP);
+        }
+      } catch (err) {
+        setModal({ modalContent: err, showModal: true });
       }
-    } catch (err) {
-      setModal({ modalContent: err, showModal: true });
     }
   };
   const handleOtpChange = (otp) => {
@@ -46,17 +54,24 @@ const ResetPassword = () => {
   };
   const validateOTP = async (e) => {
     e.preventDefault();
-    try {
-      const otpValidate = await postCall("users/confirm_otp", {
-        phone_no: phoneNo,
-        otp,
+    if (otp.length !== 4) {
+      setModal({
+        modalContent: "Please provide valid OTP",
+        showModal: true,
       });
-      if (otpValidate) {
-        setConfirmPasswordPage(!isConfirmPasswordPage);
+    } else {
+      try {
+        const otpValidate = await postCall("users/confirm_otp", {
+          phone_no: phoneNo,
+          otp,
+        });
+        if (otpValidate) {
+          setConfirmPasswordPage(!isConfirmPasswordPage);
+        }
+        localStorage.setItem("access_token", otpValidate.reset_token);
+      } catch (err) {
+        setModal({ modalContent: err, showModal: true });
       }
-      localStorage.setItem("access_token", otpValidate.reset_token);
-    } catch (err) {
-      setModal({ modalContent: err, showModal: true });
     }
   };
 
@@ -70,8 +85,10 @@ const ResetPassword = () => {
       ) : (
         <>
           <Header />
-          {isOTP && <div className="otp-span">Enter OTP</div>}
-          {!isOTP && <div className="phone-input-span"> Phone</div>}
+          {isOTP && <Label className="otp-span" labelName="Enter OTP" />}
+          {!isOTP && (
+            <Label className="phone-input-span" labelName="Enter OTP" />
+          )}
           <form
             className="phone-input-form"
             onSubmit={isOTP ? validateOTP : phoneInput}
