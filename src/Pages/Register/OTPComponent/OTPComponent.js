@@ -15,17 +15,21 @@ const OTPComponent = ({ renderSignupComponent, userId }) => {
   };
 
   const btnClickHandler = async () => {
-    try {
-      const data = await putCall("users/verify_otp", {
-        user_id: userId,
-        otp,
-      });
-      if (data) {
-        localStorage.setItem("access_token", data.access_token);
-        renderSignupComponent("skillsComponent");
+    if (otp.length == 4) {
+      try {
+        const data = await putCall("users/verify_otp", {
+          user_id: userId,
+          otp,
+        });
+        if (data) {
+          localStorage.setItem("access_token", data.access_token);
+          renderSignupComponent("skillsComponent");
+        }
+      } catch (err) {
+        setModal({ modalContent: err, showModal: true });
       }
-    } catch (err) {
-      setModal({ modalContent: err, showModal: true });
+    } else {
+      setModal({ modalContent: "Please enter 4 digit otp!", showModal: true });
     }
   };
 

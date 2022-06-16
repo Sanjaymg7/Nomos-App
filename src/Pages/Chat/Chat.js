@@ -13,7 +13,6 @@ const Chat = () => {
   const other_user_name = new URLSearchParams(search).get("name");
   const webSocket = useRef(null);
   const [message, setMessage] = useState("");
-  const [userName, setUserName] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
