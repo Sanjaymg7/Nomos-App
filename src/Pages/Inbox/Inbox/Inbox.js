@@ -82,8 +82,9 @@ const InboxComp = () => {
     }
   };
 
-  const redirectToChatPage = (userId, userName) => {
-    navigate(`/chat?other=${userId}&name=${userName}`);
+  const redirectToChatPage = (userId) => {
+    localStorage.setItem("other_user_id", userId);
+    navigate("/chat");
   };
 
   return (

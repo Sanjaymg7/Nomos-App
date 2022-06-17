@@ -4,7 +4,6 @@ import {
   modalInitialState,
   getWebsocketURL,
 } from "../../Library/Constants";
-import { useLocation } from "react-router-dom";
 import { getCall } from "../../Components/Services/DataFetch";
 import Modal from "../../Components/Modal/Modal";
 import Header from "../../Components/Header/Header";
@@ -14,26 +13,41 @@ import Button from "../../Components/Button/Button";
 import Loading from "../../Components/Loading/Loading";
 
 const Chat = () => {
-  const search = useLocation().search;
-  const other_user_id = new URLSearchParams(search).get("other");
-  const other_user_name = new URLSearchParams(search).get("name");
-  // const [webSocket, setWebSocket] = useState(new WebSocket(getWebsocketURL()));
+  const otherUserId = localStorage.getItem("other_user_id");
+  const [otherUserName, setOtherUserName] = useState("User");
   const webSocket = useRef(null);
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const [modal, setModal] = useState(modalInitialState);
   const [isTyping, setIsTyping] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isOnline, setIsOnline] = useState(false);
+
+  const getOtherUser = async () => {
+    try {
+      const user = await getCall(
+        `users?other_user_id=${otherUserId}`,
+        getRequestHeader()
+      );
+      setOtherUserName(user.user_name);
+      setIsOnline(user.online_status);
+    } catch (err) {
+      setModal({ modalContent: err, showModal: true });
+    }
+  };
 
   const getPreviousChats = async () => {
     try {
       const chats = await getCall(
-        `chat/messages?user_id=${other_user_id}&limit=100`,
+        `chat/messages?user_id=${otherUserId}&limit=50`,
         getRequestHeader()
       );
       setChatMessages(chats.messages);
+      if (chats.messages[0].sender_id == otherUserId) {
+        sendChatRead(chats.messages[0].message_id);
+      }
     } catch (err) {
-      setModal({ modalContent: err, showModal: true });
+      setModal({ modalContent: "Something went wrong!!", showModal: true });
     } finally {
       setIsLoading(false);
     }
@@ -41,18 +55,16 @@ const Chat = () => {
 
   const connectWebSocket = () => {
     webSocket.current = new WebSocket(getWebsocketURL());
-    console.log("Websocket connected");
   };
 
   const sendMessage = () => {
     if (message.trim()) {
-      console.log("Sending message");
       webSocket.current.send(
         JSON.stringify({
           action: "send_chat_message",
           access_token: localStorage.getItem("access_token"),
           chat_type: 1,
-          user_id: other_user_id,
+          user_id: otherUserId,
           message_type: 1,
           message,
         })
@@ -62,13 +74,12 @@ const Chat = () => {
   };
 
   const sendTyping = () => {
-    console.log("Send Typing");
     webSocket.current.send(
       JSON.stringify({
         action: "send_typing",
         access_token: localStorage.getItem("access_token"),
         chat_type: 1,
-        user_id: other_user_id,
+        user_id: otherUserId,
       })
     );
   };
@@ -79,13 +90,14 @@ const Chat = () => {
         action: "send_chat_read",
         access_token: localStorage.getItem("access_token"),
         chat_type: 1,
-        user_id: other_user_id,
+        user_id: otherUserId,
         last_message_id: messageId,
       })
     );
   };
 
   useEffect(() => {
+    getOtherUser();
     connectWebSocket();
     getPreviousChats();
 
@@ -94,24 +106,38 @@ const Chat = () => {
     };
 
     webSocket.current.onclose = (event) => {
-      console.log("Close: ", event);
-      connectWebSocket();
+      console.log("Websocket closed");
+      if (event.wasClean === false) {
+        connectWebSocket();
+      }
     };
 
     webSocket.current.onmessage = (response) => {
       const messageData = JSON.parse(response.data);
-      console.log(messageData);
       if (messageData.event === "chat_message_received") {
-        console.log("Chat received");
         setChatMessages((prevStatus) => [messageData.data, ...prevStatus]);
-        if (messageData.data.sender_id === other_user_id) {
-          // sendChatRead(messageData.data.message_id);
+        if (messageData.data.sender_id == otherUserId) {
+          sendChatRead(messageData.data.message_id);
+        }
+      } else if (messageData.event === "chat_typing") {
+        if (messageData.data.user_id == otherUserId) {
+          setIsTyping(true);
+          setTimeout(() => setIsTyping(false), 5000);
+        }
+      } else if (messageData.event === "user_online_status") {
+        if (
+          messageData.data.user_id == otherUserId &&
+          messageData.data.online_status == 0
+        ) {
+          setIsOnline(false);
+        } else {
+          setIsOnline(true);
         }
       }
     };
 
     webSocket.current.onerror = (event) => {
-      console.log("Error: ", event);
+      console.log("Error");
     };
 
     return () => {
@@ -122,7 +148,7 @@ const Chat = () => {
 
   const handleMessageInput = (val) => {
     setMessage(val);
-    if (val.length === 1) {
+    if (val.length > 0) {
       sendTyping();
     }
   };
@@ -138,18 +164,23 @@ const Chat = () => {
       {modal.showModal && (
         <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
-      <Header navigateTo="inbox" headerText={other_user_name} />
+      <Header navigateTo="inbox" headerText={otherUserName} />
       {isLoading ? (
         <Loading />
       ) : (
         <div>
           {isTyping && <div className="typingContainer">Typing...</div>}
+          <div
+            className={
+              isOnline ? "onlineContainer online" : "onlineContainer offline"
+            }
+          ></div>
           <div className="chatwrapper">
             {chatMessages.map((messageData, index) => (
               <div
                 key={index}
                 className={
-                  messageData.sender_id == other_user_id
+                  messageData.sender_id == otherUserId
                     ? "chatMessage chatReceiver"
                     : "chatMessage chatSender"
                 }

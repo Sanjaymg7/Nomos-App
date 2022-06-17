@@ -10,6 +10,24 @@
   height: 44em;
   overflow: auto;
 }
+.chatwrapper::-webkit-scrollbar {
+  display: none;
+}
+.onlineContainer {
+  position: absolute;
+  top: 1.5em;
+  right: 9.5em;
+  border-radius: 50%;
+  padding: 0.2em;
+  width: 1em;
+  height: 1em;
+}
+.offline {
+  background-color: red;
+}
+.online {
+  background-color: green;
+}
 .inputwrapper {
   display: grid;
   grid-template-columns: 2fr 1fr;
