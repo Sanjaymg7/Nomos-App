@@ -6,7 +6,7 @@ import Button from "../../../Components/Button/Button";
 import "./OTPComponent.css";
 import Modal from "../../../Components/Modal/Modal";
 
-const OTPComponent = ({ renderSignupComponent, userId, phoneNumber }) => {
+const OTPComponent = ({ renderSignupComponent, userId, userData }) => {
   const [otp, setOtp] = useState(0);
   const [modal, setModal] = useState(modalInitialState);
 
@@ -16,9 +16,7 @@ const OTPComponent = ({ renderSignupComponent, userId, phoneNumber }) => {
 
   const handleResendOTP = async () => {
     try {
-      await postCall("users/reset_password", {
-        phone_no: phoneNumber,
-      });
+      await postCall("users", userData);
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
     }

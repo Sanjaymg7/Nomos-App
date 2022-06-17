@@ -67,8 +67,8 @@ const InboxComp = () => {
       return displayDate(chatDate);
     } else if (
       chatDate.getDate() === +systemDate.getDate() - 1 &&
-      chatDate.getMonth() === +systemDate.getMonth() - 1 &&
-      chatDate.getFullYear() === +systemDate.getFullYear() - 1
+      chatDate.getMonth() === systemDate.getMonth() &&
+      chatDate.getFullYear() === systemDate.getFullYear()
     ) {
       return displayDate(chatDate, "Yesterday");
     } else {

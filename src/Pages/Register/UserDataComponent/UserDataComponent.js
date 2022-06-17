@@ -64,7 +64,7 @@ const UserDataComponent = ({ renderSignupComponent, updateData }) => {
       try {
         const data = await postCall("users/", userData);
         if (data) {
-          updateData(data.user_id, userData.phone_no);
+          updateData(data.user_id, userData);
           renderSignupComponent("otpComponent");
         }
       } catch (err) {

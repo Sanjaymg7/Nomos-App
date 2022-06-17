@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   getRequestHeader,
   modalInitialState,
@@ -17,7 +17,8 @@ const Chat = () => {
   const search = useLocation().search;
   const other_user_id = new URLSearchParams(search).get("other");
   const other_user_name = new URLSearchParams(search).get("name");
-  const [webSocket, setWebSocket] = useState(new WebSocket(getWebsocketURL()));
+  // const [webSocket, setWebSocket] = useState(new WebSocket(getWebsocketURL()));
+  const webSocket = useRef(null);
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const [modal, setModal] = useState(modalInitialState);
@@ -26,7 +27,6 @@ const Chat = () => {
 
   const getPreviousChats = async () => {
     try {
-      console.log("Component mounted");
       const chats = await getCall(
         `chat/messages?user_id=${other_user_id}&limit=100`,
         getRequestHeader()
@@ -39,10 +39,15 @@ const Chat = () => {
     }
   };
 
+  const connectWebSocket = () => {
+    webSocket.current = new WebSocket(getWebsocketURL());
+    console.log("Websocket connected");
+  };
+
   const sendMessage = () => {
     if (message.trim()) {
       console.log("Sending message");
-      webSocket.send(
+      webSocket.current.send(
         JSON.stringify({
           action: "send_chat_message",
           access_token: localStorage.getItem("access_token"),
@@ -57,7 +62,8 @@ const Chat = () => {
   };
 
   const sendTyping = () => {
-    webSocket.send(
+    console.log("Send Typing");
+    webSocket.current.send(
       JSON.stringify({
         action: "send_typing",
         access_token: localStorage.getItem("access_token"),
@@ -80,41 +86,45 @@ const Chat = () => {
   };
 
   useEffect(() => {
+    connectWebSocket();
     getPreviousChats();
 
-    webSocket.onopen = (event) => {
-      console.log("Open: ", event);
+    webSocket.current.onopen = (event) => {
+      console.log("Websocket is open");
     };
 
-    webSocket.onclose = (event) => {
+    webSocket.current.onclose = (event) => {
       console.log("Close: ", event);
-      setWebSocket(new WebSocket(getWebsocketURL()));
+      connectWebSocket();
     };
 
-    webSocket.onmessage = (response) => {
+    webSocket.current.onmessage = (response) => {
       const messageData = JSON.parse(response.data);
       console.log(messageData);
       if (messageData.event === "chat_message_received") {
         console.log("Chat received");
-        setChatMessages([messageData.data, ...chatMessages]);
+        setChatMessages((prevStatus) => [messageData.data, ...prevStatus]);
         if (messageData.data.sender_id === other_user_id) {
           // sendChatRead(messageData.data.message_id);
         }
       }
     };
 
-    webSocket.onerror = (event) => {
+    webSocket.current.onerror = (event) => {
       console.log("Error: ", event);
     };
 
     return () => {
       console.log("Closing WebSocket");
-      webSocket.close();
+      webSocket.current.close();
     };
   }, []);
 
   const handleMessageInput = (val) => {
     setMessage(val);
+    if (val.length === 1) {
+      sendTyping();
+    }
   };
 
   const handleKeyDown = (val) => {

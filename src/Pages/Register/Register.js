@@ -7,7 +7,7 @@ import CommunityComponent from "./CommunityComponent/CommunityComponent";
 const Register = () => {
   const [userData, setUserData] = useState({
     user_id: "",
-    phone_number: "",
+    userInfo: "",
   });
   const [pageState, setPageState] = useState("userDataComponent");
 
@@ -15,8 +15,8 @@ const Register = () => {
     setPageState(val);
   };
 
-  const updateUserData = (id, phone) => {
-    setUserData({ user_id: id, phone_number: phone });
+  const updateUserData = (id, user) => {
+    setUserData({ user_id: id, userInfo: user });
   };
 
   return (
@@ -31,7 +31,7 @@ const Register = () => {
         <OTPComponent
           renderSignupComponent={handleSubmit}
           userId={userData.user_id}
-          phoneNumber={userData.phone_number}
+          userData={userData.userInfo}
         />
       )}
       {pageState === "skillsComponent" && (
