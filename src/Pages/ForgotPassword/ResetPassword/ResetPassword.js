@@ -16,6 +16,7 @@ const ResetPassword = () => {
   const [isOTP, setIsOTP] = useState(false);
   const [phoneNo, setPhoneNo] = useState();
   const [modal, setModal] = useState(modalInitialState);
+  const [buttonText, setButtonText] = useState(false);
   const [isConfirmPasswordPage, setConfirmPasswordPage] = useState(false);
 
   const inputStyle = {
@@ -37,15 +38,18 @@ const ResetPassword = () => {
       });
     } else {
       setPhoneNo(phoneNo);
+      setButtonText(true);
       try {
         const isNumber = await postCall("users/reset_password", {
           phone_no: phoneNo,
         });
         if (isNumber) {
           setIsOTP(!isOTP);
+          setButtonText(false);
         }
       } catch (err) {
         setModal({ modalContent: err, showModal: true });
+        setButtonText(false);
       }
     }
   };
@@ -60,6 +64,7 @@ const ResetPassword = () => {
         showModal: true,
       });
     } else {
+      setButtonText(true);
       try {
         const otpValidate = await postCall("users/confirm_otp", {
           phone_no: phoneNo,
@@ -67,10 +72,12 @@ const ResetPassword = () => {
         });
         if (otpValidate) {
           setConfirmPasswordPage(!isConfirmPasswordPage);
+          setButtonText(false);
         }
         localStorage.setItem("access_token", otpValidate.reset_token);
       } catch (err) {
         setModal({ modalContent: err, showModal: true });
+        setButtonText(false);
       }
     }
   };
@@ -84,7 +91,7 @@ const ResetPassword = () => {
         <ConfirmPassword />
       ) : (
         <>
-          <Header />
+          <Header navigateTo="signin" />
           {isOTP && <Label className="otp-span" labelName="Enter OTP" />}
           {!isOTP && (
             <Label className="phone-input-span" labelName="Enter OTP" />
@@ -118,7 +125,15 @@ const ResetPassword = () => {
             )}
             <Button
               className="phone-input-btn"
-              btnName={isOTP ? "Confirm" : "Send OTP"}
+              btnName={
+                isOTP
+                  ? buttonText
+                    ? "Loading..."
+                    : "Confirm"
+                  : buttonText
+                  ? "Loading..."
+                  : "Send OTP"
+              }
             />
           </form>
         </>

@@ -1,38 +1,30 @@
 .home-container {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 .header {
-    height: 5rem;
-    background-color: #00a86b;
-    text-align: center;
+  height: 5rem;
+  background-color: #00a86b;
+  text-align: center;
 }
 .home-container-logout-div {
-    background: transparent;
-    color: white;
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 1rem;
-    padding: .2rem;
-    font-weight: 400;
-    border: .1rem solid white;
-    border-radius: 15%;
+  background: transparent;
+  color: white;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1rem;
+  padding: 0.2rem;
+  font-weight: 400;
+  border: 0.1rem solid white;
+  border-radius: 15%;
 }
 .title {
-    padding-top: .8rem;
+  padding-top: 0.8rem;
 }
 
 .home-btn {
-    color: #036843;
-    font-size: larger;
-    border: .1rem solid blanchedalmond;
-}
-.loading-text {
-    position: absolute;
-    color: #036843;
-    font-size: xx-large;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  color: #036843;
+  font-size: larger;
+  border: 0.1rem solid blanchedalmond;
 }

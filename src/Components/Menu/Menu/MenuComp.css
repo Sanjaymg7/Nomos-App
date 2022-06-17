@@ -1,26 +1,35 @@
 .menu-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    font-size: x-large;
-    padding: 1.5rem;
-    background-color: rgb(234, 207, 172);
-    border-radius: 10% 10% 0 0;
-    position: fixed;
-    left: 0;
-    bottom: 0rem;
-    width: 100%;
-    z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  font-size: x-large;
+  padding: 1.5rem;
+  background-color: rgb(234, 207, 172);
+  border-radius: 10% 10% 0 0;
+  position: fixed;
+  left: 0;
+  bottom: 0rem;
+  width: 100%;
+  z-index: 2;
+}
+.menu-modal-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
 }
 .menu-close-btn {
-    display: flex;
-    justify-content: center;
-    border-radius: 100%;
-    padding-top: .45rem;
-    width: 3.6rem;
-    height: 3.6rem;
-    background-color: #00a86b;
-    color: white;
-    margin-left: 8.5rem;
-    font-size: xx-large;
+  display: flex;
+  justify-content: center;
+  border-radius: 100%;
+  padding-top: 0.45rem;
+  width: 3.6rem;
+  height: 3.6rem;
+  background-color: #00a86b;
+  color: white;
+  margin-left: 8.5rem;
+  font-size: xx-large;
 }

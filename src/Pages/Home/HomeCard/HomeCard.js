@@ -1,8 +1,9 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import Image from "../../../Components/Image/Image";
 import "./HomeCard.css";
 
 const HomeCard = ({
+  index,
   post,
   postId,
   userName,
@@ -54,7 +55,7 @@ const HomeCard = ({
                 : "https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/C6DF2E4F-8890-4608-9274-5E4F21FB295E.png"
             }
             alt="like"
-            onClick={() => updateLikes(postId, post)}
+            onClick={() => updateLikes(postId, post, index)}
           />
           <div className="footer-text">{likes}</div>
           <Image

@@ -9,18 +9,24 @@ import Modal from "../../Components/Modal/Modal";
 import Label from "../../Components/Label/Label";
 
 const ConfirmPass = () => {
-  const navigate = useNavigate();
-
   const [modal, setModal] = useState(modalInitialState);
+  const [buttonText, setButtonText] = useState(false);
+  const navigate = useNavigate();
 
   const validatePassword = (password) => {
     const { newPassword, confirmPassword } = password;
     if (newPassword === confirmPassword && newPassword !== "") {
       return true;
     } else if (newPassword === "" && confirmPassword === "") {
-      alert("Please Enter password");
+      setModal({
+        modalContent: "Please Enter password",
+        showModal: true,
+      });
     } else {
-      alert("Password Mis match");
+      setModal({
+        modalContent: "Password Mis match",
+        showModal: true,
+      });
     }
   };
 
@@ -33,6 +39,7 @@ const ConfirmPass = () => {
       confirmPassword,
     };
     if (validatePassword(password)) {
+      setButtonText(true);
       try {
         const confirmPassword = await putCall("users/reset_password", {
           new_password: newPassword,
@@ -40,10 +47,19 @@ const ConfirmPass = () => {
         });
         if (confirmPassword) {
           localStorage.removeItem("access_token");
+          setButtonText(false);
+          setModal({
+            modalContent: "reset password successful",
+            showModal: true,
+          });
           navigate("/signin");
         }
       } catch (err) {
-        setModal({ modalContent: err, showModal: true });
+        setModal({
+          modalContent: "reset password unsuccessfull \n Please try again",
+          showModal: true,
+        });
+        setButtonText(false);
       }
     }
   };
@@ -52,13 +68,16 @@ const ConfirmPass = () => {
       {modal.showModal && (
         <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
-      <Header />
+      <Header navigateTo="signIn" />
       <form className="signin" onSubmit={confirmPassword}>
         <Label labelName="Enter New Password" />
         <Input className="input" type="password" />
         <Label labelName="Confirm New Password" />
         <Input className="input" type="password" />
-        <Button className="btn sign-in" btnName="Reset Password" />
+        <Button
+          className="btn sign-in"
+          btnName={buttonText ? "Loading..." : "Reset Password"}
+        />
       </form>
     </>
   );
