@@ -95,7 +95,9 @@ const Chat = () => {
 
     webSocket.current.onclose = (event) => {
       console.log("Close: ", event);
-      connectWebSocket();
+      if (event.wasClean === false) {
+        connectWebSocket();
+      }
     };
 
     webSocket.current.onmessage = (response) => {
@@ -122,7 +124,7 @@ const Chat = () => {
 
   const handleMessageInput = (val) => {
     setMessage(val);
-    if (val.length === 1) {
+    if (val.length > 0) {
       sendTyping();
     }
   };
