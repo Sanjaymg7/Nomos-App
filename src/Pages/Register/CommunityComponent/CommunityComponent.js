@@ -6,6 +6,7 @@ import { getCall, postCall } from "../../../Components/Services/DataFetch";
 import Button from "../../../Components/Button/Button";
 import "./CommunityComponent.css";
 import Modal from "../../../Components/Modal/Modal";
+import Loading from "../../../Components/Loading/Loading";
 
 const CommunityComponent = () => {
   const navigate = useNavigate();
@@ -66,10 +67,12 @@ const CommunityComponent = () => {
       {community.length === 0 ? (
         <div className="messageContainer">
           <p className="comp4Message">
-            {isLoading
-              ? "Please Wait..."
-              : `No communities around.
-            <br /> You can skip or create your own.`}
+            {isLoading ? (
+              <Loading />
+            ) : (
+              `No communities around.
+            <br /> You can skip or create your own.`
+            )}
           </p>
         </div>
       ) : (

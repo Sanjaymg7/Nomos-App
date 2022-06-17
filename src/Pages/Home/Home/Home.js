@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../../Components/Header/Header";
 import "./Home.css";
 import {
@@ -12,6 +12,7 @@ import { modalInitialState } from "../../../Library/Constants";
 import Footer from "../../../Components/Footer/Footer";
 import Modal from "../../../Components/Modal/Modal";
 import { useNavigate } from "react-router-dom";
+import Loading from "../../../Components/Loading/Loading";
 
 const Home = () => {
   const [modal, setModal] = useState(modalInitialState);
@@ -40,19 +41,15 @@ const Home = () => {
       setLoading(false);
     }
   };
-  const updateLikesSetter = (post) => {
-    posts.filter((postItem, index) => {
-      if (postItem.post_id === post.post_id) {
-        posts[index].is_liked = !post.is_liked;
-        posts[index].like_count = post.is_liked
-          ? post.like_count + 1
-          : post.like_count - 1;
-      }
-    });
+  const updateLikesSetter = (post, index) => {
+    posts[index].is_liked = !post.is_liked;
+    posts[index].like_count = post.is_liked
+      ? post.like_count + 1
+      : post.like_count - 1;
     setPosts([...posts]);
   };
-  const updateLikes = async (postId, post) => {
-    updateLikesSetter(post);
+  const updateLikes = async (postId, post, index) => {
+    updateLikesSetter(post, index);
     try {
       await putCall("posts/like/", { post_id: postId }, getRequestHeader());
     } catch (err) {
@@ -73,14 +70,14 @@ const Home = () => {
     try {
       await postCall("users/logout", {}, getRequestHeader());
       localStorage.removeItem("access_token");
-      navigate("/signin");
+      navigate("/");
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
     }
   };
   return (
     <>
-      {isLoading && <div className="loading-text">Loading...</div>}
+      {isLoading && <Loading />}
       {modal.showModal && (
         <Modal modalContent={modal.modalContent} closeModal={setModal} />
       )}
@@ -89,9 +86,10 @@ const Home = () => {
         <div onClick={logOutHandler} className="home-container-logout-div">
           Logout
         </div>
-        {posts?.map((post) => (
+        {posts?.map((post, index) => (
           <HomeCard
             key={post.post_id}
+            index={index}
             post={post}
             postId={post.post_id}
             userName={post.user_name}

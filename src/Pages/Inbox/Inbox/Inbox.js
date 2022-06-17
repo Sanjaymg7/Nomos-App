@@ -8,6 +8,7 @@ import Header from "../../../Components/Header/Header";
 import Modal from "../../../Components/Modal/Modal";
 import Footer from "../../../Components/Footer/Footer";
 import Friends from "../../../Components/Friends/Friends";
+import Loading from "../../../Components/Loading/Loading";
 
 const InboxComp = () => {
   const navigate = useNavigate();
@@ -95,7 +96,7 @@ const InboxComp = () => {
         +
       </div>
       {isLoading ? (
-        <h1 className="loadingWrapper">Loading....</h1>
+        <Loading />
       ) : isInbox ? (
         chatConversations.map((chat, index) => (
           <div

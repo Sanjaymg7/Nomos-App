@@ -11,6 +11,7 @@ import Header from "../../Components/Header/Header";
 import "./Chat.css";
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Button/Button";
+import Loading from "../../Components/Loading/Loading";
 
 const Chat = () => {
   const search = useLocation().search;
@@ -129,7 +130,7 @@ const Chat = () => {
       )}
       <Header navigateTo="inbox" headerText={other_user_name} />
       {isLoading ? (
-        <h1 className="loadingWrapper">Loading....</h1>
+        <Loading />
       ) : (
         <div>
           {isTyping && <div className="typingContainer">Typing...</div>}
