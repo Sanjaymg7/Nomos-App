@@ -81,6 +81,15 @@ const ResetPassword = () => {
       }
     }
   };
+  const resendOtp = async () => {
+    try {
+      await postCall("users/reset_password", {
+        phone_no: phoneNo,
+      });
+    } catch (err) {
+      setModal({ modalContent: err, showModal: true });
+    }
+  };
 
   return (
     <>
@@ -92,9 +101,10 @@ const ResetPassword = () => {
       ) : (
         <>
           <Header navigateTo="signin" />
-          {isOTP && <Label className="otp-span" labelName="Enter OTP" />}
-          {!isOTP && (
-            <Label className="phone-input-span" labelName="Enter OTP" />
+          {isOTP ? (
+            <Label className="otp-span" labelName="Enter OTP" />
+          ) : (
+            <Label className="phone-input-span" labelName="Phone Number" />
           )}
           <form
             className="phone-input-form"
@@ -136,6 +146,11 @@ const ResetPassword = () => {
               }
             />
           </form>
+          {isOTP && (
+            <p onClick={resendOtp} className="resend-otp">
+              Resend OTP?
+            </p>
+          )}
         </>
       )}
     </>
