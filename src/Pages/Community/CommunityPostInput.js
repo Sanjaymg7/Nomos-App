@@ -1,11 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CommunityPostContext } from "./CommunityPost";
-import {
-  modalInitialState,
-  getRequestHeader,
-  getImageURL,
-} from "../../Library/Constants";
+import { modalInitialState, community, home } from "../../Library/Constants";
+import { imageURLService } from "../../Components/Services/ImageURLService";
 import { postCall } from "../../Components/Services/DataFetch";
 import Header from "../../Components/Header/Header";
 import Modal from "../../Components/Modal/Modal";
@@ -67,17 +64,13 @@ const CommunityPostInput = ({ renderComponent }) => {
     e.preventDefault();
     setButtonData({ value: "Please wait...", isActive: false });
     try {
-      communityPostData.display_picture = await getImageURL(
+      communityPostData.display_picture = await imageURLService(
         communityPostData.display_image_url,
         communityPostData.display_picture
       );
-      const data = await postCall(
-        "/community",
-        communityPostData,
-        getRequestHeader()
-      );
+      const data = await postCall(community, communityPostData);
       if (data) {
-        navigate("/home");
+        navigate(home);
       }
     } catch (err) {
       setButtonData({ value: "Create Community", isActive: true });

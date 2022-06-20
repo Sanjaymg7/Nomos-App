@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Button/Button";
 import Header from "../../Components/Header/Header";
-import { modalInitialState } from "../../Library/Constants";
+import { modalInitialState, requestHeader } from "../../Library/Constants";
 import { putCall } from "../../Components/Services/DataFetch";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../Components/Modal/Modal";
@@ -41,10 +41,14 @@ const ConfirmPass = () => {
     if (validatePassword(password)) {
       setButtonText(true);
       try {
-        const confirmPassword = await putCall("users/reset_password", {
-          new_password: newPassword,
-          reset_token: localStorage.getItem("access_token"),
-        });
+        const confirmPassword = await putCall(
+          "users/reset_password",
+          {
+            new_password: newPassword,
+            reset_token: localStorage.getItem("access_token"),
+          },
+          requestHeader
+        );
         if (confirmPassword) {
           localStorage.removeItem("access_token");
           setButtonText(false);

@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { modalInitialState } from "../../../Library/Constants";
-import { getRequestHeader } from "../../../Library/Constants";
+import {
+  modalInitialState,
+  communityNearby,
+  joinCommunity,
+  home,
+} from "../../../Library/Constants";
 import { getCall, postCall } from "../../../Components/Services/DataFetch";
 import Button from "../../../Components/Button/Button";
 import "./CommunityComponent.css";
@@ -18,7 +22,7 @@ const CommunityComponent = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const data = await getCall("community/list?type=5", getRequestHeader());
+        const data = await getCall(communityNearby);
         if (data) {
           setCommunity(data.communities);
         }
@@ -36,11 +40,7 @@ const CommunityComponent = () => {
       community_id: id,
     };
     try {
-      const data = await postCall(
-        "community/join",
-        requestBody,
-        getRequestHeader()
-      );
+      const data = await postCall(joinCommunity, requestBody);
       if (data) {
         setAddedCommunity(addedCommunity + 1);
       }
@@ -51,7 +51,7 @@ const CommunityComponent = () => {
   };
 
   const btnClickHandler = () => {
-    navigate("/home");
+    navigate(home);
   };
 
   return (
@@ -63,16 +63,15 @@ const CommunityComponent = () => {
       <h4 className="comp4Text">
         Select from the list below or create your own
       </h4>
-      {isLoading}
-      {community.length === 0 ? (
+      {isLoading ? (
+        <div className="loadingContainer">
+          <Loading />
+        </div>
+      ) : community.length === 0 ? (
         <div className="messageContainer">
           <p className="comp4Message">
-            {isLoading ? (
-              <Loading />
-            ) : (
-              `No communities around.
+            `No communities around.
             <br /> You can skip or create your own.`
-            )}
           </p>
         </div>
       ) : (

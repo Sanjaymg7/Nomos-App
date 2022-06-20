@@ -7,7 +7,6 @@ import { modalInitialState } from "../../../Library/Constants";
 import Modal from "../../../Components/Modal/Modal";
 import CommentCard from "../CommentCard/CommentCard";
 import { getCall, putCall } from "../../../Components/Services/DataFetch";
-import { getRequestHeader } from "../../../Library/Constants";
 
 const Comments = () => {
   const [commentMessage, setCommentMessage] = useState("");
@@ -21,8 +20,7 @@ const Comments = () => {
   const getData = async () => {
     try {
       const data = await getCall(
-        `posts/comment/?post_id=${localStorage.getItem("post_id")}`,
-        getRequestHeader()
+        `posts/comment/?post_id=${localStorage.getItem("post_id")}`
       );
       if (data) {
         setCommentData(data.comments);
@@ -33,7 +31,7 @@ const Comments = () => {
   };
   const getUserData = async () => {
     try {
-      const data = await getCall("users/", getRequestHeader());
+      const data = await getCall("users/");
       if (data) {
         setUserData(data);
       }
@@ -53,11 +51,10 @@ const Comments = () => {
       ...commentData,
     ]);
     try {
-      await putCall(
-        "posts/comment/",
-        { post_id: localStorage.getItem("post_id"), comment: commentMessage },
-        getRequestHeader()
-      );
+      await putCall("posts/comment/", {
+        post_id: localStorage.getItem("post_id"),
+        comment: commentMessage,
+      });
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
     } finally {

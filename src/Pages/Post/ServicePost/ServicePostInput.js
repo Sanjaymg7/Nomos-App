@@ -1,11 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PostContext } from "../ServicePost";
-import {
-  modalInitialState,
-  getImageURL,
-  getRequestHeader,
-} from "../../../Library/Constants";
+import { modalInitialState, service, home } from "../../../Library/Constants";
+import { imageURLService } from "../../../Components/Services/ImageURLService";
 import { postCall } from "../../../Components/Services/DataFetch";
 import Button from "../../../Components/Button/Button";
 import "./ServicePostInput.css";
@@ -73,13 +70,13 @@ const ServicePostInput = ({ renderComponent }) => {
     e.preventDefault();
     setButtonData({ value: "Please wait...", isActive: false });
     try {
-      postData.items_service_image = await getImageURL(
+      postData.items_service_image = await imageURLService(
         postData.image_url,
         postData.items_service_image
       );
-      const data = await postCall("/service", postData, getRequestHeader());
+      const data = await postCall(service, postData);
       if (data) {
-        navigate("/home");
+        navigate(home);
       }
     } catch (err) {
       setModal({ modalContent: err, showModal: true });

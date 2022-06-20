@@ -1,11 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ExperiencePostContext } from "./ExperiencePost";
-import {
-  modalInitialState,
-  getRequestHeader,
-  getImageURL,
-} from "../../Library/Constants";
+import { modalInitialState, experience, home } from "../../Library/Constants";
+import { imageURLService } from "../../Components/Services/ImageURLService";
 import { postCall } from "../../Components/Services/DataFetch";
 import Header from "../../Components/Header/Header";
 import Modal from "../../Components/Modal/Modal";
@@ -79,20 +76,16 @@ const ExperiencePostInput = ({ renderComponent }) => {
     e.preventDefault();
     setButtonData({ value: "Please wait...", isActive: false });
     try {
-      experiencePostData.experience_image = await getImageURL(
+      experiencePostData.experience_image = await imageURLService(
         experiencePostData.image_url,
         experiencePostData.experience_image
       );
       experiencePostData.start_time = new Date(
         experiencePostData.start_time
       ).getTime();
-      const data = await postCall(
-        "/experience",
-        experiencePostData,
-        getRequestHeader()
-      );
+      const data = await postCall(experience, experiencePostData);
       if (data) {
-        navigate("/home");
+        navigate(home);
       }
     } catch (err) {
       setButtonData({ value: "Create Experience", isActive: true });
@@ -119,16 +112,16 @@ const ExperiencePostInput = ({ renderComponent }) => {
             renderComponent={renderComponent}
             dataArray={experiencePostData.skills_array}
           />
-          <UserDisplay
-            namesArray={experiencePostData.moderator_user_name}
-            renderComponent={renderComponent}
-            userType="Moderator"
-          />
           <Input
             type="number"
             value={experiencePostData.max_participants}
             labelContent="Total No: of Participants"
             onInputChange={handleExperienceParticipants}
+          />
+          <UserDisplay
+            namesArray={experiencePostData.moderator_user_name}
+            renderComponent={renderComponent}
+            userType="Moderator"
           />
           <StartDate
             dateValue={experiencePostData.start_time}

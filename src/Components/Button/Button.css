@@ -65,3 +65,22 @@ button {
   padding: 0.1em 0.5em;
   margin: 0.5em 2em 0em;
 }
+.sendRequestBtn,
+.requestAcceptBtn {
+  background-color: #0047ab;
+  padding: 0.1em;
+}
+.sendRequestBtnDisabled,
+.respondBtnDisabled {
+  background-color: #b4b4b4;
+  padding: 0.1em;
+}
+.requestRejectBtn {
+  background-color: #a30000;
+  padding: 0.1em;
+}
+.requestAcceptBtn,
+.respondBtnDisabled,
+.requestRejectBtn {
+  width: 90%;
+}

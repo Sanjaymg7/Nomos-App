@@ -4,7 +4,7 @@ import Input from "../../Components/Input/Input";
 import { postCall } from "../../Components/Services/DataFetch";
 import { useNavigate } from "react-router-dom";
 import "./SignIn.css";
-import { modalInitialState } from "../../Library/Constants";
+import { modalInitialState, requestHeader } from "../../Library/Constants";
 import Header from "../../Components/Header/Header";
 import Label from "../../Components/Label/Label";
 import Modal from "../../Components/Modal/Modal";
@@ -44,7 +44,11 @@ const SignIn = () => {
     if (validateUser(userData)) {
       try {
         setButtonName("Signing in...");
-        const userDetail = await postCall("users/sign_in", userData);
+        const userDetail = await postCall(
+          "users/sign_in",
+          userData,
+          requestHeader
+        );
         if (userDetail) {
           setButtonName("Sign In");
           localStorage.setItem("access_token", userDetail.access_token);
