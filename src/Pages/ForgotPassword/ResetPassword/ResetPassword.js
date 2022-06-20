@@ -6,7 +6,7 @@ import { postCall } from "../../../Components/Services/DataFetch";
 import "./ResetPassword.css";
 import OtpInput from "react-otp-input";
 import ConfirmPassword from "../ConfirmPassword";
-import { modalInitialState } from "../../../Library/Constants";
+import { modalInitialState, requestHeader } from "../../../Library/Constants";
 import Header from "../../../Components/Header/Header";
 import Modal from "../../../Components/Modal/Modal";
 import Label from "../../../Components/Label/Label";
@@ -40,9 +40,13 @@ const ResetPassword = () => {
       setPhoneNo(phoneNo);
       setButtonText(true);
       try {
-        const isNumber = await postCall("users/reset_password", {
-          phone_no: phoneNo,
-        });
+        const isNumber = await postCall(
+          "users/reset_password",
+          {
+            phone_no: phoneNo,
+          },
+          requestHeader
+        );
         if (isNumber) {
           setIsOTP(!isOTP);
           setButtonText(false);
@@ -66,10 +70,14 @@ const ResetPassword = () => {
     } else {
       setButtonText(true);
       try {
-        const otpValidate = await postCall("users/confirm_otp", {
-          phone_no: phoneNo,
-          otp,
-        });
+        const otpValidate = await postCall(
+          "users/confirm_otp",
+          {
+            phone_no: phoneNo,
+            otp,
+          },
+          requestHeader
+        );
         if (otpValidate) {
           setConfirmPasswordPage(!isConfirmPasswordPage);
           setButtonText(false);
@@ -83,9 +91,13 @@ const ResetPassword = () => {
   };
   const resendOtp = async () => {
     try {
-      await postCall("users/reset_password", {
-        phone_no: phoneNo,
-      });
+      await postCall(
+        "users/reset_password",
+        {
+          phone_no: phoneNo,
+        },
+        requestHeader
+      );
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
     }

@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { postCall } from "../../../Components/Services/DataFetch";
-import { modalInitialState } from "../../../Library/Constants";
+import {
+  modalInitialState,
+  requestHeader,
+  users,
+} from "../../../Library/Constants";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Button from "../../../Components/Button/Button";
@@ -10,67 +14,64 @@ import "./UserDataComponent.css";
 import Modal from "../../../Components/Modal/Modal";
 
 const UserDataComponent = ({ renderSignupComponent, updateData }) => {
-  const [buttonContent, setButtonContent] = useState("Next");
+  const [userData, setUserData] = useState({
+    user_name: "",
+    phone_no: "",
+    email: "",
+    password: "",
+    type: 2,
+    user_location:
+      '{"lat":12.9141417,"lng":74.8559568,"name":"Mangalore,Karnataka,India"}',
+  });
+  const [buttonData, setButtonData] = useState({
+    value: "Next",
+    isActive: false,
+  });
   const [modal, setModal] = useState(modalInitialState);
 
-  const validateUser = (userDetails) => {
-    if (userDetails.user_name.trim() === "") {
-      setModal({ modalContent: "Please provide valid name", showModal: true });
-      return false;
-    } else if (
-      userDetails.phone_no.trim() === "" ||
-      userDetails.phone_no.length !== 13
-    ) {
-      setModal({
-        modalContent: "Please provide valid phone number (10 digits)",
-        showModal: true,
-      });
-      return false;
-    } else if (
-      userDetails.email.trim() === "" ||
-      userDetails.email.match("^[a-zA-Z0-9+_.-]+@[a-zA-Z]+[.]+[a-zA-Z]+$") ===
-        null
-    ) {
-      setModal({ modalContent: "Please provide valid email", showModal: true });
-      return false;
-    } else if (userDetails.password.trim() === "") {
-      setModal({
-        modalContent: "Please provide valid password",
-        showModal: true,
-      });
-      return false;
-    } else {
-      return true;
+  const validateUser = () => {
+    if (userData.user_name.trim() !== "") {
+      if (userData.phone_no.trim() !== "") {
+        if (
+          userData.email.trim() !== "" ||
+          userData.email.match("^[a-zA-Z0-9+_.-]+@[a-zA-Z]+[.]+[a-zA-Z]+$") !==
+            null
+        ) {
+          if (userData.password.trim() !== "") {
+            return setButtonData({ ...buttonData, isActive: true });
+          }
+        }
+      }
     }
+    setButtonData({ ...buttonData, isActive: false });
+  };
+
+  const handleFormInputChange = (el) => {
+    if (el.className === "nameInput") {
+      setUserData({ ...userData, user_name: el.value });
+    } else if (el.className === "emailInput") {
+      setUserData({ ...userData, email: el.value });
+    } else if (el.className === "passwordInput") {
+      setUserData({ ...userData, password: el.value });
+    } else {
+      setUserData({ ...userData, phone_no: el.value });
+    }
+    validateUser();
   };
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
-    const user_name = e.target[0].value;
-    const phone_no = e.target[1].value.replace(/-/g, "").replace(/ /g, "");
-    const email = e.target[2].value;
-    const password = e.target[3].value;
-    const userData = {
-      user_name,
-      phone_no,
-      email,
-      password,
-      type: 2,
-      user_location:
-        '{"lat":12.9141417,"lng":74.8559568,"name":"Mangalore,Karnataka,India"}',
-    };
-    if (validateUser(userData)) {
-      setButtonContent("Please Wait..");
-      try {
-        const data = await postCall("users/", userData);
-        if (data) {
-          updateData(data.user_id, userData);
-          renderSignupComponent("otpComponent");
-        }
-      } catch (err) {
-        setButtonContent("Next");
-        setModal({ modalContent: err, showModal: true });
+    userData.phone_no = userData.phone_no.replace(/-/g, "").replace(/ /g, "");
+    setButtonData({ value: "Please Wait..", isActive: false });
+    try {
+      const data = await postCall(users, userData, requestHeader);
+      if (data) {
+        updateData(data.user_id, userData);
+        renderSignupComponent("otpComponent");
       }
+    } catch (err) {
+      setButtonData({ value: "Next", isActive: true });
+      setModal({ modalContent: err, showModal: true });
     }
   };
 
@@ -81,7 +82,10 @@ const UserDataComponent = ({ renderSignupComponent, updateData }) => {
       )}
       <h3 className="comp1h3">Let's create an account</h3>
       <div className="inputContainer">
-        <form onSubmit={formSubmitHandler}>
+        <form
+          onSubmit={formSubmitHandler}
+          onChange={(e) => handleFormInputChange(e.target)}
+        >
           <Input
             type={"text"}
             className={"nameInput"}
@@ -114,9 +118,9 @@ const UserDataComponent = ({ renderSignupComponent, updateData }) => {
             </span>
           </div>
           <Button
-            btnName={buttonContent}
-            className={"btnGreen"}
-            btnDisable={buttonContent === "Next" ? false : true}
+            btnName={buttonData.value}
+            className={buttonData.isActive ? "btnGreen" : "btnGrey"}
+            btnDisable={buttonData.isActive ? false : true}
           />
         </form>
       </div>

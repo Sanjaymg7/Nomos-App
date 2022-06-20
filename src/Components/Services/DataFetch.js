@@ -1,4 +1,8 @@
 const url = "https://api2.juegogames.com/NOMOS-V3/";
+const defaultHeader = {
+  "content-type": "application/json",
+  access_token: localStorage.getItem("access_token"),
+};
 
 const handleData = (data) => {
   if (data.responseCode === 200) {
@@ -16,10 +20,7 @@ const handleError = (err) => {
   }
 };
 
-const getCall = (
-  endPoint,
-  headers = { "content-type": "application/json" }
-) => {
+const getCall = (endPoint, headers = defaultHeader) => {
   return fetch(url + endPoint, {
     method: "GET",
     headers: headers,
@@ -33,11 +34,7 @@ const getCall = (
     });
 };
 
-const putCall = (
-  endPoint,
-  body,
-  headers = { "content-type": "application/json" }
-) => {
+const putCall = (endPoint, body, headers = defaultHeader) => {
   return fetch(url + endPoint, {
     method: "PUT",
     headers: headers,
@@ -52,11 +49,7 @@ const putCall = (
     });
 };
 
-const postCall = (
-  endPoint,
-  body,
-  headers = { "content-type": "application/json" }
-) => {
+const postCall = (endPoint, body, headers = defaultHeader) => {
   return fetch(url + endPoint, {
     headers: headers,
     method: "POST",

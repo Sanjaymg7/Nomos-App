@@ -1,11 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ItemPostContext } from "./ItemPost";
-import {
-  getRequestHeader,
-  modalInitialState,
-  getImageURL,
-} from "../../Library/Constants";
+import { modalInitialState, items, home } from "../../Library/Constants";
+import { imageURLService } from "../../Components/Services/ImageURLService";
 import { postCall } from "../../Components/Services/DataFetch";
 import Header from "../../Components/Header/Header";
 import PostTextAndImageForm from "../../Components/PostTextAndImageForm/PostTextAndImageForm";
@@ -68,14 +65,14 @@ const ItemPostInput = ({ renderComponent }) => {
     e.preventDefault();
     setButtonData({ value: "Please wait...", isActive: false });
     try {
-      itemPostData.items_service_image = await getImageURL(
+      itemPostData.items_service_image = await imageURLService(
         itemPostData.image_url,
         itemPostData.items_service_image
       );
       itemPostData.start_time = new Date(itemPostData.start_time).getTime();
-      const data = await postCall("/items", itemPostData, getRequestHeader());
+      const data = await postCall(items, itemPostData);
       if (data) {
-        navigate("/home");
+        navigate(home);
       }
     } catch (err) {
       setButtonData({ value: "Create Post", isActive: true });

@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { modalInitialState } from "../../../Library/Constants";
+import {
+  modalInitialState,
+  requestHeader,
+  users,
+  verifyOTP,
+} from "../../../Library/Constants";
 import { putCall, postCall } from "../../../Components/Services/DataFetch";
 import OtpInput from "react-otp-input";
 import Button from "../../../Components/Button/Button";
@@ -8,36 +13,52 @@ import Modal from "../../../Components/Modal/Modal";
 
 const OTPComponent = ({ renderSignupComponent, userId, userData }) => {
   const [otp, setOtp] = useState(0);
+  const [buttonData, setButtonData] = useState({
+    value: "Confirm",
+    isActive: false,
+  });
   const [modal, setModal] = useState(modalInitialState);
+
+  const validateOTP = (val) => {
+    if (val.length === 4) {
+      setButtonData({ ...buttonData, isActive: true });
+    } else {
+      setButtonData({ ...buttonData, isActive: false });
+    }
+  };
 
   const handleOtp = (val) => {
     setOtp(val);
+    validateOTP(val);
   };
 
   const handleResendOTP = async () => {
     try {
-      await postCall("users", userData);
+      await postCall(users, userData, requestHeader);
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
     }
   };
 
-  const btnClickHandler = async () => {
-    if (otp.length == 4) {
-      try {
-        const data = await putCall("users/verify_otp", {
+  const formSubmitHandler = async (e) => {
+    e.preventDefault();
+    setButtonData({ value: "Please Wait..", isActive: false });
+    try {
+      const data = await putCall(
+        verifyOTP,
+        {
           user_id: userId,
           otp,
-        });
-        if (data) {
-          localStorage.setItem("access_token", data.access_token);
-          renderSignupComponent("skillsComponent");
-        }
-      } catch (err) {
-        setModal({ modalContent: err, showModal: true });
+        },
+        requestHeader
+      );
+      if (data) {
+        localStorage.setItem("access_token", data.access_token);
+        renderSignupComponent("skillsComponent");
       }
-    } else {
-      setModal({ modalContent: "Please enter 4 digit otp!", showModal: true });
+    } catch (err) {
+      setButtonData({ value: "Confirm", isActive: true });
+      setModal({ modalContent: err, showModal: true });
     }
   };
 
@@ -57,21 +78,23 @@ const OTPComponent = ({ renderSignupComponent, userId, userData }) => {
       )}
       <h3 className="comp2h3">Confirm OTP</h3>
       <p className="comp2Text">OTP is sent to your registered mobile number</p>
-      <div className="otpContainer">
-        <OtpInput
-          containerStyle="otpModal"
-          inputStyle={otpInputStyles}
-          value={otp}
-          onChange={handleOtp}
-          numInputs={4}
-          isInputNum={true}
+      <form onSubmit={formSubmitHandler}>
+        <div className="otpContainer">
+          <OtpInput
+            containerStyle="otpModal"
+            inputStyle={otpInputStyles}
+            value={otp}
+            onChange={handleOtp}
+            numInputs={4}
+            isInputNum={true}
+          />
+        </div>
+        <Button
+          btnName={buttonData.value}
+          className={buttonData.isActive ? "btnGreen" : "btnGrey"}
+          btnDisable={buttonData.isActive ? false : true}
         />
-      </div>
-      <Button
-        btnName={"Confirm"}
-        className={"btnGrey"}
-        onBtnClick={btnClickHandler}
-      />
+      </form>
       <p className="resendMessage" onClick={handleResendOTP}>
         Didn't receive? Resend OTP
       </p>

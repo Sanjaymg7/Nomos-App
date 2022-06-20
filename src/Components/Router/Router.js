@@ -11,6 +11,8 @@ import Comments from "../../Pages/Comments/Comments/Comments";
 import Register from "../../Pages/Register/Register";
 import ExperiencePost from "../../Pages/Experience/ExperiencePost";
 import CommunityPost from "../../Pages/Community/CommunityPost";
+import SearchUser from "../../Pages/SearchUser/SearchUser";
+import AcceptFriendRequest from "../../Pages/AcceptFriendRequest/AcceptFriendRequest";
 
 const ProtectedRoute = ({ isProtectedRoute }) => {
   if (isProtectedRoute && !localStorage.getItem("access_token")) {
@@ -32,6 +34,8 @@ const routes = [
   { path: "/signin", element: <SignIn />, isProtected: false },
   { path: "/forgotpassword", element: <ResetPassword />, isProtected: false },
   { path: "/signup", element: <Register />, isProtected: false },
+  { path: "/searchUser", element: <SearchUser />, isProtected: false },
+  { path: "/acceptUser", element: <AcceptFriendRequest />, isProtected: false },
 ];
 
 export const appRoutes = routes.map((route, index) => (

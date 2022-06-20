@@ -18,3 +18,7 @@
   margin: 3em 0em 2em;
   text-align: center;
 }
+.loadingContainer {
+  display: block;
+  height: 25em;
+}

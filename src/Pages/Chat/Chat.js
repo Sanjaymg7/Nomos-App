@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-  getRequestHeader,
   modalInitialState,
-  getWebsocketURL,
+  websocketURL,
+  access_token,
 } from "../../Library/Constants";
 import { getCall } from "../../Components/Services/DataFetch";
 import Modal from "../../Components/Modal/Modal";
@@ -25,10 +25,7 @@ const Chat = () => {
 
   const getOtherUser = async () => {
     try {
-      const user = await getCall(
-        `users?other_user_id=${otherUserId}`,
-        getRequestHeader()
-      );
+      const user = await getCall(`users?other_user_id=${otherUserId}`);
       setOtherUserName(user.user_name);
       setIsOnline(user.online_status);
     } catch (err) {
@@ -39,22 +36,21 @@ const Chat = () => {
   const getPreviousChats = async () => {
     try {
       const chats = await getCall(
-        `chat/messages?user_id=${otherUserId}&limit=50`,
-        getRequestHeader()
+        `chat/messages?user_id=${otherUserId}&limit=50`
       );
       setChatMessages(chats.messages);
       if (chats.messages[0].sender_id == otherUserId) {
         sendChatRead(chats.messages[0].message_id);
       }
     } catch (err) {
-      setModal({ modalContent: "Something went wrong!!", showModal: true });
+      setModal({ modalContent: err, showModal: true });
     } finally {
       setIsLoading(false);
     }
   };
 
   const connectWebSocket = () => {
-    webSocket.current = new WebSocket(getWebsocketURL());
+    webSocket.current = new WebSocket(websocketURL);
   };
 
   const sendMessage = () => {
@@ -62,7 +58,7 @@ const Chat = () => {
       webSocket.current.send(
         JSON.stringify({
           action: "send_chat_message",
-          access_token: localStorage.getItem("access_token"),
+          access_token,
           chat_type: 1,
           user_id: otherUserId,
           message_type: 1,
@@ -77,7 +73,7 @@ const Chat = () => {
     webSocket.current.send(
       JSON.stringify({
         action: "send_typing",
-        access_token: localStorage.getItem("access_token"),
+        access_token,
         chat_type: 1,
         user_id: otherUserId,
       })
@@ -88,7 +84,7 @@ const Chat = () => {
     webSocket.send(
       JSON.stringify({
         action: "send_chat_read",
-        access_token: localStorage.getItem("access_token"),
+        access_token,
         chat_type: 1,
         user_id: otherUserId,
         last_message_id: messageId,

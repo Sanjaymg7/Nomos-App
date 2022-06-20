@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { modalInitialState } from "../../../Library/Constants";
-import { getRequestHeader } from "../../../Library/Constants";
+import { modalInitialState, users } from "../../../Library/Constants";
 import { putCall } from "../../../Components/Services/DataFetch";
 import Modal from "../../../Components/Modal/Modal";
 import SkillAndCategoryForm from "../../../Components/SkillAndCategoryForm/SkillAndCategoryForm";
@@ -10,13 +9,9 @@ const SkillsComponent = ({ renderComponent }) => {
 
   const btnClickHandler = async ([, skillsData]) => {
     try {
-      const data = await putCall(
-        "users",
-        {
-          skils_list: skillsData,
-        },
-        getRequestHeader()
-      );
+      const data = await putCall(users, {
+        skils_list: skillsData,
+      });
       if (data) {
         renderComponent("CommunityComponent");
       }

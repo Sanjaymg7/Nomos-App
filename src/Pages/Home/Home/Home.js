@@ -7,7 +7,6 @@ import {
   postCall,
 } from "../../../Components/Services/DataFetch";
 import HomeCard from "../HomeCard/HomeCard";
-import { getRequestHeader } from "../../../Library/Constants";
 import { modalInitialState } from "../../../Library/Constants";
 import Footer from "../../../Components/Footer/Footer";
 import Modal from "../../../Components/Modal/Modal";
@@ -33,7 +32,7 @@ const Home = () => {
   const getData = async () => {
     try {
       setLoading(true);
-      const data = await getCall("posts/?type=3", getRequestHeader());
+      const data = await getCall("posts/?type=3");
       setPosts(data.posts);
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
@@ -51,7 +50,7 @@ const Home = () => {
   const updateLikes = async (postId, post, index) => {
     updateLikesSetter(post, index);
     try {
-      await putCall("posts/like/", { post_id: postId }, getRequestHeader());
+      await putCall("posts/like/", { post_id: postId });
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
       updateLikesSetter(post);
@@ -60,7 +59,7 @@ const Home = () => {
   const postViews = async (postId) => {
     console.log("View");
     try {
-      await postCall("posts/view/", { post_id: postId }, getRequestHeader());
+      await postCall("posts/view/", { post_id: postId });
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
     }
@@ -68,7 +67,7 @@ const Home = () => {
 
   const logOutHandler = async () => {
     try {
-      await postCall("users/logout", {}, getRequestHeader());
+      await postCall("users/logout", {});
       localStorage.removeItem("access_token");
       navigate("/");
     } catch (err) {

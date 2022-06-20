@@ -27,3 +27,7 @@
 .friendName {
   margin-left: 2em;
 }
+.friendLoadingContainer {
+  display: block;
+  height: 35em;
+}
