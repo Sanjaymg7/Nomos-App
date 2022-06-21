@@ -19,13 +19,20 @@ const ResetPassword = () => {
   const [buttonText, setButtonText] = useState(false);
   const [isConfirmPasswordPage, setConfirmPasswordPage] = useState(false);
 
-  const inputStyle = {
+  const otpInputStyle = {
     width: "3.5rem",
     height: "3.5rem",
     margin: "1.5rem 1rem",
     fontSize: "1rem",
     borderRadius: 4,
     border: "0.125rem solid rgba(0,0,0,0.3)",
+  };
+  const phoneInputStyle = {
+    width: "100%",
+    border: "none",
+    height: "3rem",
+    fontSize: "large",
+    backgroundColor: "#eee",
   };
 
   const phoneInput = async (e) => {
@@ -125,7 +132,7 @@ const ResetPassword = () => {
             {isOTP ? (
               <OtpInput
                 numInputs={4}
-                inputStyle={inputStyle}
+                inputStyle={otpInputStyle}
                 value={otp}
                 onChange={handleOtpChange}
                 seperator={<span> </span>}
@@ -136,13 +143,7 @@ const ResetPassword = () => {
                 containerStyle={{
                   margin: "0.5em 0em 1.6em",
                 }}
-                inputStyle={{
-                  width: "100%",
-                  border: "none",
-                  height: "3rem",
-                  fontSize: "large",
-                  backgroundColor: "#eee",
-                }}
+                inputStyle={phoneInputStyle}
               />
             )}
             <Button
