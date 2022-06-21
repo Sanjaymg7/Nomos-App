@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { home, inbox } from "../../Library/Constants";
 import Image from "../Image/Image";
 import "./Footer.css";
 import { useNavigate } from "react-router-dom";
@@ -14,11 +15,11 @@ const Footer = () => {
   return (
     <>
       {isMenu ? (
-        <MenuComp toggleMenu={toggleMenu}/>
+        <MenuComp toggleMenu={toggleMenu} />
       ) : (
         <div className="footer">
           <Image
-            onClick={() => navigate("/home")}
+            onClick={() => navigate(home)}
             className="footer-image"
             src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/0DD39DDA-F1F6-4734-B794-AEED1FFA7AF9.png"
             alt="footer-image"
@@ -27,7 +28,7 @@ const Footer = () => {
             +
           </div>
           <Image
-            onClick={() => navigate("/inbox")}
+            onClick={() => navigate(inbox)}
             className="footer-image"
             src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/BFAA1882-80B9-49F7-B412-4788306C01BD.png"
             alt="inbox-image"

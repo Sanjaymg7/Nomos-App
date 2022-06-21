@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ModalContext } from "../../App";
 import "./SkillAndCategoryForm.css";
-import { modalInitialState, skills, categories } from "../../Library/Constants";
+import { skills, categories } from "../../Library/Constants";
 import { getCall } from "../../Components/Services/DataFetch";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
@@ -18,7 +19,7 @@ const SkillAndCategoryForm = ({ component, handleSkillOrCategorySubmit }) => {
   });
   const [dataCount, setDataCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
 
   const getData = async () => {
     try {
@@ -89,9 +90,7 @@ const SkillAndCategoryForm = ({ component, handleSkillOrCategorySubmit }) => {
   };
   return (
     <div className="comp3Container">
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       <h3 className="comp3h3">
         Selected {component} ({dataCount})
       </h3>

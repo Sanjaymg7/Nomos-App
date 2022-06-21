@@ -1,17 +1,18 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useContext } from "react";
+import { ModalContext } from "../../App";
 import Button from "../../Components/Button/Button";
 import Input from "../../Components/Input/Input";
 import { postCall } from "../../Components/Services/DataFetch";
 import { useNavigate } from "react-router-dom";
 import "./SignIn.css";
-import { modalInitialState, requestHeader } from "../../Library/Constants";
+import { requestHeader, home } from "../../Library/Constants";
 import Header from "../../Components/Header/Header";
 import Label from "../../Components/Label/Label";
 import Modal from "../../Components/Modal/Modal";
 
 export const userContext = createContext();
 const SignIn = () => {
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
   const [buttonName, setButtonName] = useState("Sign In");
   const [user, setUser] = useState({});
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const SignIn = () => {
           setUser(userDetail);
           setButtonName("Sign In");
           localStorage.setItem("access_token", userDetail.access_token);
-          navigate("/home");
+          navigate(home);
         }
       } catch (err) {
         setButtonName("Sign In");
@@ -66,33 +67,25 @@ const SignIn = () => {
   };
   return (
     <>
-      {modal.showModal ? (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      ) : (
-        <>
-          <userContext.provider value={user}>
-            <Header />
-            <form className="signin" onSubmit={userSignIn}>
-              <Label className="signin-label" labelName="Email" />
-              <Input className="input" />
-              <Label className="signin-label" labelName="Password" />
-              <Input className="input" type="password" />
-              <Button
-                btnDisable={buttonName == "Sign In" ? false : true}
-                // className="btn sign-in"
-                className={"btnGreen"}
-                btnName={buttonName}
-              />
-            </form>
-            <p
-              onClick={() => navigate("/forgotpassword")}
-              className="forgot-para"
-            >
-              Forgot password?
-            </p>
-          </userContext.provider>
-        </>
-      )}
+      {modal.showModal && <Modal />}
+      {/* <userContext.provider value={user}> */}
+      <Header />
+      <form className="signin" onSubmit={userSignIn}>
+        <Label className="signin-label" labelName="Email" />
+        <Input className="input" />
+        <Label className="signin-label" labelName="Password" />
+        <Input className="input" type="password" />
+        <Button
+          btnDisable={buttonName == "Sign In" ? false : true}
+          // className="btn sign-in"
+          className={"btnGreen"}
+          btnName={buttonName}
+        />
+      </form>
+      <p onClick={() => navigate("/forgotpassword")} className="forgot-para">
+        Forgot password?
+      </p>
+      {/* </userContext.provider> */}
     </>
   );
 };

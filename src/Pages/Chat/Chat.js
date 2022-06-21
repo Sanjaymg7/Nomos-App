@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  modalInitialState,
-  websocketURL,
-  access_token,
-} from "../../Library/Constants";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { ModalContext } from "../../App";
+import { websocketURL, access_token } from "../../Library/Constants";
 import { getCall } from "../../Components/Services/DataFetch";
 import Modal from "../../Components/Modal/Modal";
 import Header from "../../Components/Header/Header";
@@ -18,7 +15,7 @@ const Chat = () => {
   const webSocket = useRef(null);
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
   const [isTyping, setIsTyping] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isOnline, setIsOnline] = useState(false);
@@ -157,9 +154,7 @@ const Chat = () => {
 
   return (
     <div>
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       <Header navigateTo="inbox" headerText={otherUserName} />
       {isLoading ? (
         <Loading />

@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { ModalContext } from "../../App";
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Button/Button";
 import Header from "../../Components/Header/Header";
-import { modalInitialState, requestHeader } from "../../Library/Constants";
+import { requestHeader } from "../../Library/Constants";
 import { putCall } from "../../Components/Services/DataFetch";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../Components/Modal/Modal";
 import Label from "../../Components/Label/Label";
 
 const ConfirmPass = () => {
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
   const [buttonText, setButtonText] = useState(false);
   const navigate = useNavigate();
 
@@ -69,9 +70,7 @@ const ConfirmPass = () => {
   };
   return (
     <>
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       <Header navigateTo="signIn" />
       <form className="signin" onSubmit={confirmPassword}>
         <Label labelName="Enter New Password" />

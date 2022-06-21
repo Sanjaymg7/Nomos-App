@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
+import { ModalContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { ItemPostContext } from "./ItemPost";
-import { modalInitialState, items, home } from "../../Library/Constants";
+import { items, home, waitingMessage } from "../../Library/Constants";
 import { imageURLService } from "../../Components/Services/ImageURLService";
 import { postCall } from "../../Components/Services/DataFetch";
 import Header from "../../Components/Header/Header";
@@ -10,7 +11,7 @@ import PostTypeAndGiftForm from "../../Components/PostTypeAndGiftForm/PostTypeAn
 import Button from "../../Components/Button/Button";
 import Modal from "../../Components/Modal/Modal";
 import SkillAndCategoryDisplay from "../../Components/SkillAndCategoryDisplay/SkillAndCategoryDisplay";
-import StartDate from "../../Components/StartDate/StartDate";
+import Input from "../../Components/Input/Input";
 
 const ItemPostInput = ({ renderComponent }) => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const ItemPostInput = ({ renderComponent }) => {
     value: "Create Post",
     isActive: false,
   });
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
 
   const handleItemPostTitle = (val) => {
     setItemPostData({ ...itemPostData, items_service_name: val });
@@ -63,7 +64,7 @@ const ItemPostInput = ({ renderComponent }) => {
 
   const createItemPost = async (e) => {
     e.preventDefault();
-    setButtonData({ value: "Please wait...", isActive: false });
+    setButtonData({ value: waitingMessage, isActive: false });
     try {
       itemPostData.items_service_image = await imageURLService(
         itemPostData.image_url,
@@ -97,9 +98,7 @@ const ItemPostInput = ({ renderComponent }) => {
 
   return (
     <div>
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       <Header navigateTo="home" headerText="Offer or Request an Item" />
       <form onChange={enableCreatePostButton} onSubmit={createItemPost}>
         <div className="inputContainer">
@@ -119,9 +118,11 @@ const ItemPostInput = ({ renderComponent }) => {
             renderComponent={renderComponent}
             dataArray={itemPostData.categories_array}
           />
-          <StartDate
-            dateValue={itemPostData.start_time}
-            handleStartDate={handleStartDate}
+          <Input
+            type="date"
+            value={itemPostData.start_time}
+            onInputChange={handleStartDate}
+            labelContent="Start Date (optional)"
           />
           <Button
             btnName={buttonData.value}

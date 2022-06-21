@@ -1,4 +1,5 @@
 import { getCall } from "./DataFetch";
+import { errorMessage } from "../../Library/Constants";
 
 export const imageURLService = async (fileExtension, file) => {
   if (fileExtension) {
@@ -11,7 +12,7 @@ export const imageURLService = async (fileExtension, file) => {
         body: file,
       });
       if (data.status !== 200) {
-        throw "Something went wrong!!!";
+        throw errorMessage;
       } else {
         return getUploadData.image_id;
       }

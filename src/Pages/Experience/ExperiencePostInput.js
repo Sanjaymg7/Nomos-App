@@ -1,14 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
+import { ModalContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { ExperiencePostContext } from "./ExperiencePost";
-import { modalInitialState, experience, home } from "../../Library/Constants";
+import { experience, home, waitingMessage } from "../../Library/Constants";
 import { imageURLService } from "../../Components/Services/ImageURLService";
 import { postCall } from "../../Components/Services/DataFetch";
 import Header from "../../Components/Header/Header";
 import Modal from "../../Components/Modal/Modal";
 import PostTextAndImageForm from "../../Components/PostTextAndImageForm/PostTextAndImageForm";
 import Button from "../../Components/Button/Button";
-import StartDate from "../../Components/StartDate/StartDate";
 import SkillAndCategoryDisplay from "../../Components/SkillAndCategoryDisplay/SkillAndCategoryDisplay";
 import UserDisplay from "../../Components/UserDisplay/UserDisplay";
 import Input from "../../Components/Input/Input";
@@ -18,7 +18,7 @@ const ExperiencePostInput = ({ renderComponent }) => {
   const [experiencePostData, setExperiencePostData] = useContext(
     ExperiencePostContext
   );
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
   const [buttonData, setButtonData] = useState({
     value: "Create Experience",
     isActive: false,
@@ -74,7 +74,7 @@ const ExperiencePostInput = ({ renderComponent }) => {
 
   const createExperiencePost = async (e) => {
     e.preventDefault();
-    setButtonData({ value: "Please wait...", isActive: false });
+    setButtonData({ value: waitingMessage, isActive: false });
     try {
       experiencePostData.experience_image = await imageURLService(
         experiencePostData.image_url,
@@ -95,9 +95,7 @@ const ExperiencePostInput = ({ renderComponent }) => {
 
   return (
     <div>
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       <Header navigateTo="home" headerText="Create an Experience" />
       <form onChange={enableCreatePostButton} onSubmit={createExperiencePost}>
         <div className="inputContainer">
@@ -123,9 +121,11 @@ const ExperiencePostInput = ({ renderComponent }) => {
             renderComponent={renderComponent}
             userType="Moderator"
           />
-          <StartDate
-            dateValue={experiencePostData.start_time}
-            handleStartDate={handleStartDate}
+          <Input
+            type="date"
+            value={experiencePostData.start_time}
+            onInputChange={handleStartDate}
+            labelContent="Start Date (optional)"
           />
           <Button
             btnName={buttonData.value}

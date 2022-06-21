@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { ModalContext } from "../../../App";
 import { postCall } from "../../../Components/Services/DataFetch";
 import {
-  modalInitialState,
   requestHeader,
   users,
+  waitingMessage,
 } from "../../../Library/Constants";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -27,7 +28,7 @@ const UserDataComponent = ({ renderSignupComponent, updateData }) => {
     value: "Next",
     isActive: false,
   });
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
 
   const validateUser = () => {
     if (userData.user_name.trim() !== "") {
@@ -62,7 +63,7 @@ const UserDataComponent = ({ renderSignupComponent, updateData }) => {
   const formSubmitHandler = async (e) => {
     e.preventDefault();
     userData.phone_no = userData.phone_no.replace(/-/g, "").replace(/ /g, "");
-    setButtonData({ value: "Please Wait..", isActive: false });
+    setButtonData({ value: waitingMessage, isActive: false });
     try {
       const data = await postCall(users, userData, requestHeader);
       if (data) {
@@ -77,9 +78,7 @@ const UserDataComponent = ({ renderSignupComponent, updateData }) => {
 
   return (
     <div className="comp1Container">
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       <h3 className="comp1h3">Let's create an account</h3>
       <div className="inputContainer">
         <form

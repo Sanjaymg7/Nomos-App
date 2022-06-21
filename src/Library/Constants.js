@@ -8,15 +8,18 @@ export const modalInitialState = {
   showModal: false,
 };
 
+export const waitingMessage = "Please Wait..";
+export const errorMessage = "Something went wrong!!";
+
 // API endpoint URL's
 export const users = "users/";
 export const verifyOTP = "users/verify_otp";
 export const communityNearby = "community/list?type=5";
 export const joinCommunity = "community/join";
-export const community = "community";
+export const community = "/community";
 export const service = "service";
 export const items = "items";
-export const experience = "experience";
+export const experience = "/experience";
 export const privateChats = "chat?chat_type=1";
 export const skills = "master/skills";
 export const categories = "master/categories";

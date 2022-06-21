@@ -10,3 +10,12 @@
 .requestUserName {
   margin: auto 0em;
 }
+.noRequestMessage {
+  position: absolute;
+  font-size: 1.4em;
+  width: 14em;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { ModalContext } from "../../App";
 import { getCall } from "../Services/DataFetch";
 import Image from "../Image/Image";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 import Loading from "../Loading/Loading";
-import { modalInitialState } from "../../Library/Constants";
 import "./Friends.css";
 
 const Friends = ({ handleFriendsSubmit, selectType, userType }) => {
@@ -16,7 +16,7 @@ const Friends = ({ handleFriendsSubmit, selectType, userType }) => {
     value: "Submit",
     isActive: false,
   });
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
 
   const getFriends = async () => {
     try {
@@ -85,9 +85,7 @@ const Friends = ({ handleFriendsSubmit, selectType, userType }) => {
 
   return (
     <div>
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       {userType === "chatUser" ? (
         ""
       ) : (

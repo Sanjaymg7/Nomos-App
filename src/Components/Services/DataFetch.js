@@ -1,3 +1,5 @@
+import { errorMessage } from "../../Library/Constants";
+
 const url = "https://api2.juegogames.com/NOMOS-V3/";
 const defaultHeader = {
   "content-type": "application/json",
@@ -16,7 +18,7 @@ const handleError = (err) => {
   if (typeof err === "string") {
     throw err;
   } else {
-    throw "Something went wrong!!";
+    throw errorMessage;
   }
 };
 

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { home, signIn, signUp } from "../../../Library/Constants";
 import Button from "../../../Components/Button/Button";
 import Image from "../../../Components/Image/Image";
 import "./Intro.css";
@@ -7,7 +8,7 @@ const Intro = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("access_token")) {
-      navigate("/home");
+      navigate(home);
     }
   });
   return (
@@ -28,12 +29,12 @@ const Intro = () => {
       <Button
         className="btn"
         btnName="Sign In"
-        onBtnClick={() => navigate("/signin")}
+        onBtnClick={() => navigate(signIn)}
       />
       <Button
         className="btn"
         btnName="Sign Up"
-        onBtnClick={() => navigate("/signup")}
+        onBtnClick={() => navigate(signUp)}
       />
     </div>
   );
