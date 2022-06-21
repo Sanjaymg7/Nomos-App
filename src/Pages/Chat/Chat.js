@@ -101,7 +101,7 @@ const Chat = () => {
     connectWebSocket();
     getPreviousChats();
 
-    webSocket.current.onopen = (event) => {
+    webSocket.current.onopen = () => {
       console.log("Websocket is open");
     };
 

@@ -1,6 +1,8 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
 import Image from "../../../Components/Image/Image";
 import "./HomeCard.css";
+import { useNavigate } from "react-router-dom";
 
 const HomeCard = ({
   index,
@@ -19,8 +21,16 @@ const HomeCard = ({
   updateLikes,
   setCommentsPage,
 }) => {
+  const navigate = useNavigate();
   return (
-    <div className="home-card-container" onFocus={() => postViews(postId)}>
+    <div
+      className="home-card-container"
+      onClick={() => {
+        postViews(postId);
+        localStorage.setItem("post_id", postId);
+        navigate("/userdetails");
+      }}
+    >
       <div className="home-card-header">
         <div className="intro-container">
           <div className="home-header-container">
@@ -30,16 +40,20 @@ const HomeCard = ({
               alt="Profile img"
             />
             <div className="home-header-text">
-              <h5>{userName}</h5>
-              <div>{title}</div>
+              <h4>{userName}</h4>
+              <span>{post.location.name}</span>
             </div>
           </div>
-          <div className="three-dots">...</div>
         </div>
       </div>
       <div className="home-card-body">
         <div className="body-text">
-          <div className="span-tag home-para">{description}</div>
+          <h4>{title}</h4>
+          <div className="span-tag home-para">
+            {description.length <= 80
+              ? description
+              : description.slice(0, 79) + "..."}
+          </div>
         </div>
         <div>
           <Image className="post-img" src={imageURL} alt="img" />

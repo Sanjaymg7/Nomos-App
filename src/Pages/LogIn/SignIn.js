@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import Button from "../../Components/Button/Button";
 import Input from "../../Components/Input/Input";
 import { postCall } from "../../Components/Services/DataFetch";
@@ -9,9 +9,11 @@ import Header from "../../Components/Header/Header";
 import Label from "../../Components/Label/Label";
 import Modal from "../../Components/Modal/Modal";
 
+export const userContext = createContext();
 const SignIn = () => {
   const [modal, setModal] = useState(modalInitialState);
   const [buttonName, setButtonName] = useState("Sign In");
+  const [user, setUser] = useState({});
   const navigate = useNavigate();
 
   const validateUser = (userData) => {
@@ -46,6 +48,8 @@ const SignIn = () => {
         setButtonName("Signing in...");
         const userDetail = await postCall("users/sign_in", userData);
         if (userDetail) {
+          console.log(userDetail);
+          setUser(userDetail);
           setButtonName("Sign In");
           localStorage.setItem("access_token", userDetail.access_token);
           navigate("/home");
@@ -62,20 +66,27 @@ const SignIn = () => {
         <Modal modalContent={modal.modalContent} closeModal={setModal} />
       ) : (
         <>
-          <Header />
-          <form className="signin" onSubmit={userSignIn}>
-            <Label className="signin-label" labelName="Email" />
-            <Input className="input" />
-            <Label className="signin-label" labelName="Password" />
-            <Input className="input" type="password" />
-            <Button className="btn sign-in" btnName={buttonName} />
-          </form>
-          <p
-            onClick={() => navigate("/forgotpassword")}
-            className="forgot-para"
-          >
-            Forgot password?
-          </p>
+          <userContext.provider value={user}>
+            <Header />
+            <form className="signin" onSubmit={userSignIn}>
+              <Label className="signin-label" labelName="Email" />
+              <Input className="input" />
+              <Label className="signin-label" labelName="Password" />
+              <Input className="input" type="password" />
+              <Button
+                btnDisable={buttonName == "Sign In" ? false : true}
+                // className="btn sign-in"
+                className={"btnGreen"}
+                btnName={buttonName}
+              />
+            </form>
+            <p
+              onClick={() => navigate("/forgotpassword")}
+              className="forgot-para"
+            >
+              Forgot password?
+            </p>
+          </userContext.provider>
         </>
       )}
     </>
