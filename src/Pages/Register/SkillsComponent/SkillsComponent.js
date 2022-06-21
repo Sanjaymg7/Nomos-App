@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { modalInitialState, users } from "../../../Library/Constants";
+import React, { useContext } from "react";
+import { ModalContext } from "../../../App";
+import { users } from "../../../Library/Constants";
 import { putCall } from "../../../Components/Services/DataFetch";
 import Modal from "../../../Components/Modal/Modal";
 import SkillAndCategoryForm from "../../../Components/SkillAndCategoryForm/SkillAndCategoryForm";
 
 const SkillsComponent = ({ renderComponent }) => {
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
 
   const btnClickHandler = async ([, skillsData]) => {
     try {
@@ -16,15 +17,13 @@ const SkillsComponent = ({ renderComponent }) => {
         renderComponent("CommunityComponent");
       }
     } catch (err) {
-      setModal({ modalContent: "Error", showModal: true });
+      setModal({ modalContent: err, showModal: true });
     }
   };
 
   return (
     <div className="comp3Container">
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       <SkillAndCategoryForm
         component={"skills"}
         handleSkillOrCategorySubmit={btnClickHandler}

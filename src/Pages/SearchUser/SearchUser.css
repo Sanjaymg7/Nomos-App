@@ -27,3 +27,8 @@
   margin: auto 0em;
   text-align: left;
 }
+.friendshipStatus {
+  margin: auto 0em;
+  font-size: 0.7em;
+  color: #00a86b;
+}

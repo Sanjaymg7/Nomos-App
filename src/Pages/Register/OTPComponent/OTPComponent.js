@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { ModalContext } from "../../../App";
 import {
-  modalInitialState,
   requestHeader,
   users,
   verifyOTP,
+  waitingMessage,
 } from "../../../Library/Constants";
 import { putCall, postCall } from "../../../Components/Services/DataFetch";
 import OtpInput from "react-otp-input";
@@ -17,7 +18,7 @@ const OTPComponent = ({ renderSignupComponent, userId, userData }) => {
     value: "Confirm",
     isActive: false,
   });
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
 
   const validateOTP = (val) => {
     if (val.length === 4) {
@@ -42,7 +43,7 @@ const OTPComponent = ({ renderSignupComponent, userId, userData }) => {
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
-    setButtonData({ value: "Please Wait..", isActive: false });
+    setButtonData({ value: waitingMessage, isActive: false });
     try {
       const data = await putCall(
         verifyOTP,
@@ -73,9 +74,7 @@ const OTPComponent = ({ renderSignupComponent, userId, userData }) => {
 
   return (
     <div className="comp2Container">
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       <h3 className="comp2h3">Confirm OTP</h3>
       <p className="comp2Text">OTP is sent to your registered mobile number</p>
       <form onSubmit={formSubmitHandler}>

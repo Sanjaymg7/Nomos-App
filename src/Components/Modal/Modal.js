@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { ModalContext } from "../../App";
 import { modalInitialState } from "../../Library/Constants";
 import Button from "../Button/Button";
 import "./Modal.css";
 
-const Modal = ({ modalContent, closeModal }) => {
+const Modal = () => {
+  const [modal, setModal] = useContext(ModalContext);
   const handleCloseModal = () => {
-    closeModal(modalInitialState);
+    setModal(modalInitialState);
   };
 
   return (
     <div>
       <div className="modalContainer">
         <div className="modal">
-          <h1 className="modalMessage">{modalContent}</h1>
+          <h1 className="modalMessage">{modal.modalContent}</h1>
           <Button
             btnName="Close"
             className={"btnBlue"}

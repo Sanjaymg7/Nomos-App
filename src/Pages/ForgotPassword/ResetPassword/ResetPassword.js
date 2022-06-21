@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { ModalContext } from "../../../App";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Button from "../../../Components/Button/Button";
@@ -6,7 +7,7 @@ import { postCall } from "../../../Components/Services/DataFetch";
 import "./ResetPassword.css";
 import OtpInput from "react-otp-input";
 import ConfirmPassword from "../ConfirmPassword";
-import { modalInitialState, requestHeader } from "../../../Library/Constants";
+import { requestHeader } from "../../../Library/Constants";
 import Header from "../../../Components/Header/Header";
 import Modal from "../../../Components/Modal/Modal";
 import Label from "../../../Components/Label/Label";
@@ -15,7 +16,7 @@ const ResetPassword = () => {
   const [otp, setOTP] = useState("");
   const [isOTP, setIsOTP] = useState(false);
   const [phoneNo, setPhoneNo] = useState();
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
   const [buttonText, setButtonText] = useState(false);
   const [isConfirmPasswordPage, setConfirmPasswordPage] = useState(false);
 
@@ -112,9 +113,7 @@ const ResetPassword = () => {
 
   return (
     <>
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       {isConfirmPasswordPage ? (
         <ConfirmPassword />
       ) : (

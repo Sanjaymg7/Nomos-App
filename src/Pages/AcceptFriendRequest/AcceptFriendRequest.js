@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { getCall } from "../../Components/Services/DataFetch";
-import { modalInitialState, friendRequest } from "../../Library/Constants";
+import React, { useState, useEffect, useContext } from "react";
+import { ModalContext } from "../../App";
+import { getCall, putCall } from "../../Components/Services/DataFetch";
+import { friendRequest, friends } from "../../Library/Constants";
 import Header from "../../Components/Header/Header";
 import Modal from "../../Components/Modal/Modal";
 import Image from "../../Components/Image/Image";
@@ -9,7 +10,7 @@ import Button from "../../Components/Button/Button";
 import Loading from "../../Components/Loading/Loading";
 
 const AcceptFriendRequest = () => {
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
   const [friendRequests, setFriendRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,12 +30,30 @@ const AcceptFriendRequest = () => {
     }
   };
 
+  const handleRequest = async (id, index, type) => {
+    try {
+      friendRequests[index].didRespond = true;
+      setFriendRequests([...friendRequests]);
+      await putCall(friends, {
+        requested_id: id,
+        respond_type: type,
+      });
+    } catch (err) {
+      friendRequests[index].didRespond = false;
+      setFriendRequests([...friendRequests]);
+      setModal({
+        modalContent: err,
+        showModal: true,
+      });
+    }
+  };
+
   const acceptRequest = (id, index) => {
-    console.log(id);
+    handleRequest(id, index, 1);
   };
 
   const rejectRequest = (id, index) => {
-    console.log(id);
+    handleRequest(id, index, 2);
   };
 
   useEffect(() => {
@@ -43,13 +62,13 @@ const AcceptFriendRequest = () => {
 
   return (
     <div>
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
-      <Header navigateTo="home" headerText="Accept Friend Request" />
+      {modal.showModal && <Modal />}
+      <Header navigateTo="searchUser" headerText="Accept Friend Request" />
       <div className="friendRequestContainer">
         {isLoading ? (
           <Loading />
+        ) : friendRequests.length === 0 ? (
+          <h1 className="noRequestMessage">There are no friend requests</h1>
         ) : (
           friendRequests.map((request, index) => (
             <div key={index} className="friendRequestWrapper">
@@ -63,7 +82,7 @@ const AcceptFriendRequest = () => {
                 className={
                   request.didRespond ? "respondBtnDisabled" : "requestAcceptBtn"
                 }
-                onBtnClick={() => acceptRequest(request.user_id, index)}
+                onBtnClick={() => acceptRequest(request.request_id, index)}
                 btnDisable={request.didRespond ? true : false}
               />
               <Button
@@ -71,7 +90,7 @@ const AcceptFriendRequest = () => {
                 className={
                   request.didRespond ? "respondBtnDisabled" : "requestRejectBtn"
                 }
-                onBtnClick={() => rejectRequest(request.user_id, index)}
+                onBtnClick={() => rejectRequest(request.request_id, index)}
                 btnDisable={request.didRespond ? true : false}
               />
             </div>

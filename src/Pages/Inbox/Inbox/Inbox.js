@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { modalInitialState, privateChats } from "../../../Library/Constants";
+import React, { useEffect, useState, useContext } from "react";
+import { ModalContext } from "../../../App";
+import { privateChats } from "../../../Library/Constants";
 import { useNavigate } from "react-router-dom";
 import { getCall } from "../../../Components/Services/DataFetch";
 import "./Inbox.css";
@@ -11,7 +12,7 @@ import Loading from "../../../Components/Loading/Loading";
 
 const InboxComp = () => {
   const navigate = useNavigate();
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
   const [chatConversations, setChatConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isInbox, setIsInbox] = useState(true);
@@ -88,9 +89,7 @@ const InboxComp = () => {
 
   return (
     <div>
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       <Header navigateTo="home" headerText="Inbox" />
       <div className="addChatFriends" onClick={() => setIsInbox(!isInbox)}>
         +

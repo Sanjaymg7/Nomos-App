@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
+import { ModalContext } from "../../../App";
 import { useNavigate } from "react-router-dom";
 import { PostContext } from "../ServicePost";
-import { modalInitialState, service, home } from "../../../Library/Constants";
+import { service, home, waitingMessage } from "../../../Library/Constants";
 import { imageURLService } from "../../../Components/Services/ImageURLService";
 import { postCall } from "../../../Components/Services/DataFetch";
 import Button from "../../../Components/Button/Button";
@@ -19,7 +20,7 @@ const ServicePostInput = ({ renderComponent }) => {
     value: "Create Post",
     isActive: false,
   });
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
 
   const handlePostTitle = (val) => {
     setPostData({ ...postData, items_service_name: val });
@@ -68,7 +69,7 @@ const ServicePostInput = ({ renderComponent }) => {
 
   const createServicePost = async (e) => {
     e.preventDefault();
-    setButtonData({ value: "Please wait...", isActive: false });
+    setButtonData({ value: waitingMessage, isActive: false });
     try {
       postData.items_service_image = await imageURLService(
         postData.image_url,
@@ -102,9 +103,7 @@ const ServicePostInput = ({ renderComponent }) => {
 
   return (
     <div>
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       <Header navigateTo="home" headerText="Give a Service" />
       <form onChange={enableCreatePostButton} onSubmit={createServicePost}>
         <div className="inputContainer">

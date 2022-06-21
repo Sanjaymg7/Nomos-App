@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ModalContext } from "../../../App";
 import Header from "../../../Components/Header/Header";
 import "./Home.css";
 import {
@@ -7,14 +8,13 @@ import {
   postCall,
 } from "../../../Components/Services/DataFetch";
 import HomeCard from "../HomeCard/HomeCard";
-import { modalInitialState } from "../../../Library/Constants";
 import Footer from "../../../Components/Footer/Footer";
 import Modal from "../../../Components/Modal/Modal";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../Components/Loading/Loading";
 
 const Home = () => {
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
   const [posts, setPosts] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
@@ -77,9 +77,7 @@ const Home = () => {
   return (
     <>
       {isLoading && <Loading />}
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       <div className="home-container">
         <Header />
         <div onClick={logOutHandler} className="home-container-logout-div">

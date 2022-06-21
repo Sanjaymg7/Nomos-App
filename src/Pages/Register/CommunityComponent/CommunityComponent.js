@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ModalContext } from "../../../App";
 import { useNavigate } from "react-router-dom";
 import {
-  modalInitialState,
   communityNearby,
   joinCommunity,
   home,
@@ -17,7 +17,7 @@ const CommunityComponent = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [community, setCommunity] = useState([]);
   const [addedCommunity, setAddedCommunity] = useState(0);
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
 
   useEffect(() => {
     const getData = async () => {
@@ -56,9 +56,7 @@ const CommunityComponent = () => {
 
   return (
     <div className="comp4Container">
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       <h3 className="comp4h3">Join Community</h3>
       <h4 className="comp4Text">
         Select from the list below or create your own

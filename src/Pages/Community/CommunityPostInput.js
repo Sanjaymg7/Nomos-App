@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
+import { ModalContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { CommunityPostContext } from "./CommunityPost";
-import { modalInitialState, community, home } from "../../Library/Constants";
+import { community, home, waitingMessage } from "../../Library/Constants";
 import { imageURLService } from "../../Components/Services/ImageURLService";
 import { postCall } from "../../Components/Services/DataFetch";
 import Header from "../../Components/Header/Header";
@@ -14,7 +15,7 @@ const CommunityPostInput = ({ renderComponent }) => {
   const navigate = useNavigate();
   const [communityPostData, setCommunityPostData] =
     useContext(CommunityPostContext);
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
   const [buttonData, setButtonData] = useState({
     value: "Create Community",
     isActive: false,
@@ -62,7 +63,7 @@ const CommunityPostInput = ({ renderComponent }) => {
 
   const createCommunityPost = async (e) => {
     e.preventDefault();
-    setButtonData({ value: "Please wait...", isActive: false });
+    setButtonData({ value: waitingMessage, isActive: false });
     try {
       communityPostData.display_picture = await imageURLService(
         communityPostData.display_image_url,
@@ -80,9 +81,7 @@ const CommunityPostInput = ({ renderComponent }) => {
 
   return (
     <div>
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       <Header navigateTo="home" headerText="Create a Community" />
       <form onChange={enableCreatePostButton} onSubmit={createCommunityPost}>
         <div className="inputContainer">

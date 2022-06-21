@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ModalContext } from "../../../App";
 import Header from "../../../Components/Header/Header";
 import Button from "../../../Components/Button/Button";
 import Input from "../../../Components/Input/Input";
 import "./Comments";
-import { modalInitialState } from "../../../Library/Constants";
 import Modal from "../../../Components/Modal/Modal";
 import CommentCard from "../CommentCard/CommentCard";
 import { getCall, putCall } from "../../../Components/Services/DataFetch";
@@ -11,7 +11,7 @@ import { getCall, putCall } from "../../../Components/Services/DataFetch";
 const Comments = () => {
   const [commentMessage, setCommentMessage] = useState("");
   const [commentData, setCommentData] = useState([]);
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
   const [userData, setUserData] = useState();
   useEffect(() => {
     getData();
@@ -63,9 +63,7 @@ const Comments = () => {
   };
   return (
     <>
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       <Header navigateTo="home" headerText="Details" />
       <div className="chatwrapper">
         {commentData?.map((comment, index) => (

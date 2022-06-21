@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
+import { ModalContext } from "../../App";
 import userDetails from "./UserDetails.module.css";
 import Image from "../../Components/Image/Image";
 import Header from "../../Components/Header/Header";
 import { getCall } from "../../Components/Services/DataFetch";
-import { getRequestHeader, modalInitialState } from "../../Library/Constants";
 import Loading from "../../Components/Loading/Loading";
 import Modal from "../../Components/Modal/Modal";
 
 const UserDetails = () => {
   const [postData, setPostData] = useState([]);
   const [isLoading, setLoading] = useState(false);
-  const [modal, setModal] = useState(modalInitialState);
+  const [modal, setModal] = useContext(ModalContext);
   const [displayData, setDisplayData] = useState(false);
   //   const user = useContext(userContext);
   useEffect(() => {
@@ -20,8 +20,7 @@ const UserDetails = () => {
     try {
       setLoading(true);
       const data = await getCall(
-        `posts/details?post_id=${localStorage.getItem("post_id")}`,
-        getRequestHeader()
+        `posts/details?post_id=${localStorage.getItem("post_id")}`
       );
       if (data) {
         console.log(data.posts[0]);
@@ -37,9 +36,7 @@ const UserDetails = () => {
   return (
     <>
       {isLoading && <Loading />}
-      {modal.showModal && (
-        <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      )}
+      {modal.showModal && <Modal />}
       <Header navigateTo="home" headerText="Details" />
       {displayData ? (
         <div className={userDetails.container}>
