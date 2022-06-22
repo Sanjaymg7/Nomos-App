@@ -31,13 +31,13 @@ const routes = [
   { path: "/comments", element: <Comments />, isProtected: true },
   { path: "/experience", element: <ExperiencePost />, isProtected: true },
   { path: "/community", element: <CommunityPost />, isProtected: true },
+  { path: "/searchUser", element: <SearchUser />, isProtected: true },
+  { path: "/acceptUser", element: <AcceptFriendRequest />, isProtected: true },
+  { path: "/userdetails", element: <UserDetails />, isProtected: true },
   { path: "/", element: <Intro />, isProtected: false },
   { path: "/signin", element: <SignIn />, isProtected: false },
   { path: "/forgotpassword", element: <ResetPassword />, isProtected: false },
   { path: "/signup", element: <Register />, isProtected: false },
-  { path: "/searchUser", element: <SearchUser />, isProtected: false },
-  { path: "/acceptUser", element: <AcceptFriendRequest />, isProtected: false },
-  { path: "/userdetails", element: <UserDetails />, isProtected: false },
 ];
 
 export const appRoutes = routes.map((route, index) => (

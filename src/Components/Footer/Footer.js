@@ -1,8 +1,14 @@
 import React, { useState } from "react";
-import Image from "../Image/Image";
 import "./Footer.css";
 import { useNavigate } from "react-router-dom";
 import MenuComp from "../Menu/Menu/MenuComp";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHouseChimney,
+  faUserPlus,
+  faUser,
+  faPaperPlane,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -14,23 +20,31 @@ const Footer = () => {
   return (
     <>
       {isMenu ? (
-        <MenuComp toggleMenu={toggleMenu}/>
+        <MenuComp toggleMenu={toggleMenu} />
       ) : (
         <div className="footer">
-          <Image
+          <FontAwesomeIcon
+            icon={faHouseChimney}
             onClick={() => navigate("/home")}
-            className="footer-image"
-            src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/0DD39DDA-F1F6-4734-B794-AEED1FFA7AF9.png"
-            alt="footer-image"
+            className="font-awesome"
+          />
+          <FontAwesomeIcon
+            icon={faUserPlus}
+            onClick={() => navigate("/searchUser")}
+            className="font-awesome"
           />
           <div onClick={menuHandler} className="menu-btn">
             +
           </div>
-          <Image
+          <FontAwesomeIcon
+            icon={faUser}
+            onClick={() => navigate("/acceptUser")}
+            className="font-awesome"
+          />
+          <FontAwesomeIcon
+            icon={faPaperPlane}
             onClick={() => navigate("/inbox")}
-            className="footer-image"
-            src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/BFAA1882-80B9-49F7-B412-4788306C01BD.png"
-            alt="inbox-image"
+            className="font-awesome"
           />
         </div>
       )}

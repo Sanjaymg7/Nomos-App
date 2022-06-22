@@ -1,11 +1,8 @@
 .btn {
-  width: 90%;
-  margin-top: 0.5rem;
+  width: 92%;
+  margin: 0 3% 3% -1%;
   background-color: #00a86b;
-  height: 6vh;
-  border: 0.1rem solid white;
-  border-radius: 5%;
-  font-size: larger;
+  color: white;
 }
 .sign-in {
   margin-top: 1.5rem;

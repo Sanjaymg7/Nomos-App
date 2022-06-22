@@ -81,6 +81,7 @@ const ConfirmPass = () => {
         <Button
           className="btn sign-in"
           btnName={buttonText ? "Loading..." : "Reset Password"}
+          btnDisable={buttonText === "Loading..." ? true : false}
         />
       </form>
     </>
