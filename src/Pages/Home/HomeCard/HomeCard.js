@@ -69,14 +69,20 @@ const HomeCard = ({
                 : "https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/C6DF2E4F-8890-4608-9274-5E4F21FB295E.png"
             }
             alt="like"
-            onClick={() => updateLikes(postId, post, index)}
+            onClick={(e) => {
+              e.stopPropagation();
+              updateLikes(postId, post, index);
+            }}
           />
           <div className="footer-text">{likes}</div>
           <Image
             className="icon"
             src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/A0438201-1D9D-4041-9FC2-71DAAF64B89F.png"
             alt="comments icon"
-            onClick={() => setCommentsPage(postId)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setCommentsPage(postId);
+            }}
           />
           <div className="footer-text">{comments}</div>
         </div>

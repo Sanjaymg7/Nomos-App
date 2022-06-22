@@ -12,6 +12,8 @@ import Footer from "../../../Components/Footer/Footer";
 import Modal from "../../../Components/Modal/Modal";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../../Components/Loading/Loading";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 const Home = () => {
   const [modal, setModal] = useContext(ModalContext);
@@ -57,7 +59,6 @@ const Home = () => {
     }
   };
   const postViews = async (postId) => {
-    console.log("View");
     try {
       await postCall("posts/view/", { post_id: postId });
     } catch (err) {
@@ -81,7 +82,7 @@ const Home = () => {
       <div className="home-container">
         <Header />
         <div onClick={logOutHandler} className="home-container-logout-div">
-          Logout
+          <FontAwesomeIcon icon={faRightFromBracket} />
         </div>
         {posts?.map((post, index) => (
           <HomeCard
@@ -103,8 +104,8 @@ const Home = () => {
             setCommentsPage={setCommentsPage}
           />
         ))}
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 };

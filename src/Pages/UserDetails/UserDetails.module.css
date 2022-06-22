@@ -19,12 +19,29 @@
 }
 .giveOrReceive {
   display: inline-block;
-  padding: 0.1rem 0.3rem;
+  padding: 0.1rem 0.5rem;
   height: 1.6rem;
   background-color: rgb(167, 205, 248);
   color: blue;
   margin: 1rem;
-  border-radius: 20% 20% 20% 20%;
+  border-radius: 1rem;
+}
+.dateCapacity {
+  display: flex;
+  flex-direction: row;
+  column-gap: 2rem;
+  justify-content: center;
+  margin: 5%;
+}
+.date {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  background-color: #f0f0f0;
+  padding: 1rem;
+}
+.h5 {
+  display: inline-block;
 }
 .description {
   padding: 0% 5%;
@@ -40,6 +57,25 @@
   text-align: center;
   padding: 0 5% 5%;
   margin: -2rem 0 0;
+}
+.skillText {
+  padding: 0 5% 5%;
+}
+.skills {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 5% 8%;
+  height: 2rem;
+}
+
+.skill {
+  display: inline-block;
+  margin: 0.3rem 0.2rem;
+  padding: 0.2rem;
+  color: black;
+  border: 0.0125rem solid #b4b4b4;
+  border-radius: 1rem;
 }
 .footer {
   display: flex;
@@ -69,4 +105,14 @@
 .footerText {
   font-size: 1.2rem;
   margin: -0.15rem;
+}
+.footerButton {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  background-color: #00a86b;
+  color: white;
+  width: 94%;
+  margin: 5% 3% 3%;
+  border: 0.0125rem solid black;
 }

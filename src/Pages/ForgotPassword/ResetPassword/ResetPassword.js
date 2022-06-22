@@ -156,6 +156,7 @@ const ResetPassword = () => {
                   ? "Loading..."
                   : "Send OTP"
               }
+              btnDisable={buttonText === "Loading..." ? true : false}
             />
           </form>
           {isOTP && (
