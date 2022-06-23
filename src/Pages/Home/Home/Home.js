@@ -77,7 +77,7 @@ const Home = () => {
   const logOutHandler = async () => {
     try {
       await postCall(logOutEndPoint, {});
-      localStorage.removeItem("access_token");
+      localStorage.clear();
       navigate(intro);
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
@@ -86,7 +86,7 @@ const Home = () => {
   return (
     <>
       {isLoading && <Loading />}
-      {modal.showModal && <Modal />}
+      {/* {modal.showModal && <Modal />} */}
       <div className="home-container">
         <Header />
         <div onClick={logOutHandler} className="home-container-logout-div">
