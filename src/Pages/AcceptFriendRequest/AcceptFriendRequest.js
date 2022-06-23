@@ -70,17 +70,16 @@ const AcceptFriendRequest = () => {
           <h1 className="noRequestMessage">There are no friend requests</h1>
         ) : (
           friendRequests.map((request, index) => (
-            <div key={index} className="friendRequestWrapper">
-              <Request
-                profilePicture={request.profile_picture}
-                userName={request.user_name}
-                response={request.didRespond}
-                id={request.request_id}
-                index={index}
-                acceptHandler={acceptRequest}
-                rejectHandler={rejectRequest}
-              />
-            </div>
+            <Request
+              key={index}
+              profilePicture={request.profile_picture}
+              userName={request.user_name}
+              response={request.didRespond}
+              id={request.request_id}
+              index={index}
+              acceptHandler={acceptRequest}
+              rejectHandler={rejectRequest}
+            />
           ))
         )}
       </div>

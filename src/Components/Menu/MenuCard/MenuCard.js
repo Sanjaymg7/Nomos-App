@@ -5,7 +5,7 @@ import "./MenuCard.css";
 const MenuCard = ({ src, menuContent, onClick }) => {
   return (
     <div onClick={onClick} className="menu-item">
-      <Image className="menu-image" src={src} alt="image" />
+      <Image className="menu-image" src={src} />
       <span>{menuContent}</span>
     </div>
   );

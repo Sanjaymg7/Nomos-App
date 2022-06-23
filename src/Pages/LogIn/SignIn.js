@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useLocation } from "react-router-dom";
 import { ModalContext } from "../../Components/Context/Context";
 import Button from "../../Components/Button/Button";
 import Input from "../../Components/Input/Input";
@@ -17,6 +18,7 @@ import Modal from "../../Components/Modal/Modal";
 import { signInEndPoint } from "../../Library/Constants";
 
 const SignIn = () => {
+  const location = useLocation();
   const [modal, setModal] = useContext(ModalContext);
   const [buttonName, setButtonName] = useState("Sign In");
   const [user, setUser] = useState();
@@ -62,7 +64,7 @@ const SignIn = () => {
           setButtonName("Sign In");
           localStorage.setItem("user_id", userDetail.user_id);
           localStorage.setItem("access_token", userDetail.access_token);
-          navigate(home);
+          navigate(location.state?.from?.pathname || home);
         }
       } catch (err) {
         setButtonName("Sign In");

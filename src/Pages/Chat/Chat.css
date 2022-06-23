@@ -52,12 +52,16 @@
 .chatMessage {
   padding: 0.5em;
   margin: 0.2em;
-  border: 1px solid black;
+  color: #fff;
+  font-weight: 350;
+  border-radius: 1.5em;
   width: 50%;
 }
 .chatReceiver {
   align-self: flex-start;
+  background-color: #00563f;
 }
 .chatSender {
   align-self: flex-end;
+  background-color: #0067a5;
 }

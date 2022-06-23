@@ -4,6 +4,7 @@ import {
   itemPost,
   experience,
   community,
+  infoPost,
 } from "../../../Library/Constants";
 import MenuCard from "../MenuCard/MenuCard";
 import "./MenuComp.css";
@@ -34,6 +35,11 @@ const MenuComp = ({ toggleMenu }) => {
           src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/516E629A-3DA0-4ACB-9823-887880C051DF.png"
           menuContent="Create a community"
           onClick={() => navigate(community)}
+        />
+        <MenuCard
+          // src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/516E629A-3DA0-4ACB-9823-887880C051DF.png"
+          menuContent="Info Post"
+          onClick={() => navigate(infoPost)}
         />
         <div onClick={() => toggleMenu(false)} className="menu-close-btn">
           X
