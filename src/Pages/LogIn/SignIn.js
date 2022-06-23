@@ -5,15 +5,21 @@ import Input from "../../Components/Input/Input";
 import { postCall } from "../../Components/Services/DataFetch";
 import { useNavigate } from "react-router-dom";
 import "./SignIn.css";
-import { requestHeader, home } from "../../Library/Constants";
+import {
+  requestHeader,
+  home,
+  forgotPassword,
+  waitingMessage,
+} from "../../Library/Constants";
 import Header from "../../Components/Header/Header";
 import Label from "../../Components/Label/Label";
 import Modal from "../../Components/Modal/Modal";
+import { signInEndPoint } from "../../Library/Constants";
 
 const SignIn = () => {
   const [modal, setModal] = useContext(ModalContext);
   const [buttonName, setButtonName] = useState("Sign In");
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState();
   const navigate = useNavigate();
 
   const validateUser = (userData) => {
@@ -45,15 +51,16 @@ const SignIn = () => {
     };
     if (validateUser(userData)) {
       try {
-        setButtonName("Signing in...");
+        setButtonName(waitingMessage);
         const userDetail = await postCall(
-          "users/sign_in",
+          signInEndPoint,
           userData,
           requestHeader
         );
         if (userDetail) {
           setUser(userDetail);
           setButtonName("Sign In");
+          localStorage.setItem("user_id", userDetail.user_id);
           localStorage.setItem("access_token", userDetail.access_token);
           navigate(home);
         }
@@ -81,10 +88,7 @@ const SignIn = () => {
               btnName={buttonName}
             />
           </form>
-          <p
-            onClick={() => navigate("/forgotpassword")}
-            className="forgot-para"
-          >
+          <p onClick={() => navigate(forgotPassword)} className="forgot-para">
             Forgot password?
           </p>
         </>

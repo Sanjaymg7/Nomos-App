@@ -14,6 +14,14 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../../Components/Loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import {
+  comments,
+  intro,
+  likeEndPoint,
+  logOutEndPoint,
+  postsEndPoint,
+  viewEndPoint,
+} from "../../../Library/Constants";
 
 const Home = () => {
   const [modal, setModal] = useContext(ModalContext);
@@ -24,7 +32,7 @@ const Home = () => {
 
   const setCommentsPage = (postId) => {
     localStorage.setItem("post_id", postId);
-    navigate("/comments");
+    navigate(comments);
   };
 
   useEffect(() => {
@@ -34,7 +42,7 @@ const Home = () => {
   const getData = async () => {
     try {
       setLoading(true);
-      const data = await getCall("posts/?type=3");
+      const data = await getCall(postsEndPoint);
       setPosts(data.posts);
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
@@ -52,7 +60,7 @@ const Home = () => {
   const updateLikes = async (postId, post, index) => {
     updateLikesSetter(post, index);
     try {
-      await putCall("posts/like/", { post_id: postId });
+      await putCall(likeEndPoint, { post_id: postId });
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
       updateLikesSetter(post);
@@ -60,7 +68,7 @@ const Home = () => {
   };
   const postViews = async (postId) => {
     try {
-      await postCall("posts/view/", { post_id: postId });
+      await postCall(viewEndPoint, { post_id: postId });
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
     }
@@ -68,9 +76,9 @@ const Home = () => {
 
   const logOutHandler = async () => {
     try {
-      await postCall("users/logout", {});
+      await postCall(logOutEndPoint, {});
       localStorage.removeItem("access_token");
-      navigate("/");
+      navigate(intro);
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
     }

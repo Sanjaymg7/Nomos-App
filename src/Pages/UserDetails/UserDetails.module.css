@@ -102,17 +102,20 @@
   width: 1.4rem;
   margin: 0.2rem 0 0.5rem 0;
 }
-.footerText {
-  font-size: 1.2rem;
-  margin: -0.15rem;
-}
-.footerButton {
+
+.footerButtonActive {
   position: relative;
   bottom: 0;
   left: 0;
-  background-color: #00a86b;
-  color: white;
   width: 94%;
   margin: 5% 3% 3%;
   border: 0.0125rem solid black;
+}
+.footerButtonActive {
+  background-color: #00a86b;
+  color: white;
+}
+.footerButtonInActive {
+  background-color: #7d7f7e;
+  color: black;
 }

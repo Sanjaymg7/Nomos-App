@@ -7,7 +7,11 @@ import { postCall } from "../../../Components/Services/DataFetch";
 import "./ResetPassword.css";
 import OtpInput from "react-otp-input";
 import ConfirmPassword from "../ConfirmPassword";
-import { requestHeader } from "../../../Library/Constants";
+import {
+  confirmOTPEndPoint,
+  requestHeader,
+  ResetPasswordEndPoint,
+} from "../../../Library/Constants";
 import Header from "../../../Components/Header/Header";
 import Modal from "../../../Components/Modal/Modal";
 import Label from "../../../Components/Label/Label";
@@ -49,7 +53,7 @@ const ResetPassword = () => {
       setButtonText(true);
       try {
         const isNumber = await postCall(
-          "users/reset_password",
+          ResetPasswordEndPoint,
           {
             phone_no: phoneNo,
           },
@@ -79,7 +83,7 @@ const ResetPassword = () => {
       setButtonText(true);
       try {
         const otpValidate = await postCall(
-          "users/confirm_otp",
+          confirmOTPEndPoint,
           {
             phone_no: phoneNo,
             otp,
@@ -100,7 +104,7 @@ const ResetPassword = () => {
   const resendOtp = async () => {
     try {
       await postCall(
-        "users/reset_password",
+        ResetPasswordEndPoint,
         {
           phone_no: phoneNo,
         },

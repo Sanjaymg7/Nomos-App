@@ -3,16 +3,22 @@ import { ModalContext } from "../../App";
 import userDetails from "./UserDetails.module.css";
 import Image from "../../Components/Image/Image";
 import Header from "../../Components/Header/Header";
-import { getCall } from "../../Components/Services/DataFetch";
+import { getCall, postCall } from "../../Components/Services/DataFetch";
 import Loading from "../../Components/Loading/Loading";
 import Modal from "../../Components/Modal/Modal";
 import Button from "../../Components/Button/Button";
+import { useNavigate } from "react-router-dom";
+import { joinExperienceEndPoint, post } from "../../Library/Constants";
+import UserIcons from "../../Components/UserIcons/UserIcons";
 
 const UserDetails = () => {
   const [postData, setPostData] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [modal, setModal] = useContext(ModalContext);
   const [displayData, setDisplayData] = useState(false);
+  const [user, setUser] = useState(false);
+  const [button, setButton] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     getPostData();
   }, []);
@@ -25,6 +31,9 @@ const UserDetails = () => {
       if (data) {
         console.log(data.posts[0]);
         setPostData(data.posts[0]);
+        console.log(postData.user_id == localStorage.getItem("user_id")) &&
+          setUser(true);
+
         setDisplayData(!displayData);
       }
     } catch (err) {
@@ -37,6 +46,19 @@ const UserDetails = () => {
     const dt = new Date(timeStamp);
     let dateToString = dt.toUTCString().split(" ");
     return dateToString[0] + " " + dateToString[1] + " " + dateToString[2];
+  };
+  const isSameUser = () => {
+    navigate("/inbox");
+  };
+  const isNotSameUser = async () => {
+    try {
+      setButton(true);
+      await postCall(joinExperienceEndPoint, {
+        post_id: localStorage.getItem("post_id"),
+      });
+    } catch (err) {
+      setModal({ modalContent: err, showModal: true });
+    }
   };
   return (
     <>
@@ -97,43 +119,18 @@ const UserDetails = () => {
               />
             ))}
           </div>
-          <div className={userDetails.footer}>
-            <div className={userDetails.footerIcons}>
-              <div className={userDetails.footerIcon}>
-                <Image
-                  className={userDetails.icon}
-                  src={
-                    postData.is_liked
-                      ? "https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/9C5ED4B1-EE22-468D-8168-0BFD7D3C607A.png"
-                      : "https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/C6DF2E4F-8890-4608-9274-5E4F21FB295E.png"
-                  }
-                  alt="like"
-                />
-                <p className={userDetails.footerText}>{postData.like_count}</p>
-              </div>
-              <div className={userDetails.footerIcon}>
-                <Image
-                  className={userDetails.icon}
-                  src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/A0438201-1D9D-4041-9FC2-71DAAF64B89F.png"
-                  alt="comments icon"
-                />
-                <p className={userDetails.footerText}>
-                  {postData.comment_count}
-                </p>
-              </div>
-            </div>
-            <div className={userDetails.footerIcon}>
-              <Image
-                className={userDetails.viewIcon}
-                src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/84C21AF0-580D-42C4-B0B7-EF84792A81E2.png"
-                alt="seen icon"
-              />
-              <p className={userDetails.footerText}>{postData.views_count}</p>
-            </div>
-          </div>
+          <UserIcons postData={postData} />
           <Button
-            btnName="I want to join this experience"
-            className={userDetails.footerButton}
+            btnName={
+              user ? "Check your Inbox" : "I want to join this experience"
+            }
+            className={
+              button
+                ? `${userDetails.foorteButton} ${userDetails.foorteButtonInActive}`
+                : `${userDetails.foorteButton} ${userDetails.foorteButtonActive}`
+            }
+            onBtnClick={user ? isSameUser : isNotSameUser}
+            btnDisable={button ? false : true}
           />
         </div>
       ) : (

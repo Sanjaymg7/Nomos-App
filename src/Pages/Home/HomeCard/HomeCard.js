@@ -1,8 +1,9 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
 import Image from "../../../Components/Image/Image";
 import "./HomeCard.css";
 import { useNavigate } from "react-router-dom";
+import { userDetails } from "../../../Library/Constants";
+import UserIcons from "../../../Components/UserIcons/UserIcons";
 
 const HomeCard = ({
   index,
@@ -28,7 +29,7 @@ const HomeCard = ({
       onClick={() => {
         postViews(postId);
         localStorage.setItem("post_id", postId);
-        navigate("/userdetails");
+        navigate(userDetails);
       }}
     >
       <div className="home-card-header">
@@ -59,42 +60,13 @@ const HomeCard = ({
           <Image className="post-img" src={imageURL} alt="img" />
         </div>
       </div>
-      <div className="home-card-footer">
-        <div className="footer-icons">
-          <Image
-            className="icon"
-            src={
-              isLiked
-                ? "https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/9C5ED4B1-EE22-468D-8168-0BFD7D3C607A.png"
-                : "https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/C6DF2E4F-8890-4608-9274-5E4F21FB295E.png"
-            }
-            alt="like"
-            onClick={(e) => {
-              e.stopPropagation();
-              updateLikes(postId, post, index);
-            }}
-          />
-          <div className="footer-text">{likes}</div>
-          <Image
-            className="icon"
-            src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/A0438201-1D9D-4041-9FC2-71DAAF64B89F.png"
-            alt="comments icon"
-            onClick={(e) => {
-              e.stopPropagation();
-              setCommentsPage(postId);
-            }}
-          />
-          <div className="footer-text">{comments}</div>
-        </div>
-        <div className="view-icon">
-          <Image
-            className="icon"
-            src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/84C21AF0-580D-42C4-B0B7-EF84792A81E2.png"
-            alt="seen icon"
-          />
-          <div className="footer-text">{views}</div>
-        </div>
-      </div>
+      <UserIcons
+        postData={post}
+        onClick={(e) => {
+          e.stopPropagation();
+          updateLikes(postId, post, index);
+        }}
+      />
     </div>
   );
 };

@@ -11,22 +11,18 @@
   bottom: -0.2rem;
   left: 0;
 }
-.menu-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 100%;
-  width: 2.5rem;
-  height: 2.5rem;
-  padding-bottom: 0.8rem;
+
+.menu-icon {
+  font-size: 1.5rem;
   background-color: #00a86b;
   color: white;
-  font-size: 3rem;
+  border-radius: 50%;
+  padding: 0.4rem;
 }
 .footer-image {
   height: 2rem;
 }
-.font-awesome {
+.font-awesome-active {
   font-size: 1.5rem;
   color: #00a86b;
 }

@@ -3,7 +3,7 @@ import { ModalContext } from "../../App";
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Button/Button";
 import Header from "../../Components/Header/Header";
-import { requestHeader } from "../../Library/Constants";
+import { requestHeader, ResetPasswordEndPoint } from "../../Library/Constants";
 import { putCall } from "../../Components/Services/DataFetch";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../Components/Modal/Modal";
@@ -43,7 +43,7 @@ const ConfirmPass = () => {
       setButtonText(true);
       try {
         const confirmPassword = await putCall(
-          "users/reset_password",
+          ResetPasswordEndPoint,
           {
             new_password: newPassword,
             reset_token: localStorage.getItem("access_token"),
@@ -53,7 +53,7 @@ const ConfirmPass = () => {
         if (confirmPassword) {
           localStorage.removeItem("access_token");
           setButtonText(false);
-          setModal({
+          await setModal({
             modalContent: "reset password successful",
             showModal: true,
           });

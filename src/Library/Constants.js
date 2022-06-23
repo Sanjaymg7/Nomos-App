@@ -1,7 +1,7 @@
 export const requestHeader = { "content-type": "application/json" };
 export const access_token = localStorage.getItem("access_token");
 
-export const websocketURL = `wss://ws2.juegogames.com/NOMOS-V3?access_token=${access_token}`;
+export const websocketURL = `wss://websocket.nomos.net/V4?access_token=${access_token}`;
 
 export const modalInitialState = {
   modalContent: "",
@@ -26,6 +26,14 @@ export const categories = "master/categories";
 export const friends = "friends/";
 export const searchUser = "search?filter_type=people&search_text=";
 export const friendRequest = "friends/?friendship_type=1";
+export const signInEndPoint = "users/sign_in";
+export const postsEndPoint = "posts/?type=3";
+export const likeEndPoint = "posts/like/";
+export const viewEndPoint = "posts/view/";
+export const logOutEndPoint = "users/logout";
+export const ResetPasswordEndPoint = "users/reset_password";
+export const confirmOTPEndPoint = "users/confirm_otp";
+export const joinExperienceEndPoint = "experience/join";
 
 // Pages endpoint
 export const intro = "/";
@@ -36,6 +44,6 @@ export const post = "/post";
 export const itemPost = "/itempost";
 export const comments = "/comments";
 export const signIn = "/signin";
-export const forgotPassword = "/forgotPassword";
+export const forgotPassword = "/forgotpassword";
 export const signUp = "/signup";
 export const userDetails = "/userdetails";
