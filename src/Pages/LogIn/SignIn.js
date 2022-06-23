@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { ModalContext } from "../../App";
+import { ModalContext } from "../../Components/Context/Context";
 import Button from "../../Components/Button/Button";
 import Input from "../../Components/Input/Input";
 import { postCall } from "../../Components/Services/DataFetch";

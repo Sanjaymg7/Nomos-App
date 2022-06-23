@@ -39,4 +39,4 @@ const UserIcons = ({ postData, onClick }) => {
   );
 };
 
-export default UserIcons;
+export default React.memo(UserIcons);

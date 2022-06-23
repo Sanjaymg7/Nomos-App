@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
-import { ModalContext } from "../../App";
+import { ModalContext, PostContext } from "../../Components/Context/Context";
 import { useNavigate } from "react-router-dom";
-import { ExperiencePostContext } from "./ExperiencePost";
 import { experience, home, waitingMessage } from "../../Library/Constants";
 import { imageURLService } from "../../Components/Services/ImageURLService";
 import { postCall } from "../../Components/Services/DataFetch";
@@ -15,9 +14,7 @@ import Input from "../../Components/Input/Input";
 
 const ExperiencePostInput = ({ renderComponent }) => {
   const navigate = useNavigate();
-  const [experiencePostData, setExperiencePostData] = useContext(
-    ExperiencePostContext
-  );
+  const [experiencePostData, setExperiencePostData] = useContext(PostContext);
   const [modal, setModal] = useContext(ModalContext);
   const [buttonData, setButtonData] = useState({
     value: "Create Experience",

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ModalContext } from "../../App";
+import { ModalContext } from "../Context/Context";
 import "./SkillAndCategoryForm.css";
-import { skills, categories } from "../../Library/Constants";
+import { skills, categories, next } from "../../Library/Constants";
 import { getCall } from "../../Components/Services/DataFetch";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
@@ -14,7 +14,7 @@ const SkillAndCategoryForm = ({ component, handleSkillOrCategorySubmit }) => {
     dataName: [],
   });
   const [buttonData, setButtonData] = useState({
-    value: "Next",
+    value: next,
     isActive: false,
   });
   const [dataCount, setDataCount] = useState(0);

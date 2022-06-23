@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ModalContext } from "../../App";
+import { ModalContext, PostContext } from "../../Components/Context/Context";
 import { useNavigate } from "react-router-dom";
-import { CommunityPostContext } from "./CommunityPost";
 import { community, home, waitingMessage } from "../../Library/Constants";
 import { imageURLService } from "../../Components/Services/ImageURLService";
 import { postCall } from "../../Components/Services/DataFetch";
@@ -13,8 +12,7 @@ import UserDisplay from "../../Components/UserDisplay/UserDisplay";
 
 const CommunityPostInput = ({ renderComponent }) => {
   const navigate = useNavigate();
-  const [communityPostData, setCommunityPostData] =
-    useContext(CommunityPostContext);
+  const [communityPostData, setCommunityPostData] = useContext(PostContext);
   const [modal, setModal] = useContext(ModalContext);
   const [buttonData, setButtonData] = useState({
     value: "Create Community",

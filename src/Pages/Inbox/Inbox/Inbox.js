@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import { ModalContext } from "../../../App";
-import { privateChats } from "../../../Library/Constants";
+import { ModalContext } from "../../../Components/Context/Context";
+import { privateChats, chat } from "../../../Library/Constants";
 import { useNavigate } from "react-router-dom";
 import { getCall } from "../../../Components/Services/DataFetch";
 import "./Inbox.css";
@@ -84,7 +84,7 @@ const InboxComp = () => {
 
   const redirectToChatPage = (userId) => {
     localStorage.setItem("other_user_id", userId);
-    navigate("/chat");
+    navigate(chat);
   };
 
   return (

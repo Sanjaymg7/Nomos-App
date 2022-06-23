@@ -24,6 +24,7 @@ export const privateChats = "chat?chat_type=1";
 export const skills = "master/skills";
 export const categories = "master/categories";
 export const friends = "friends/";
+export const getFriend = "friends/?friendship_type=3";
 export const searchUser = "search?filter_type=people&search_text=";
 export const friendRequest = "friends/?friendship_type=1";
 export const signInEndPoint = "users/sign_in";
@@ -34,6 +35,8 @@ export const logOutEndPoint = "users/logout";
 export const ResetPasswordEndPoint = "users/reset_password";
 export const confirmOTPEndPoint = "users/confirm_otp";
 export const joinExperienceEndPoint = "experience/join";
+export const friendDetails = "users?other_user_id=";
+export const userChat = "chat/messages?user_id=";
 
 // Pages endpoint
 export const intro = "/";
@@ -47,3 +50,17 @@ export const signIn = "/signin";
 export const forgotPassword = "/forgotpassword";
 export const signUp = "/signup";
 export const userDetails = "/userdetails";
+
+//Button labels
+export const submit = "Submit";
+export const close = "Close";
+export const confirm = "Confirm";
+export const finish = "Finish";
+export const search = "Search";
+export const next = "Next";
+export const accept = "Accept";
+export const reject = "Reject";
+export const send = "Send";
+export const comment = "Comment";
+export const loading = "Loading...";
+export const createPost = "Create Post";

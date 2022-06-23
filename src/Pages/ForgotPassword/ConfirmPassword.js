@@ -1,9 +1,14 @@
 import React, { useState, useContext } from "react";
-import { ModalContext } from "../../App";
+import { ModalContext } from "../../Components/Context/Context";
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Button/Button";
 import Header from "../../Components/Header/Header";
-import { requestHeader, ResetPasswordEndPoint } from "../../Library/Constants";
+import {
+  loading,
+  requestHeader,
+  ResetPasswordEndPoint,
+  signIn,
+} from "../../Library/Constants";
 import { putCall } from "../../Components/Services/DataFetch";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../Components/Modal/Modal";
@@ -57,7 +62,7 @@ const ConfirmPass = () => {
             modalContent: "reset password successful",
             showModal: true,
           });
-          navigate("/signin");
+          navigate(signIn);
         }
       } catch (err) {
         setModal({
@@ -79,8 +84,8 @@ const ConfirmPass = () => {
         <Input className="input" type="password" />
         <Button
           className="btn sign-in"
-          btnName={buttonText ? "Loading..." : "Reset Password"}
-          btnDisable={buttonText === "Loading..." ? true : false}
+          btnName={buttonText ? loading : "Reset Password"}
+          btnDisable={buttonText === loading ? true : false}
         />
       </form>
     </>

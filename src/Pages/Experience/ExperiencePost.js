@@ -1,29 +1,16 @@
-import React, { createContext, useState } from "react";
+import React, { useState } from "react";
+import {
+  PostContext,
+  experiencePostInitData,
+} from "../../Components/Context/Context";
 import ExperiencePostInput from "./ExperiencePostInput";
 import SkillAndCategoryForm from "../../Components/SkillAndCategoryForm/SkillAndCategoryForm";
 import Friends from "../../Components/Friends/Friends";
 
-export const ExperiencePostContext = createContext();
-
 const ExperiencePost = () => {
-  const initState = {
-    experience_name: "",
-    experience_desc: "",
-    experience_image: "",
-    community_id: "",
-    skills_required: "",
-    skills_array: [],
-    start_time: "",
-    location:
-      '{"lat":12.9141417,"lng":74.8559568,"name":"Mangalore,Karnataka,India"}',
-    image_url: "",
-    required_hours: "",
-    moderator_user_id: "",
-    moderator_user_name: [],
-    max_participants: "",
-  };
-
-  const [experiencePostData, setExperiencePostData] = useState(initState);
+  const [experiencePostData, setExperiencePostData] = useState(
+    experiencePostInitData
+  );
   const [componentState, setComponentState] = useState("ExperiencePostInput");
 
   const renderComponent = (state) => {
@@ -50,9 +37,7 @@ const ExperiencePost = () => {
 
   return (
     <div>
-      <ExperiencePostContext.Provider
-        value={[experiencePostData, setExperiencePostData]}
-      >
+      <PostContext.Provider value={[experiencePostData, setExperiencePostData]}>
         {componentState === "ExperiencePostInput" && (
           <ExperiencePostInput renderComponent={renderComponent} />
         )}
@@ -69,7 +54,7 @@ const ExperiencePost = () => {
             userType="Moderator"
           />
         )}
-      </ExperiencePostContext.Provider>
+      </PostContext.Provider>
     </div>
   );
 };

@@ -1,8 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
-import { ModalContext } from "../../../App";
+import { ModalContext, PostContext } from "../../../Components/Context/Context";
 import { useNavigate } from "react-router-dom";
-import { PostContext } from "../ServicePost";
-import { service, home, waitingMessage } from "../../../Library/Constants";
+import {
+  service,
+  home,
+  waitingMessage,
+  createPost,
+} from "../../../Library/Constants";
 import { imageURLService } from "../../../Components/Services/ImageURLService";
 import { postCall } from "../../../Components/Services/DataFetch";
 import Button from "../../../Components/Button/Button";
@@ -17,7 +21,7 @@ const ServicePostInput = ({ renderComponent }) => {
   const navigate = useNavigate();
   const [postData, setPostData] = useContext(PostContext);
   const [buttonData, setButtonData] = useState({
-    value: "Create Post",
+    value: createPost,
     isActive: false,
   });
   const [modal, setModal] = useContext(ModalContext);
@@ -82,7 +86,7 @@ const ServicePostInput = ({ renderComponent }) => {
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
     } finally {
-      setButtonData({ value: "Create Post", isActive: true });
+      setButtonData({ value: createPost, isActive: true });
     }
   };
 

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { ModalContext } from "../../../App";
+import { ModalContext } from "../../../Components/Context/Context";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Button from "../../../Components/Button/Button";
@@ -9,6 +9,7 @@ import OtpInput from "react-otp-input";
 import ConfirmPassword from "../ConfirmPassword";
 import {
   confirmOTPEndPoint,
+  loading,
   requestHeader,
   ResetPasswordEndPoint,
 } from "../../../Library/Constants";
@@ -154,13 +155,13 @@ const ResetPassword = () => {
               btnName={
                 isOTP
                   ? buttonText
-                    ? "Loading..."
+                    ? loading
                     : "Confirm"
                   : buttonText
-                  ? "Loading..."
+                  ? loading
                   : "Send OTP"
               }
-              btnDisable={buttonText === "Loading..." ? true : false}
+              btnDisable={buttonText === loading ? true : false}
             />
           </form>
           {isOTP && (
