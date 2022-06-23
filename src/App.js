@@ -1,9 +1,8 @@
-import { useState, createContext } from "react";
+import { useState } from "react";
+import { ModalContext } from "./Components/Context/Context";
 import { modalInitialState } from "./Library/Constants";
 import { BrowserRouter, Routes } from "react-router-dom";
 import { appRoutes } from "./Components/Router/Router";
-
-export const ModalContext = createContext();
 
 const App = () => {
   const [modal, setModal] = useState(modalInitialState);

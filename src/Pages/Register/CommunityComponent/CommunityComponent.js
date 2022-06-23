@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ModalContext } from "../../../App";
+import { ModalContext } from "../../../Components/Context/Context";
 import { useNavigate } from "react-router-dom";
 import {
   communityNearby,
   joinCommunity,
   home,
+  finish,
 } from "../../../Library/Constants";
 import { getCall, postCall } from "../../../Components/Services/DataFetch";
 import Button from "../../../Components/Button/Button";
@@ -101,7 +102,7 @@ const CommunityComponent = () => {
         })
       )}
       <Button
-        btnName={"Finish"}
+        btnName={finish}
         className={"btnGreen"}
         onBtnClick={btnClickHandler}
       />

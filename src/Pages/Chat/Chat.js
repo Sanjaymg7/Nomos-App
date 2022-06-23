@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { ModalContext } from "../../App";
-import { websocketURL, access_token } from "../../Library/Constants";
+import { ModalContext } from "../../Components/Context/Context";
+import {
+  websocketURL,
+  access_token,
+  userChat,
+  friendDetails,
+  send,
+} from "../../Library/Constants";
 import { getCall } from "../../Components/Services/DataFetch";
 import Modal from "../../Components/Modal/Modal";
 import Header from "../../Components/Header/Header";
@@ -22,7 +28,7 @@ const Chat = () => {
 
   const getOtherUser = async () => {
     try {
-      const user = await getCall(`users?other_user_id=${otherUserId}`);
+      const user = await getCall(friendDetails + otherUserId);
       setOtherUserName(user.user_name);
       setIsOnline(user.online_status);
     } catch (err) {
@@ -32,13 +38,11 @@ const Chat = () => {
 
   const getPreviousChats = async () => {
     try {
-      const chats = await getCall(
-        `chat/messages?user_id=${otherUserId}&limit=50`
-      );
+      const chats = await getCall(userChat + otherUserId);
       setChatMessages(chats.messages);
-      if (chats.messages[0].sender_id == otherUserId) {
-        sendChatRead(chats.messages[0].message_id);
-      }
+      // if (chats.messages[0].sender_id == otherUserId) {
+      //   sendChatRead(chats.messages[0].message_id);
+      // }
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
     } finally {
@@ -78,7 +82,7 @@ const Chat = () => {
   };
 
   const sendChatRead = (messageId) => {
-    webSocket.send(
+    webSocket.current.send(
       JSON.stringify({
         action: "send_chat_read",
         access_token,
@@ -90,8 +94,8 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    getOtherUser();
     connectWebSocket();
+    getOtherUser();
     getPreviousChats();
 
     webSocket.current.onopen = () => {
@@ -106,6 +110,7 @@ const Chat = () => {
     };
 
     webSocket.current.onmessage = (response) => {
+      console.log("Message received");
       const messageData = JSON.parse(response.data);
       if (messageData.event === "chat_message_received") {
         setChatMessages((prevStatus) => [messageData.data, ...prevStatus]);
@@ -190,7 +195,7 @@ const Chat = () => {
               onKeyDown={handleKeyDown}
             />
             <Button
-              btnName={"Send"}
+              btnName={send}
               className={"btnSendMessage"}
               onBtnClick={sendMessage}
             />

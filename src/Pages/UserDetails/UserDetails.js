@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ModalContext } from "../../App";
+import { ModalContext } from "../../Components/Context/Context";
 import userDetails from "./UserDetails.module.css";
 import Image from "../../Components/Image/Image";
 import Header from "../../Components/Header/Header";

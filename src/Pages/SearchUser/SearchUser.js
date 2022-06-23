@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
-import { ModalContext } from "../../App";
+import { ModalContext } from "../../Components/Context/Context";
 import { getCall, postCall } from "../../Components/Services/DataFetch";
-import { friends, searchUser } from "../../Library/Constants";
+import { friends, search, searchUser } from "../../Library/Constants";
 import Header from "../../Components/Header/Header";
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Button/Button";
@@ -64,7 +64,7 @@ const SearchUser = () => {
           onInputChange={handleSearchInputChange}
         />
         <Button
-          btnName="Search"
+          btnName={search}
           className="btnGreen"
           onBtnClick={handleUserSearch}
         />

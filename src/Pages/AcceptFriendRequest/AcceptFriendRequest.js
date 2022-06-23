@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ModalContext } from "../../App";
+import { ModalContext } from "../../Components/Context/Context";
 import { getCall, putCall } from "../../Components/Services/DataFetch";
 import { friendRequest, friends } from "../../Library/Constants";
 import Header from "../../Components/Header/Header";
 import Modal from "../../Components/Modal/Modal";
-import Image from "../../Components/Image/Image";
 import "./AcceptFriendRequest.css";
-import Button from "../../Components/Button/Button";
 import Loading from "../../Components/Loading/Loading";
+import Request from "../../Components/Request/Request";
 
 const AcceptFriendRequest = () => {
   const [modal, setModal] = useContext(ModalContext);
@@ -63,7 +62,7 @@ const AcceptFriendRequest = () => {
   return (
     <div>
       {modal.showModal && <Modal />}
-      <Header navigateTo="searchUser" headerText="Accept Friend Request" />
+      <Header navigateTo="home" headerText="Accept Friend Request" />
       <div className="friendRequestContainer">
         {isLoading ? (
           <Loading />
@@ -72,26 +71,14 @@ const AcceptFriendRequest = () => {
         ) : (
           friendRequests.map((request, index) => (
             <div key={index} className="friendRequestWrapper">
-              <Image
-                src={request.profile_picture}
-                className="requestUserProfilePicture"
-              />
-              <h4 className="requestUserName">{request.user_name}</h4>
-              <Button
-                btnName="Accept"
-                className={
-                  request.didRespond ? "respondBtnDisabled" : "requestAcceptBtn"
-                }
-                onBtnClick={() => acceptRequest(request.request_id, index)}
-                btnDisable={request.didRespond ? true : false}
-              />
-              <Button
-                btnName="Reject"
-                className={
-                  request.didRespond ? "respondBtnDisabled" : "requestRejectBtn"
-                }
-                onBtnClick={() => rejectRequest(request.request_id, index)}
-                btnDisable={request.didRespond ? true : false}
+              <Request
+                profilePicture={request.profile_picture}
+                userName={request.user_name}
+                response={request.didRespond}
+                id={request.request_id}
+                index={index}
+                acceptHandler={acceptRequest}
+                rejectHandler={rejectRequest}
               />
             </div>
           ))

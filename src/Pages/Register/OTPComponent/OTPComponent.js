@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
-import { ModalContext } from "../../../App";
+import { ModalContext } from "../../../Components/Context/Context";
 import {
+  confirm,
   requestHeader,
   users,
   verifyOTP,
@@ -15,7 +16,7 @@ import Modal from "../../../Components/Modal/Modal";
 const OTPComponent = ({ renderSignupComponent, userId, userData }) => {
   const [otp, setOtp] = useState(0);
   const [buttonData, setButtonData] = useState({
-    value: "Confirm",
+    value: confirm,
     isActive: false,
   });
   const [modal, setModal] = useContext(ModalContext);
@@ -58,7 +59,7 @@ const OTPComponent = ({ renderSignupComponent, userId, userData }) => {
         renderSignupComponent("skillsComponent");
       }
     } catch (err) {
-      setButtonData({ value: "Confirm", isActive: true });
+      setButtonData({ value: confirm, isActive: true });
       setModal({ modalContent: err, showModal: true });
     }
   };

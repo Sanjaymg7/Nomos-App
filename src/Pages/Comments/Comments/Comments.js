@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ModalContext } from "../../../App";
+import { ModalContext } from "../../../Components/Context/Context";
 import Header from "../../../Components/Header/Header";
 import Button from "../../../Components/Button/Button";
 import Input from "../../../Components/Input/Input";
@@ -7,6 +7,7 @@ import "./Comments";
 import Modal from "../../../Components/Modal/Modal";
 import CommentCard from "../CommentCard/CommentCard";
 import { getCall, putCall } from "../../../Components/Services/DataFetch";
+import { comment } from "../../../Library/Constants";
 
 const Comments = () => {
   const [commentMessage, setCommentMessage] = useState("");
@@ -86,7 +87,7 @@ const Comments = () => {
           isLabelRequired={false}
         />
         <Button
-          btnName="Comment"
+          btnName={comment}
           className="btnSendMessage"
           onBtnClick={sendMessage}
         />

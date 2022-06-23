@@ -1,8 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
-import { ModalContext } from "../../App";
+import { ModalContext, PostContext } from "../../Components/Context/Context";
 import { useNavigate } from "react-router-dom";
-import { ItemPostContext } from "./ItemPost";
-import { items, home, waitingMessage } from "../../Library/Constants";
+import {
+  items,
+  home,
+  waitingMessage,
+  createPost,
+} from "../../Library/Constants";
 import { imageURLService } from "../../Components/Services/ImageURLService";
 import { postCall } from "../../Components/Services/DataFetch";
 import Header from "../../Components/Header/Header";
@@ -15,9 +19,9 @@ import Input from "../../Components/Input/Input";
 
 const ItemPostInput = ({ renderComponent }) => {
   const navigate = useNavigate();
-  const [itemPostData, setItemPostData] = useContext(ItemPostContext);
+  const [itemPostData, setItemPostData] = useContext(PostContext);
   const [buttonData, setButtonData] = useState({
-    value: "Create Post",
+    value: createPost,
     isActive: false,
   });
   const [modal, setModal] = useContext(ModalContext);
@@ -76,7 +80,7 @@ const ItemPostInput = ({ renderComponent }) => {
         navigate(home);
       }
     } catch (err) {
-      setButtonData({ value: "Create Post", isActive: true });
+      setButtonData({ value: createPost, isActive: true });
       setModal({ modalContent: err, showModal: true });
     }
   };

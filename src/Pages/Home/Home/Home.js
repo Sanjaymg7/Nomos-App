@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { ModalContext } from "../../../App";
+import { ModalContext } from "../../../Components/Context/Context";
 import Header from "../../../Components/Header/Header";
 import "./Home.css";
 import {
@@ -74,12 +74,19 @@ const Home = () => {
     }
   };
 
+  const logout = () => {
+    localStorage.clear();
+    navigate(intro);
+  };
+
   const logOutHandler = async () => {
     try {
       await postCall(logOutEndPoint, {});
-      localStorage.removeItem("access_token");
-      navigate(intro);
+      logout();
     } catch (err) {
+      if (err === "Invalid access token") {
+        logout();
+      }
       setModal({ modalContent: err, showModal: true });
     }
   };

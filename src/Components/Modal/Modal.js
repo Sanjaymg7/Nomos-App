@@ -1,6 +1,10 @@
 import React, { useContext } from "react";
-import { ModalContext } from "../../App";
-import { modalInitialState } from "../../Library/Constants";
+import { ModalContext } from "../Context/Context";
+import {
+  modalInitialState,
+  close,
+  errorMessage,
+} from "../../Library/Constants";
 import Button from "../Button/Button";
 import "./Modal.css";
 
@@ -14,9 +18,13 @@ const Modal = () => {
     <div>
       <div className="modalContainer">
         <div className="modal">
-          <h1 className="modalMessage">{modal.modalContent}</h1>
+          <h1 className="modalMessage">
+            {typeof modal.modalContent === "string"
+              ? modal.modalContent
+              : errorMessage}
+          </h1>
           <Button
-            btnName="Close"
+            btnName={close}
             className={"btnBlue"}
             onBtnClick={handleCloseModal}
           />
@@ -26,4 +34,4 @@ const Modal = () => {
   );
 };
 
-export default React.memo(Modal);
+export default Modal;

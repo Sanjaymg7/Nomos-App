@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
-import { ModalContext } from "../../../App";
+import { ModalContext } from "../../../Components/Context/Context";
 import { postCall } from "../../../Components/Services/DataFetch";
 import {
+  next,
   requestHeader,
   users,
   waitingMessage,
@@ -25,7 +26,7 @@ const UserDataComponent = ({ renderSignupComponent, updateData }) => {
       '{"lat":12.9141417,"lng":74.8559568,"name":"Mangalore,Karnataka,India"}',
   });
   const [buttonData, setButtonData] = useState({
-    value: "Next",
+    value: next,
     isActive: false,
   });
   const [modal, setModal] = useContext(ModalContext);
@@ -71,7 +72,7 @@ const UserDataComponent = ({ renderSignupComponent, updateData }) => {
         renderSignupComponent("otpComponent");
       }
     } catch (err) {
-      setButtonData({ value: "Next", isActive: true });
+      setButtonData({ value: next, isActive: true });
       setModal({ modalContent: err, showModal: true });
     }
   };

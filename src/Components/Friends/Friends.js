@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-import { ModalContext } from "../../App";
+import { ModalContext } from "../Context/Context";
+import { getFriend, submit } from "../../Library/Constants";
 import { getCall } from "../Services/DataFetch";
 import Image from "../Image/Image";
 import Button from "../Button/Button";
@@ -13,14 +14,14 @@ const Friends = ({ handleFriendsSubmit, selectType, userType }) => {
   const [selectedUsersName, setSelectedUsersName] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [buttonData, setButtonData] = useState({
-    value: "Submit",
+    value: submit,
     isActive: false,
   });
   const [modal, setModal] = useContext(ModalContext);
 
   const getFriends = async () => {
     try {
-      const data = await getCall("friends/?friendship_type=3");
+      const data = await getCall(getFriend);
       setFriends(data.map((friend) => ({ ...friend, isSelected: false })));
     } catch (err) {
       setModal({ modalContent: err, showModal: true });

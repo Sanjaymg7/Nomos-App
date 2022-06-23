@@ -3,13 +3,6 @@
   grid-template-columns: 1fr 1fr 1fr 1fr;
   padding: 0.7em;
 }
-.requestUserProfilePicture {
-  height: 2.5em;
-  width: 2.5em;
-}
-.requestUserName {
-  margin: auto 0em;
-}
 .noRequestMessage {
   position: absolute;
   font-size: 1.4em;

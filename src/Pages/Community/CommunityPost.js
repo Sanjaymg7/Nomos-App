@@ -1,26 +1,15 @@
-import React, { createContext, useState } from "react";
+import React, { useState } from "react";
+import {
+  PostContext,
+  communityPostInitData,
+} from "../../Components/Context/Context";
 import Friends from "../../Components/Friends/Friends";
 import CommunityPostInput from "./CommunityPostInput";
 
-export const CommunityPostContext = createContext();
-
 const CommunityPost = () => {
-  const initState = {
-    community_name: "",
-    community_description: "",
-    display_picture: "",
-    cover_picture: "",
-    administrator_id: "",
-    participants_id: "",
-    administrator_names: [],
-    participants_names: [],
-    community_location_center:
-      '{"lat":12.9141417,"lng":74.8559568,"name":"Mangalore,Karnataka,India"}',
-    display_image_url: "",
-    cover_image_url: "",
-  };
-
-  const [communityPostData, setCommunityPostData] = useState(initState);
+  const [communityPostData, setCommunityPostData] = useState(
+    communityPostInitData
+  );
   const [componentState, setComponentState] = useState("CommunityPostInput");
 
   const renderComponent = (state) => {
@@ -46,9 +35,7 @@ const CommunityPost = () => {
 
   return (
     <div>
-      <CommunityPostContext.Provider
-        value={[communityPostData, setCommunityPostData]}
-      >
+      <PostContext.Provider value={[communityPostData, setCommunityPostData]}>
         {componentState === "CommunityPostInput" && (
           <CommunityPostInput renderComponent={renderComponent} />
         )}
@@ -66,7 +53,7 @@ const CommunityPost = () => {
             userType="Admins"
           />
         )}
-      </CommunityPostContext.Provider>
+      </PostContext.Provider>
     </div>
   );
 };
