@@ -15,22 +15,24 @@ const Request = ({
 }) => {
   return (
     <div>
-      <Image src={profilePicture} className="requestUserProfilePicture" />
-      <h4 className="requestUserName">{userName}</h4>
-      {!response && (
-        <div>
-          <Button
-            btnName={accept}
-            className="requestAcceptBtn"
-            onBtnClick={() => acceptHandler(id, index)}
-          />
-          <Button
-            btnName={reject}
-            className="requestRejectBtn"
-            onBtnClick={() => rejectHandler(id, index)}
-          />
-        </div>
-      )}
+      <div key={index} className="friendRequestWrapper">
+        <Image src={profilePicture} className="requestUserProfilePicture" />
+        <h4 className="requestUserName">{userName}</h4>
+        {!response && (
+          <div className="requestButtonWrapper">
+            <Button
+              btnName={accept}
+              className="requestAcceptBtn"
+              onBtnClick={() => acceptHandler(id, index)}
+            />
+            <Button
+              btnName={reject}
+              className="requestRejectBtn"
+              onBtnClick={() => rejectHandler(id, index)}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

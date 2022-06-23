@@ -19,6 +19,7 @@ export const joinCommunity = "community/join";
 export const community = "/community";
 export const service = "service";
 export const items = "items";
+export const info = "info";
 export const experience = "/experience";
 export const privateChats = "chat?chat_type=1";
 export const skills = "master/skills";
@@ -28,7 +29,8 @@ export const getFriend = "friends/?friendship_type=3";
 export const searchUser = "search?filter_type=people&search_text=";
 export const friendRequest = "friends/?friendship_type=1";
 export const signInEndPoint = "users/sign_in";
-export const postsEndPoint = "posts/?type=3";
+export const postsEndPoint =
+  "posts/?type=3&limit=100&is_same_country_flag_required=1";
 export const likeEndPoint = "posts/like/";
 export const viewEndPoint = "posts/view/";
 export const logOutEndPoint = "users/logout";
@@ -50,6 +52,7 @@ export const signIn = "/signin";
 export const forgotPassword = "/forgotpassword";
 export const signUp = "/signup";
 export const userDetails = "/userdetails";
+export const infoPost = "/infopost";
 
 //Button labels
 export const submit = "Submit";

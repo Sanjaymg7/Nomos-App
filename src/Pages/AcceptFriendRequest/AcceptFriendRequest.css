@@ -1,8 +1,3 @@
-.friendRequestWrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  padding: 0.7em;
-}
 .noRequestMessage {
   position: absolute;
   font-size: 1.4em;

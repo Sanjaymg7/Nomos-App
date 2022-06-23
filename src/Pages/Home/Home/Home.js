@@ -93,7 +93,7 @@ const Home = () => {
   return (
     <>
       {isLoading && <Loading />}
-      {/* {modal.showModal && <Modal />} */}
+      {modal.showModal && <Modal />}
       <div className="home-container">
         <Header />
         <div onClick={logOutHandler} className="home-container-logout-div">

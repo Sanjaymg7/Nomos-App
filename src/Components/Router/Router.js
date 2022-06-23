@@ -1,4 +1,4 @@
-import { Route, Navigate, Outlet } from "react-router-dom";
+import { Route, Navigate, Outlet, useLocation } from "react-router-dom";
 import Chat from "../../Pages/Chat/Chat";
 import ResetPassword from "../../Pages/ForgotPassword/ResetPassword/ResetPassword";
 import Home from "../../Pages/Home/Home/Home";
@@ -14,10 +14,12 @@ import CommunityPost from "../../Pages/Community/CommunityPost";
 import SearchUser from "../../Pages/SearchUser/SearchUser";
 import AcceptFriendRequest from "../../Pages/AcceptFriendRequest/AcceptFriendRequest";
 import UserDetails from "../../Pages/UserDetails/UserDetails";
+import InfoPost from "../../Pages/InfoPost/InfoPost";
 
 const ProtectedRoute = ({ isProtectedRoute }) => {
+  const location = useLocation();
   if (isProtectedRoute && !localStorage.getItem("access_token")) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/signin" replace state={{ from: location }} />;
   }
   return <Outlet />;
 };
@@ -31,6 +33,7 @@ const routes = [
   { path: "/comments", element: <Comments />, isProtected: true },
   { path: "/experience", element: <ExperiencePost />, isProtected: true },
   { path: "/community", element: <CommunityPost />, isProtected: true },
+  { path: "/infopost", element: <InfoPost />, isProtected: true },
   { path: "/searchUser", element: <SearchUser />, isProtected: true },
   { path: "/acceptUser", element: <AcceptFriendRequest />, isProtected: true },
   { path: "/userdetails", element: <UserDetails />, isProtected: true },
