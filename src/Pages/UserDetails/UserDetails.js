@@ -10,6 +10,7 @@ import Button from "../../Components/Button/Button";
 import { useNavigate } from "react-router-dom";
 import { joinExperienceEndPoint, post } from "../../Library/Constants";
 import UserIcons from "../../Components/UserIcons/UserIcons";
+import UserDetailsCard from "./UserDetailsCard";
 
 const UserDetails = () => {
   const [postData, setPostData] = useState([]);
@@ -29,11 +30,10 @@ const UserDetails = () => {
         `posts/details?post_id=${localStorage.getItem("post_id")}`
       );
       if (data) {
-        console.log(data.posts[0]);
+        console.log(data);
         setPostData(data.posts[0]);
-        console.log(postData.user_id == localStorage.getItem("user_id")) &&
+        data.posts[0].user_id == localStorage.getItem("user_id") &&
           setUser(true);
-
         setDisplayData(!displayData);
       }
     } catch (err) {
@@ -53,9 +53,10 @@ const UserDetails = () => {
   const isNotSameUser = async () => {
     try {
       setButton(true);
-      await postCall(joinExperienceEndPoint, {
+      const data = await postCall(joinExperienceEndPoint, {
         post_id: localStorage.getItem("post_id"),
       });
+      console.log(data);
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
     }
@@ -63,76 +64,17 @@ const UserDetails = () => {
   return (
     <>
       {isLoading && <Loading />}
-      {modal.showModal && <Modal />}
+      {/* {modal.showModal && <Modal />} */}
       <Header navigateTo="home" headerText="Details" />
       {displayData ? (
-        <div className={userDetails.container}>
-          <Image
-            className={userDetails.image}
-            src={postData.image_url}
-            alt="image"
-          />
-          <div className={userDetails.otherUser}>
-            Offered by <span>{postData.user_name}</span>
-            <Image
-              className={userDetails.otherUserImage}
-              src={postData.profile_picture_url}
-              alt="image"
-            />
-          </div>
-          <div className={userDetails.giveOrReceive}>
-            {postData.post_type === 1
-              ? "Item Requested"
-              : postData.post_type
-              ? "Experience"
-              : ""}
-          </div>
-          <div className={userDetails.description}>
-            <h4>{postData.title}</h4>
-            <div className={userDetails.dateCapacity}>
-              <div className={userDetails.date}>
-                <h4>{callDate(postData.start_time)}</h4>
-                <h5 className={userDetails.h5}>start Date</h5>
-              </div>
-              <div className={userDetails.date}>
-                <h4>{postData.member_limitation} people</h4>
-                <h5 className={userDetails.h5}>total capacity</h5>
-              </div>
-            </div>
-            <p className={userDetails.pTag}>{postData.description}</p>
-          </div>
-          <div className={userDetails.location}>
-            <p className={`${userDetails.pTag} ${userDetails.removeMargin}`}>
-              {postData.location.name}
-            </p>
-            <p className={`${userDetails.pTag} ${userDetails.removeMargin}`}>
-              {postData.post_distance} miles away
-            </p>
-          </div>
-          <h4 className={userDetails.skillText}>Skills</h4>
-          <div className={userDetails.skills}>
-            {postData.skills.map((skill) => (
-              <Button
-                key={skill.master_skills_id}
-                btnName={skill.skill_title}
-                className={userDetails.skill}
-              />
-            ))}
-          </div>
-          <UserIcons postData={postData} />
-          <Button
-            btnName={
-              user ? "Check your Inbox" : "I want to join this experience"
-            }
-            className={
-              button
-                ? `${userDetails.foorteButton} ${userDetails.foorteButtonInActive}`
-                : `${userDetails.foorteButton} ${userDetails.foorteButtonActive}`
-            }
-            onBtnClick={user ? isSameUser : isNotSameUser}
-            btnDisable={button ? false : true}
-          />
-        </div>
+        <UserDetailsCard
+          postData={postData}
+          callDate={callDate}
+          isSameUser={isSameUser}
+          isNotSameUser={isNotSameUser}
+          user={user}
+          button={button}
+        />
       ) : (
         ""
       )}

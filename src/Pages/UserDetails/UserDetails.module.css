@@ -119,3 +119,26 @@
   background-color: #7d7f7e;
   color: black;
 }
+.peopleComments {
+  display: flex;
+  flex-direction: row;
+  height: 2rem;
+  width: 100%;
+  padding: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  border: 0.0125rem solid black;
+}
+.people {
+  background-color: white;
+  color: black;
+}
+.comments {
+  background-color: white;
+  color: black;
+}
+.peopleOrCommentContainer {
+  height: 80vh;
+  border: 1px solid black;
+  overflow-y: auto;
+}

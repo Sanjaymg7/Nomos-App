@@ -65,18 +65,21 @@ const Comments = () => {
   return (
     <>
       {modal.showModal && <Modal />}
-      <Header navigateTo="home" headerText="Details" />
       <div className="chatwrapper">
-        {commentData?.map((comment, index) => (
-          <CommentCard
-            key={index}
-            commentItem={comment}
-            profileURL={comment.profile_picture_url}
-            userName={comment.user_name}
-            comment={comment.comment}
-            commentedAt={comment.commented_at}
-          />
-        ))}
+        {commentData.length == 0 ? (
+          <div className="">"No comments yet be the first to comment"</div>
+        ) : (
+          commentData?.map((comment, index) => (
+            <CommentCard
+              key={index}
+              commentItem={comment}
+              profileURL={comment.profile_picture_url}
+              userName={comment.user_name}
+              comment={comment.comment}
+              commentedAt={comment.commented_at}
+            />
+          ))
+        )}
       </div>
       <div className="inputwrapper">
         <Input

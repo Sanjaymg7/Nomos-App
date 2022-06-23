@@ -40,9 +40,10 @@ const Chat = () => {
     try {
       const chats = await getCall(userChat + otherUserId);
       setChatMessages(chats.messages);
-      // if (chats.messages[0].sender_id == otherUserId) {
-      //   sendChatRead(chats.messages[0].message_id);
-      // }
+      console.log("Chat read");
+      if (chats.messages[0].sender_id == otherUserId) {
+        sendChatRead(chats.messages[0].message_id);
+      }
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
     } finally {
@@ -110,7 +111,7 @@ const Chat = () => {
     };
 
     webSocket.current.onmessage = (response) => {
-      console.log("Message received");
+      console.log(response);
       const messageData = JSON.parse(response.data);
       if (messageData.event === "chat_message_received") {
         setChatMessages((prevStatus) => [messageData.data, ...prevStatus]);
@@ -159,7 +160,7 @@ const Chat = () => {
 
   return (
     <div>
-      {modal.showModal && <Modal />}
+      {/* {modal.showModal && <Modal />} */}
       <Header navigateTo="inbox" headerText={otherUserName} />
       {isLoading ? (
         <Loading />
