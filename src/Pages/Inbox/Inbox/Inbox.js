@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import { ModalContext } from "../../../Components/Context/Context";
-import { privateChats, chat } from "../../../Library/Constants";
+import {
+  privateChats,
+  chat,
+  userDefaultImage,
+} from "../../../Library/Constants";
 import { useNavigate } from "react-router-dom";
 import { getCall } from "../../../Components/Services/DataFetch";
 import "./Inbox.css";
@@ -9,6 +13,7 @@ import Modal from "../../../Components/Modal/Modal";
 import Footer from "../../../Components/Footer/Footer";
 import Friends from "../../../Components/Friends/Friends";
 import Loading from "../../../Components/Loading/Loading";
+import Image from "../../../Components/Image/Image";
 
 const InboxComp = () => {
   const navigate = useNavigate();
@@ -41,17 +46,31 @@ const InboxComp = () => {
     if (chatDate.getHours() <= 12) {
       if (chatDate.getHours() === 12) {
         return (
-          appendString + ` ${chatDate.getHours()}:${chatDate.getMinutes()} pm`
+          appendString +
+          ` ${chatDate.getHours()}:${
+            chatDate.getMinutes() < 10
+              ? "0" + chatDate.getMinutes()
+              : chatDate.getMinutes()
+          } pm`
         );
       } else {
         return (
-          appendString + ` ${chatDate.getHours()}:${chatDate.getMinutes()} am`
+          appendString +
+          ` ${chatDate.getHours()}:${
+            chatDate.getMinutes() < 10
+              ? "0" + chatDate.getMinutes()
+              : chatDate.getMinutes()
+          } am`
         );
       }
     } else {
       return (
         appendString +
-        ` ${+chatDate.getHours() % 12}:${chatDate.getMinutes()} pm`
+        ` ${+chatDate.getHours() % 12}:${
+          chatDate.getMinutes() < 10
+            ? "0" + chatDate.getMinutes()
+            : chatDate.getMinutes()
+        } pm`
       );
     }
   };
@@ -97,30 +116,37 @@ const InboxComp = () => {
       {isLoading ? (
         <Loading />
       ) : isInbox ? (
-        chatConversations.map((chat, index) => (
-          <div
-            key={index}
-            className="userMessageContainer"
-            onClick={() => redirectToChatPage(chat.user_id, chat.user_name)}
-          >
-            <img src={chat.profile_picture} className="profilePicture" />
-            <div>
-              <h5 className="userName">{chat.user_name}</h5>
-              <p className="lastUserMessage">
-                {chat.last_message.length > 54
-                  ? chat.last_message.slice(0, 54) + "..."
-                  : chat.last_message}
-              </p>
+        chatConversations.length === 0 ? (
+          <h1 className="noUserChats">There are no messages</h1>
+        ) : (
+          chatConversations.map((chat, index) => (
+            <div
+              key={index}
+              className="userMessageContainer"
+              onClick={() => redirectToChatPage(chat.user_id, chat.user_name)}
+            >
+              <Image
+                src={chat.profile_picture || userDefaultImage}
+                className="profilePicture"
+              />
+              <div>
+                <h5 className="userName">{chat.user_name}</h5>
+                <p className="lastUserMessage">
+                  {chat.last_message.length > 54
+                    ? chat.last_message.slice(0, 54) + "..."
+                    : chat.last_message}
+                </p>
+              </div>
+              <div>
+                <span className="timeField">
+                  {handleDate(chat.last_message_time)}
+                </span>
+                <span className="unreadCount">{chat.unread_count}</span>
+              </div>
+              <span className="enterChat">{">"}</span>
             </div>
-            <div>
-              <span className="timeField">
-                {handleDate(chat.last_message_time)}
-              </span>
-              <span className="unreadCount">{chat.unread_count}</span>
-            </div>
-            <span className="enterChat">{">"}</span>
-          </div>
-        ))
+          ))
+        )
       ) : (
         <Friends
           handleFriendsSubmit={redirectToChatPage}

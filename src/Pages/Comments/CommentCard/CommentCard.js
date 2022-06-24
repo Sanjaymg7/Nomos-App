@@ -1,4 +1,5 @@
 import React from "react";
+import { userDefaultImage } from "../../../Library/Constants";
 import Image from "../../../Components/Image/Image";
 import "./CommentCard.css";
 
@@ -33,7 +34,11 @@ const CommentCard = ({ profileURL, userName, comment, commentedAt }) => {
   return (
     <div className="comment-card">
       <div className="comment-card-profile">
-        <Image className="comment-card-image" src={profileURL} alt="Profile" />
+        <Image
+          className="comment-card-image"
+          src={profileURL || userDefaultImage}
+          alt="Profile"
+        />
         <div className="comment-card-text">
           <h4>{userName}</h4>
           <span className="comment-card-text">{comment}</span>

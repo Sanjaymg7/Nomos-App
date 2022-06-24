@@ -7,6 +7,8 @@
   color: #00a86b;
 }
 .chatwrapper {
+  display: flex;
+  flex-direction: column-reverse;
   height: 44em;
   overflow: auto;
 }
@@ -44,10 +46,6 @@
   color: #fff;
   font-size: 0.8em;
   font-weight: 500;
-}
-.chatwrapper {
-  display: flex;
-  flex-direction: column-reverse;
 }
 .chatMessage {
   padding: 0.5em;

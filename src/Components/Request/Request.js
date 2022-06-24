@@ -1,5 +1,5 @@
 import React from "react";
-import { accept, reject } from "../../Library/Constants";
+import { accept, reject, userDefaultImage } from "../../Library/Constants";
 import Button from "../Button/Button";
 import Image from "../Image/Image";
 import "./Request.css";
@@ -16,7 +16,10 @@ const Request = ({
   return (
     <div>
       <div key={index} className="friendRequestWrapper">
-        <Image src={profilePicture} className="requestUserProfilePicture" />
+        <Image
+          src={profilePicture || userDefaultImage}
+          className="requestUserProfilePicture"
+        />
         <h4 className="requestUserName">{userName}</h4>
         {!response && (
           <div className="requestButtonWrapper">

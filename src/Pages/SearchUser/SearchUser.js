@@ -1,7 +1,12 @@
 import React, { useState, useContext } from "react";
 import { ModalContext } from "../../Components/Context/Context";
 import { getCall, postCall } from "../../Components/Services/DataFetch";
-import { friends, search, searchUser } from "../../Library/Constants";
+import {
+  friends,
+  search,
+  searchUser,
+  userDefaultImage,
+} from "../../Library/Constants";
 import Header from "../../Components/Header/Header";
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Button/Button";
@@ -72,11 +77,13 @@ const SearchUser = () => {
       <div className="userSearchResultContainer">
         {isLoading ? (
           <Loading />
+        ) : users.length === 0 ? (
+          <h4 className="userNotFound">User not found</h4>
         ) : (
           users.map((user, index) => (
             <div key={index} className="userSearchResult">
               <Image
-                src={user.profile_picture}
+                src={user.profile_picture || userDefaultImage}
                 className="userSearchProfilePicture"
               />
               <h4 className="userSearchName">{user.user_name}</h4>

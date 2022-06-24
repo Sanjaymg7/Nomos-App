@@ -73,8 +73,6 @@ const UserDetails = () => {
   };
   const acceptRejectHandler = async (id, index, type) => {
     try {
-      console.log(interestedUsers);
-      console.log(interestedUsers[index].didRespond);
       interestedUsers[index].didRespond = true;
       setInterestedUsers([...interestedUsers]);
       await postCall(experienceRespondEndPoint, {

@@ -31,3 +31,9 @@
   display: block;
   height: 35em;
 }
+.noFriends {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 43em;
+}
