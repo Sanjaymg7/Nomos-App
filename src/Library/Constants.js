@@ -39,6 +39,7 @@ export const confirmOTPEndPoint = "users/confirm_otp";
 export const joinExperienceEndPoint = "experience/join";
 export const friendDetails = "users?other_user_id=";
 export const userChat = "chat/messages?user_id=";
+export const experienceRespondEndPoint = "experience/respond";
 
 // Pages endpoint
 export const intro = "/";

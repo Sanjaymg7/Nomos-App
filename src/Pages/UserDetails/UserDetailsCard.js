@@ -4,6 +4,8 @@ import Image from "../../Components/Image/Image";
 import Button from "../../Components/Button/Button";
 import UserIcons from "../../Components/UserIcons/UserIcons";
 import Comments from "../Comments/Comments/Comments";
+import People from "../../Components/People/People";
+import Request from "../../Components/Request/Request";
 
 const UserDetailsCard = ({
   postData,
@@ -12,6 +14,9 @@ const UserDetailsCard = ({
   isNotSameUser,
   user,
   button,
+  acceptHandler,
+  rejectHandler,
+  response,
 }) => {
   const [people, setPeople] = useState(false);
   const [comments, setComments] = useState(true);
@@ -91,7 +96,30 @@ const UserDetailsCard = ({
         />
       </div>
       <div className={userDetails.peopleOrCommentContainer}>
-        {people && ""}
+        {people
+          ? user
+            ? postData.interested_users.map((people, index) => (
+                <Request
+                  key={index}
+                  id={people.user_id}
+                  userName={people.user_name}
+                  profilePicture={people.profile_picture_url}
+                  status={people.status}
+                  acceptHandler={acceptHandler}
+                  rejectHandler={rejectHandler}
+                  response={response}
+                />
+              ))
+            : postData.interested_users.map((people, index) => (
+                <People
+                  key={index}
+                  userId={people.user_id}
+                  name={people.user_name}
+                  profilePicture={people.profile_picture_url}
+                  status={people.status}
+                />
+              ))
+          : ""}
         {comments && <Comments />}
       </div>
       <Button
