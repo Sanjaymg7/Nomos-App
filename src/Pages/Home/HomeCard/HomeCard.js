@@ -28,7 +28,7 @@ const HomeCard = ({
       }}
     >
       <div className="home-card-header">
-        <div className="intro-container">
+        <div className="home-card-intro-container">
           <div className="home-header-container">
             <Image
               className="profile-photo"
