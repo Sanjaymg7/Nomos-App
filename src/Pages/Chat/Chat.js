@@ -40,7 +40,6 @@ const Chat = () => {
     try {
       const chats = await getCall(userChat + otherUserId);
       setChatMessages(chats.messages);
-      console.log("Chat read");
       if (chats.messages[0].sender_id == otherUserId) {
         sendChatRead(chats.messages[0].message_id);
       }
@@ -160,7 +159,7 @@ const Chat = () => {
 
   return (
     <div>
-      {/* {modal.showModal && <Modal />} */}
+      {modal.showModal && <Modal />}
       <Header navigateTo="inbox" headerText={otherUserName} />
       {isLoading ? (
         <Loading />

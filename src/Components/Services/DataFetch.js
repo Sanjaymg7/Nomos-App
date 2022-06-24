@@ -1,10 +1,7 @@
-import { errorMessage } from "../../Library/Constants";
+import { errorMessage, defaultHeader } from "../../Library/Constants";
 
-const url = "https://api.nomos.net/V4/";
-const defaultHeader = {
-  "content-type": "application/json",
-  access_token: localStorage.getItem("access_token"),
-};
+// const url = "https://api.nomos.net/V4/";
+const url = "https://api2.juegogames.com/NOMOS-V3/";
 
 const handleData = (data) => {
   if (data.responseCode === 200) {
@@ -22,7 +19,13 @@ const handleError = (err) => {
   }
 };
 
-const getCall = (endPoint, headers = defaultHeader) => {
+const getCall = (
+  endPoint,
+  headers = {
+    "content-type": "application/json",
+    access_token: localStorage.getItem("access_token"),
+  }
+) => {
   return fetch(url + endPoint, {
     method: "GET",
     headers: headers,
@@ -36,7 +39,14 @@ const getCall = (endPoint, headers = defaultHeader) => {
     });
 };
 
-const putCall = (endPoint, body, headers = defaultHeader) => {
+const putCall = (
+  endPoint,
+  body,
+  headers = {
+    "content-type": "application/json",
+    access_token: localStorage.getItem("access_token"),
+  }
+) => {
   return fetch(url + endPoint, {
     method: "PUT",
     headers: headers,
@@ -51,7 +61,14 @@ const putCall = (endPoint, body, headers = defaultHeader) => {
     });
 };
 
-const postCall = (endPoint, body, headers = defaultHeader) => {
+const postCall = (
+  endPoint,
+  body,
+  headers = {
+    "content-type": "application/json",
+    access_token: localStorage.getItem("access_token"),
+  }
+) => {
   return fetch(url + endPoint, {
     headers: headers,
     method: "POST",

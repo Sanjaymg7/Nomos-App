@@ -1,7 +1,8 @@
 export const requestHeader = { "content-type": "application/json" };
 export const access_token = localStorage.getItem("access_token");
 
-export const websocketURL = `wss://websocket.nomos.net/V4?access_token=${access_token}`;
+// export const websocketURL = `wss://websocket.nomos.net/V4?access_token=${access_token}`;
+export const websocketURL = `wss://ws2.juegogames.com/NOMOS-V3/access_token=${access_token}`;
 
 export const modalInitialState = {
   modalContent: "",
@@ -10,6 +11,8 @@ export const modalInitialState = {
 
 export const waitingMessage = "Please Wait..";
 export const errorMessage = "Something went wrong!!";
+
+export const userDefaultImage = "./user.png";
 
 // API endpoint URL's
 export const users = "users/";
@@ -30,7 +33,7 @@ export const searchUser = "search?filter_type=people&search_text=";
 export const friendRequest = "friends/?friendship_type=1";
 export const signInEndPoint = "users/sign_in";
 export const postsEndPoint =
-  "posts/?type=3&limit=100&is_same_country_flag_required=1";
+  "posts/?type=3&limit=20&is_same_country_flag_required=1";
 export const likeEndPoint = "posts/like/";
 export const viewEndPoint = "posts/view/";
 export const logOutEndPoint = "users/logout";

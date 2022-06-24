@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { ModalContext } from "../Context/Context";
-import { getFriend, submit } from "../../Library/Constants";
+import { getFriend, submit, userDefaultImage } from "../../Library/Constants";
 import { getCall } from "../Services/DataFetch";
 import Image from "../Image/Image";
 import Button from "../Button/Button";
@@ -98,6 +98,8 @@ const Friends = ({ handleFriendsSubmit, selectType, userType }) => {
           <div className="friendLoadingContainer">
             <Loading />
           </div>
+        ) : friends.length === 0 ? (
+          <h4 className="noFriends">You don't have any friends</h4>
         ) : (
           friends.map((friend, index) => (
             <div
@@ -116,7 +118,7 @@ const Friends = ({ handleFriendsSubmit, selectType, userType }) => {
               }
             >
               <Image
-                src={friend.profile_picture}
+                src={friend.profile_picture || userDefaultImage}
                 className="friendsProfilePicture"
               />
               <h4 className="friendName">{friend.user_name}</h4>

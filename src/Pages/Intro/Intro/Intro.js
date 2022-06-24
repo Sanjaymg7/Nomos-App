@@ -4,6 +4,7 @@ import { home, signIn, signUp } from "../../../Library/Constants";
 import Button from "../../../Components/Button/Button";
 import Image from "../../../Components/Image/Image";
 import "./Intro.css";
+
 const Intro = () => {
   const navigate = useNavigate();
   useEffect(() => {

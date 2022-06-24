@@ -6,6 +6,7 @@ import UserIcons from "../../Components/UserIcons/UserIcons";
 import Comments from "../Comments/Comments/Comments";
 import People from "../../Components/People/People";
 import Request from "../../Components/Request/Request";
+import { userDefaultImage } from "../../Library/Constants";
 
 const UserDetailsCard = ({
   postData,
@@ -39,7 +40,7 @@ const UserDetailsCard = ({
         Offered by <span>{postData.user_name}</span>
         <Image
           className={userDetails.otherUserImage}
-          src={postData.profile_picture_url}
+          src={postData.profile_picture_url || userDefaultImage}
           alt="image"
         />
       </div>
@@ -105,9 +106,10 @@ const UserDetailsCard = ({
                   userName={people.user_name}
                   profilePicture={people.profile_picture_url}
                   status={people.status}
+                  index={index}
                   acceptHandler={acceptHandler}
                   rejectHandler={rejectHandler}
-                  response={response}
+                  response={people.didRespond}
                 />
               ))
             : postData.interested_users.map((people, index) => (

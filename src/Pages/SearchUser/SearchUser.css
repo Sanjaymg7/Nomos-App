@@ -8,6 +8,13 @@
 .searchUserInput {
   width: 90%;
 }
+.userNotFound {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 28em;
+  font-size: 1.5em;
+}
 .userSearchResultContainer {
   background-color: #f0f0f0;
   min-height: 42.2em;

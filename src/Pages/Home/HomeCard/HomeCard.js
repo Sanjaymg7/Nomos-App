@@ -2,7 +2,7 @@ import React from "react";
 import Image from "../../../Components/Image/Image";
 import "./HomeCard.css";
 import { useNavigate } from "react-router-dom";
-import { userDetails } from "../../../Library/Constants";
+import { userDefaultImage, userDetails } from "../../../Library/Constants";
 import UserIcons from "../../../Components/UserIcons/UserIcons";
 
 const HomeCard = ({
@@ -32,7 +32,7 @@ const HomeCard = ({
           <div className="home-header-container">
             <Image
               className="profile-photo"
-              src={profilePicture}
+              src={profilePicture || userDefaultImage}
               alt="Profile img"
             />
             <div className="home-header-text">

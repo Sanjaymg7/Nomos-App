@@ -19,10 +19,10 @@
   gap: 2%;
 }
 .profile-photo {
-  height: 3rem;
-  width: 12.5%;
+  height: 2.5rem;
+  width: 2.5rem;
   margin: 1rem 0.6rem 1rem 1rem;
-  border-radius: 100%;
+  border-radius: 50%;
 }
 .home-header-container {
   display: flex;
