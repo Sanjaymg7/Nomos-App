@@ -1,17 +1,33 @@
-.chatwrapper {
+.commentwrapper {
   background-color: #eee;
-  height: 44em;
-  overflow: auto;
+  height: 37rem;
+  overflow-y: auto;
 }
 .inputwrapper {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  margin-top: 0.9em;
+  height: 6rem;
+  position: relative;
+  background-color: white;
+  bottom: -0.5rem;
+  left: 0;
+  margin-top: -0.6rem;
+  padding-top: 1.4rem;
 }
+
 .no-comments {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  row-gap: 1rem;
+  font-size: 1.5rem;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: grey;
+  text-align: center;
 }
 .typingContainer {
   position: absolute;

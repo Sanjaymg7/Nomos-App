@@ -5,6 +5,7 @@
   border-radius: 3px;
   border: 0.1rem solid #e6e6e6;
   background-color: #fff;
+  width: 100vw;
 }
 .home-card-header {
   display: flex;
@@ -12,7 +13,7 @@
   gap: 2%;
   height: 5%;
 }
-.intro-container {
+.home-card-intro-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

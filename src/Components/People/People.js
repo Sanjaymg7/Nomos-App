@@ -10,7 +10,7 @@ const People = ({ name, profilePicture, status }) => {
         <div className="people-name-status">
           <h5 className="people-name">{name}</h5>
           <p className="people-status">
-            {status == 1 ? "Pending" : "In Progress"}
+            {status == 1 ? "Pending" : status == 2 && "Joined"}
           </p>
         </div>
       </div>

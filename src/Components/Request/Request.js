@@ -13,6 +13,7 @@ const Request = ({
   acceptHandler,
   rejectHandler,
 }) => {
+  console.log(response);
   return (
     <div>
       <div key={index} className="friendRequestWrapper">

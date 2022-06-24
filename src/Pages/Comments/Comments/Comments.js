@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ModalContext } from "../../../Components/Context/Context";
-import Header from "../../../Components/Header/Header";
 import Button from "../../../Components/Button/Button";
 import Input from "../../../Components/Input/Input";
-import "./Comments";
+import "./Comments.css";
 import Modal from "../../../Components/Modal/Modal";
 import CommentCard from "../CommentCard/CommentCard";
 import { getCall, putCall } from "../../../Components/Services/DataFetch";
 import { comment } from "../../../Library/Constants";
+import Image from "../../../Components/Image/Image";
 
 const Comments = () => {
   const [commentMessage, setCommentMessage] = useState("");
@@ -65,10 +65,11 @@ const Comments = () => {
   return (
     <>
       {modal.showModal && <Modal />}
-      <div className="chatwrapper">
+      <div className="commentwrapper">
         {commentData.length == 0 ? (
           <div className="no-comments">
-            No comments yet be the first to comment
+            <Image src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/364D1859-4214-4D34-A64C-CB5CFDEA89AA.png" />
+            No comments yet be <br></br> the first to comment
           </div>
         ) : (
           commentData?.map((comment, index) => (
@@ -83,6 +84,7 @@ const Comments = () => {
           ))
         )}
       </div>
+
       <div className="inputwrapper">
         <Input
           type="text"
