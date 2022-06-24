@@ -9,12 +9,14 @@ import {
   experienceRespondEndPoint,
 } from "../../Library/Constants";
 import UserDetailsCard from "./UserDetailsCard";
+import Modal from "../../Components/Modal/Modal";
 
 const UserDetails = () => {
   const [postData, setPostData] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [modal, setModal] = useContext(ModalContext);
   const [displayData, setDisplayData] = useState(false);
+  const [interestedUsers, setInterestedUsers] = useState([]);
   const [user, setUser] = useState(false);
   const [button, setButton] = useState(false);
   const navigate = useNavigate();
@@ -29,12 +31,15 @@ const UserDetails = () => {
       );
       if (data) {
         console.log(data);
+        localStorage.setItem("post_user_id", data.posts[0].user_id);
+
         data.posts[0].interested_users = data.posts[0].interested_users.map(
           (comment) => ({
             ...comment,
             didRespond: false,
           })
         );
+        setInterestedUsers(data.posts[0].interested_users);
         setPostData(data.posts[0]);
         console.log(postData);
         data.posts[0].user_id == localStorage.getItem("user_id") &&
@@ -66,32 +71,33 @@ const UserDetails = () => {
       setModal({ modalContent: err, showModal: true });
     }
   };
-  const acceptHandler = () => {
+  const acceptRejectHandler = async (id, index, type) => {
     try {
-      postCall(experienceRespondEndPoint, {
+      console.log(interestedUsers);
+      console.log(interestedUsers[index].didRespond);
+      interestedUsers[index].didRespond = true;
+      setInterestedUsers([...interestedUsers]);
+      await postCall(experienceRespondEndPoint, {
         post_id: localStorage.getItem("post_id"),
-        response_type: 1,
-        user_id: localStorage.getItem("user_id"),
+        response_type: type,
+        user_id: id,
       });
     } catch (err) {
+      interestedUsers[index].didRespond = false;
+      setInterestedUsers([...interestedUsers]);
       console.log(err);
     }
   };
-  const rejectHandler = () => {
-    try {
-      postCall(experienceRespondEndPoint, {
-        post_id: localStorage.getItem("post_id"),
-        response_type: 1,
-        user_id: localStorage.getItem("user_id"),
-      });
-    } catch (err) {
-      console.log(err);
-    }
+  const rejectHandler = (id, index) => {
+    acceptRejectHandler(id, index, 2);
+  };
+  const acceptHandler = (id, index) => {
+    acceptRejectHandler(id, index, 1);
   };
   return (
     <>
       {isLoading && <Loading />}
-      {/* {modal.showModal && <Modal />} */}
+      {modal.showModal && <Modal />}
       <Header navigateTo="home" headerText="Details" />
       {displayData ? (
         <UserDetailsCard

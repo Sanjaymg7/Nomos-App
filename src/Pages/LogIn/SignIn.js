@@ -21,7 +21,6 @@ const SignIn = () => {
   const location = useLocation();
   const [modal, setModal] = useContext(ModalContext);
   const [buttonName, setButtonName] = useState("Sign In");
-  const [user, setUser] = useState();
   const navigate = useNavigate();
 
   const validateUser = (userData) => {
@@ -60,7 +59,6 @@ const SignIn = () => {
           requestHeader
         );
         if (userDetail) {
-          setUser(userDetail);
           setButtonName("Sign In");
           localStorage.setItem("user_id", userDetail.user_id);
           localStorage.setItem("access_token", userDetail.access_token);
@@ -74,27 +72,26 @@ const SignIn = () => {
   };
   return (
     <>
-      {modal.showModal ? (
+      {modal.showModal && (
         <Modal modalContent={modal.modalContent} closeModal={setModal} />
-      ) : (
-        <>
-          <Header />
-          <form className="signin" onSubmit={userSignIn}>
-            <Label className="signin-label" labelName="Email" />
-            <Input className="input" />
-            <Label className="signin-label" labelName="Password" />
-            <Input className="input" type="password" />
-            <Button
-              btnDisable={buttonName == "Sign In" ? false : true}
-              className="btn"
-              btnName={buttonName}
-            />
-          </form>
-          <p onClick={() => navigate(forgotPassword)} className="forgot-para">
-            Forgot password?
-          </p>
-        </>
       )}
+      <>
+        <Header />
+        <form className="signin" onSubmit={userSignIn}>
+          <Label className="signin-label" labelName="Email" />
+          <Input className="input" />
+          <Label className="signin-label" labelName="Password" />
+          <Input className="input" type="password" />
+          <Button
+            btnDisable={buttonName == "Sign In" ? false : true}
+            className="btn"
+            btnName={buttonName}
+          />
+        </form>
+        <p onClick={() => navigate(forgotPassword)} className="forgot-para">
+          Forgot password?
+        </p>
+      </>
     </>
   );
 };

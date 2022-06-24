@@ -30,11 +30,6 @@ const Home = () => {
 
   const navigate = useNavigate();
 
-  const setCommentsPage = (postId) => {
-    localStorage.setItem("post_id", postId);
-    navigate(comments);
-  };
-
   useEffect(() => {
     getData();
   }, []);
@@ -110,13 +105,8 @@ const Home = () => {
             profilePicture={post.profile_picture_url}
             description={post.description}
             imageURL={post.image_url}
-            views={post.views_count}
-            comments={post.comment_count}
-            likes={post.like_count}
-            isLiked={post.is_liked}
             postViews={postViews}
             updateLikes={updateLikes}
-            setCommentsPage={setCommentsPage}
           />
         ))}
       </div>

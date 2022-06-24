@@ -14,13 +14,8 @@ const HomeCard = ({
   profilePicture,
   description,
   imageURL,
-  views,
-  comments,
-  likes,
-  isLiked,
   postViews,
   updateLikes,
-  setCommentsPage,
 }) => {
   const navigate = useNavigate();
   return (
