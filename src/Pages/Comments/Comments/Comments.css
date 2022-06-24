@@ -1,22 +1,27 @@
 .chatwrapper {
-    background-color: #eee;
-    height: 44em;
-    overflow: auto;
-  }
-  .inputwrapper {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    margin-top: 0.9em;
-  } 
-  .typingContainer {
-    position: absolute;
-    top: 2.5em;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    padding: 0.5em;
-    background-color: transparent;
-    color: #fff;
-    font-size: 0.8em;
-    font-weight: 500;
-  }
+  background-color: #eee;
+  height: 44em;
+  overflow: auto;
+}
+.inputwrapper {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  margin-top: 0.9em;
+}
+.no-comments {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.typingContainer {
+  position: absolute;
+  top: 2.5em;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 0.5em;
+  background-color: transparent;
+  color: #fff;
+  font-size: 0.8em;
+  font-weight: 500;
+}

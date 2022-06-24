@@ -67,7 +67,9 @@ const Comments = () => {
       {modal.showModal && <Modal />}
       <div className="chatwrapper">
         {commentData.length == 0 ? (
-          <div className="">"No comments yet be the first to comment"</div>
+          <div className="no-comments">
+            No comments yet be the first to comment
+          </div>
         ) : (
           commentData?.map((comment, index) => (
             <CommentCard

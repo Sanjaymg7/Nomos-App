@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ModalContext } from "../../Components/Context/Context";
-import userDetails from "./UserDetails.module.css";
-import Image from "../../Components/Image/Image";
 import Header from "../../Components/Header/Header";
 import { getCall, postCall } from "../../Components/Services/DataFetch";
 import Loading from "../../Components/Loading/Loading";
-import Modal from "../../Components/Modal/Modal";
-import Button from "../../Components/Button/Button";
 import { useNavigate } from "react-router-dom";
-import { joinExperienceEndPoint, post } from "../../Library/Constants";
-import UserIcons from "../../Components/UserIcons/UserIcons";
+import {
+  joinExperienceEndPoint,
+  experienceRespondEndPoint,
+} from "../../Library/Constants";
 import UserDetailsCard from "./UserDetailsCard";
 
 const UserDetails = () => {
@@ -31,7 +29,14 @@ const UserDetails = () => {
       );
       if (data) {
         console.log(data);
+        data.posts[0].interested_users = data.posts[0].interested_users.map(
+          (comment) => ({
+            ...comment,
+            didRespond: false,
+          })
+        );
         setPostData(data.posts[0]);
+        console.log(postData);
         data.posts[0].user_id == localStorage.getItem("user_id") &&
           setUser(true);
         setDisplayData(!displayData);
@@ -61,6 +66,28 @@ const UserDetails = () => {
       setModal({ modalContent: err, showModal: true });
     }
   };
+  const acceptHandler = () => {
+    try {
+      postCall(experienceRespondEndPoint, {
+        post_id: localStorage.getItem("post_id"),
+        response_type: 1,
+        user_id: localStorage.getItem("user_id"),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const rejectHandler = () => {
+    try {
+      postCall(experienceRespondEndPoint, {
+        post_id: localStorage.getItem("post_id"),
+        response_type: 1,
+        user_id: localStorage.getItem("user_id"),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
       {isLoading && <Loading />}
@@ -74,6 +101,9 @@ const UserDetails = () => {
           isNotSameUser={isNotSameUser}
           user={user}
           button={button}
+          response={postData.interested_users.didRespond}
+          acceptHandler={acceptHandler}
+          rejectHandler={rejectHandler}
         />
       ) : (
         ""
