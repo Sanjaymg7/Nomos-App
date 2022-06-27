@@ -23,6 +23,7 @@ const ResetPassword = () => {
   const [phoneNo, setPhoneNo] = useState();
   const [modal, setModal] = useContext(ModalContext);
   const [buttonText, setButtonText] = useState(false);
+  const [button, setButton] = useState(false);
   const [isConfirmPasswordPage, setConfirmPasswordPage] = useState(false);
 
   const otpInputStyle = {
@@ -53,6 +54,7 @@ const ResetPassword = () => {
       setPhoneNo(phoneNo);
       setButtonText(true);
       try {
+        setButton(true);
         const isNumber = await postCall(
           ResetPasswordEndPoint,
           {
@@ -67,6 +69,7 @@ const ResetPassword = () => {
       } catch (err) {
         setModal({ modalContent: err, showModal: true });
         setButtonText(false);
+        setButton(false);
       }
     }
   };
@@ -83,6 +86,7 @@ const ResetPassword = () => {
     } else {
       setButtonText(true);
       try {
+        setButton(false);
         const otpValidate = await postCall(
           confirmOTPEndPoint,
           {
@@ -99,6 +103,7 @@ const ResetPassword = () => {
       } catch (err) {
         setModal({ modalContent: err, showModal: true });
         setButtonText(false);
+        setButton(true);
       }
     }
   };
@@ -151,7 +156,7 @@ const ResetPassword = () => {
               />
             )}
             <Button
-              className="phone-input-btn"
+              // className="phone-input-btn"
               btnName={
                 isOTP
                   ? buttonText
@@ -161,7 +166,18 @@ const ResetPassword = () => {
                   ? loading
                   : "Send OTP"
               }
-              btnDisable={buttonText === loading ? true : false}
+              btnDisable={
+                isOTP ? (button ? false : true) : button ? true : false
+              }
+              className={
+                isOTP
+                  ? button
+                    ? "btnActive"
+                    : "btnInActive"
+                  : button
+                  ? "btnInActive"
+                  : "btnActive"
+              }
             />
           </form>
           {isOTP && (

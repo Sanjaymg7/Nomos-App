@@ -66,7 +66,9 @@ const UserDetails = () => {
       const data = await postCall(joinExperienceEndPoint, {
         post_id: localStorage.getItem("post_id"),
       });
-      console.log(data);
+      if (data) {
+        console.log(data);
+      }
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
     }
@@ -105,7 +107,7 @@ const UserDetails = () => {
           isNotSameUser={isNotSameUser}
           user={user}
           button={button}
-          response={postData.interested_users.didRespond}
+          response={postData.interested_users[0].didRespond}
           acceptHandler={acceptHandler}
           rejectHandler={rejectHandler}
         />

@@ -21,6 +21,7 @@ const SignIn = () => {
   const location = useLocation();
   const [modal, setModal] = useContext(ModalContext);
   const [buttonName, setButtonName] = useState("Sign In");
+  const [button, setButton] = useState(false);
   const navigate = useNavigate();
 
   const validateUser = (userData) => {
@@ -52,6 +53,7 @@ const SignIn = () => {
     };
     if (validateUser(userData)) {
       try {
+        setButton(true);
         setButtonName(waitingMessage);
         const userDetail = await postCall(
           signInEndPoint,
@@ -67,6 +69,8 @@ const SignIn = () => {
       } catch (err) {
         setButtonName("Sign In");
         setModal({ modalContent: err, showModal: true });
+      } finally {
+        setButton(false);
       }
     }
   };
@@ -83,8 +87,8 @@ const SignIn = () => {
           <Label className="signin-label" labelName="Password" />
           <Input className="input" type="password" />
           <Button
-            btnDisable={buttonName == "Sign In" ? false : true}
-            className="btn"
+            btnDisable={button ? true : false}
+            className={button ? "btnInActive" : "btnActive"}
             btnName={buttonName}
           />
         </form>
