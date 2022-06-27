@@ -4,6 +4,8 @@ import {
   privateChats,
   chat,
   userDefaultImage,
+  apiRetries,
+  invalidAccessToken,
 } from "../../../Library/Constants";
 import { useNavigate } from "react-router-dom";
 import { getCall } from "../../../Components/Services/DataFetch";
@@ -21,26 +23,30 @@ const InboxComp = () => {
   const [chatConversations, setChatConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isInbox, setIsInbox] = useState(true);
+  const [retries, setRetries] = useState(apiRetries);
 
   const getChats = async () => {
-    try {
-      const data = await getCall(privateChats);
-      if (data) {
-        setChatConversations(data.chat_conversations);
+    if (retries) {
+      try {
+        const data = await getCall(privateChats);
+        if (data) {
+          setChatConversations(data.chat_conversations);
+        }
+        setIsLoading(false);
+      } catch (err) {
+        if (retries === 1 || err === invalidAccessToken) {
+          setModal({ modalContent: err, showModal: true });
+          setIsLoading(false);
+        } else {
+          setRetries(retries - 1);
+        }
       }
-    } catch (err) {
-      setModal({
-        modalContent: err,
-        showModal: true,
-      });
-    } finally {
-      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     getChats();
-  }, []);
+  }, [retries]);
 
   const displayDate = (chatDate, appendString = "") => {
     if (chatDate.getHours() <= 12) {

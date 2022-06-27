@@ -32,12 +32,14 @@ const ItemPostInput = ({ renderComponent }) => {
   const handleItemPostDescription = (val) => {
     setItemPostData({ ...itemPostData, items_service_desc: val });
   };
-  const handleItemPostImage = (val, fileExtension) => {
-    setItemPostData({
-      ...itemPostData,
-      items_service_image: val,
-      image_url: fileExtension,
-    });
+  const handleItemPostImage = (images, extensions) => {
+    if (images) {
+      setItemPostData({
+        ...itemPostData,
+        items_service_image: images,
+        image_url: extensions,
+      });
+    }
   };
   const handlePostType = (val) => {
     setItemPostData({ ...itemPostData, dealing_type: val });
@@ -70,10 +72,12 @@ const ItemPostInput = ({ renderComponent }) => {
     e.preventDefault();
     setButtonData({ value: waitingMessage, isActive: false });
     try {
-      itemPostData.items_service_image = await imageURLService(
-        itemPostData.image_url,
-        itemPostData.items_service_image
-      );
+      if (itemPostData.items_service_image) {
+        itemPostData.items_service_image = await imageURLService(
+          itemPostData.image_url[0],
+          itemPostData.items_service_image[0]
+        );
+      }
       itemPostData.start_time = new Date(itemPostData.start_time).getTime();
       const data = await postCall(items, itemPostData);
       if (data) {

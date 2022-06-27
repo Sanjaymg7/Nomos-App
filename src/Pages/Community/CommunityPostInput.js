@@ -25,12 +25,14 @@ const CommunityPostInput = ({ renderComponent }) => {
   const handleCommunityPostDescription = (val) => {
     setCommunityPostData({ ...communityPostData, community_description: val });
   };
-  const handleCommunityPostImage = (val, fileExtension) => {
-    setCommunityPostData({
-      ...communityPostData,
-      display_picture: val,
-      display_image_url: fileExtension,
-    });
+  const handleCommunityPostImage = (images, extensions) => {
+    if (images) {
+      setCommunityPostData({
+        ...communityPostData,
+        display_picture: images,
+        display_image_url: extensions,
+      });
+    }
   };
 
   const enableCreatePostButton = () => {
@@ -63,10 +65,12 @@ const CommunityPostInput = ({ renderComponent }) => {
     e.preventDefault();
     setButtonData({ value: waitingMessage, isActive: false });
     try {
-      communityPostData.display_picture = await imageURLService(
-        communityPostData.display_image_url,
-        communityPostData.display_picture
-      );
+      if (communityPostData.display_picture) {
+        communityPostData.display_picture = await imageURLService(
+          communityPostData.display_image_url[0],
+          communityPostData.display_picture[0]
+        );
+      }
       const data = await postCall(community, communityPostData);
       if (data) {
         navigate(home);

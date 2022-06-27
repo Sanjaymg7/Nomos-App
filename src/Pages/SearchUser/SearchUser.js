@@ -57,6 +57,7 @@ const SearchUser = () => {
       });
     }
   };
+
   return (
     <div>
       {modal.showModal && <Modal />}

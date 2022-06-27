@@ -31,12 +31,14 @@ const ExperiencePostInput = ({ renderComponent }) => {
     if (val)
       setExperiencePostData({ ...experiencePostData, max_participants: val });
   };
-  const handleExperiencePostImage = (val, fileExtension) => {
-    setExperiencePostData({
-      ...experiencePostData,
-      experience_image: val,
-      image_url: fileExtension,
-    });
+  const handleExperiencePostImage = (images, extensions) => {
+    if (images) {
+      setExperiencePostData({
+        ...experiencePostData,
+        experience_image: images,
+        image_url: extensions,
+      });
+    }
   };
   const handleStartDate = (val) => {
     setExperiencePostData({ ...experiencePostData, start_time: val });
@@ -73,10 +75,12 @@ const ExperiencePostInput = ({ renderComponent }) => {
     e.preventDefault();
     setButtonData({ value: waitingMessage, isActive: false });
     try {
-      experiencePostData.experience_image = await imageURLService(
-        experiencePostData.image_url,
-        experiencePostData.experience_image
-      );
+      if (experiencePostData.experience_image) {
+        experiencePostData.experience_image = await imageURLService(
+          experiencePostData.image_url[0],
+          experiencePostData.experience_image[0]
+        );
+      }
       experiencePostData.start_time = new Date(
         experiencePostData.start_time
       ).getTime();
