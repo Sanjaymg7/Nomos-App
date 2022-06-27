@@ -1,8 +1,8 @@
 export const requestHeader = { "content-type": "application/json" };
 export const access_token = localStorage.getItem("access_token");
 
-// export const websocketURL = `wss://websocket.nomos.net/V4?access_token=${access_token}`;
-export const websocketURL = `wss://ws2.juegogames.com/NOMOS-V3/access_token=${access_token}`;
+export const websocketURL = `wss://websocket.nomos.net/V4?access_token=${access_token}`;
+// export const websocketURL = `wss://ws2.juegogames.com/NOMOS-V3/access_token=${access_token}`;
 
 export const modalInitialState = {
   modalContent: "",

@@ -17,6 +17,7 @@ import Label from "../../Components/Label/Label";
 const ConfirmPass = () => {
   const [modal, setModal] = useContext(ModalContext);
   const [buttonText, setButtonText] = useState(false);
+  const [button, setButton] = useState(false);
   const navigate = useNavigate();
 
   const validatePassword = (password) => {
@@ -47,6 +48,7 @@ const ConfirmPass = () => {
     if (validatePassword(password)) {
       setButtonText(true);
       try {
+        setButton(true);
         const confirmPassword = await putCall(
           ResetPasswordEndPoint,
           {
@@ -58,10 +60,6 @@ const ConfirmPass = () => {
         if (confirmPassword) {
           localStorage.removeItem("access_token");
           setButtonText(false);
-          await setModal({
-            modalContent: "reset password successful",
-            showModal: true,
-          });
           navigate(signIn);
         }
       } catch (err) {
@@ -70,6 +68,7 @@ const ConfirmPass = () => {
           showModal: true,
         });
         setButtonText(false);
+        setButton(false);
       }
     }
   };
@@ -83,9 +82,9 @@ const ConfirmPass = () => {
         <Label labelName="Confirm New Password" />
         <Input className="input" type="password" />
         <Button
-          className="btn sign-in"
+          btnDisable={button ? true : false}
+          className={button ? "btnInActive" : "btnActive"}
           btnName={buttonText ? loading : "Reset Password"}
-          btnDisable={buttonText === loading ? true : false}
         />
       </form>
     </>
