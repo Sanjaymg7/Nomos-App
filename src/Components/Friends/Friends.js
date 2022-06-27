@@ -1,6 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import { ModalContext } from "../Context/Context";
-import { getFriend, submit, userDefaultImage } from "../../Library/Constants";
+import {
+  getFriend,
+  submit,
+  userDefaultImage,
+  apiRetries,
+  invalidAccessToken,
+} from "../../Library/Constants";
 import { getCall } from "../Services/DataFetch";
 import Image from "../Image/Image";
 import Button from "../Button/Button";
@@ -18,21 +24,28 @@ const Friends = ({ handleFriendsSubmit, selectType, userType }) => {
     isActive: false,
   });
   const [modal, setModal] = useContext(ModalContext);
+  const [retries, setRetries] = useState(apiRetries);
 
   const getFriends = async () => {
-    try {
-      const data = await getCall(getFriend);
-      setFriends(data.map((friend) => ({ ...friend, isSelected: false })));
-    } catch (err) {
-      setModal({ modalContent: err, showModal: true });
-    } finally {
-      setIsLoading(false);
+    if (retries) {
+      try {
+        const data = await getCall(getFriend);
+        setFriends(data.map((friend) => ({ ...friend, isSelected: false })));
+        setIsLoading(false);
+      } catch (err) {
+        if (retries === 1 || err === invalidAccessToken) {
+          setModal({ modalContent: err, showModal: true });
+          setIsLoading(false);
+        } else {
+          setRetries(retries - 1);
+        }
+      }
     }
   };
 
   useEffect(() => {
     getFriends();
-  }, []);
+  }, [retries]);
 
   const enableButton = () => {
     if (selectedUsersId.length > 0) {

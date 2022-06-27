@@ -21,7 +21,7 @@ const InfoPost = () => {
     info_name: "",
     info_desc: "",
     photo_urls: "",
-    image_url: "",
+    urls_extension: "",
     location:
       '{"lat":12.9141417,"lng":74.8559568,"name":"Mangalore,Karnataka,India"}',
   });
@@ -38,12 +38,12 @@ const InfoPost = () => {
     if (val.length <= 200) setPostData({ ...postData, info_desc: val });
   };
 
-  const handleServicePostImage = (val, fileExtension) => {
-    if (val) {
+  const handleInfoPostImage = (images, extensions) => {
+    if (images) {
       setPostData({
         ...postData,
-        photo_urls: val,
-        image_url: fileExtension,
+        photo_urls: images,
+        urls_extension: extensions,
       });
     }
   };
@@ -64,10 +64,17 @@ const InfoPost = () => {
     e.preventDefault();
     setButtonData({ value: waitingMessage, isActive: false });
     try {
-      postData.photo_urls = await imageURLService(
-        postData.image_url,
-        postData.photo_urls
-      );
+      if (postData.photo_urls) {
+        const blobImages = postData.photo_urls;
+        const extensions = postData.urls_extension;
+        const images = [];
+        for (let i = 0; i < blobImages.length; i++) {
+          images.push({
+            id: await imageURLService(extensions[i], blobImages[i]),
+          });
+        }
+        postData.photo_urls = JSON.stringify(images);
+      }
       const data = await postCall(info, postData);
       if (data) {
         navigate(home);
@@ -97,7 +104,7 @@ const InfoPost = () => {
             postData={textAndImageData}
             handlePostTitle={handlePostTitle}
             handlePostDescription={handleDescriptionChange}
-            handlePostImage={handleServicePostImage}
+            handlePostImage={handleInfoPostImage}
           />
           <Button
             btnName={buttonData.value}

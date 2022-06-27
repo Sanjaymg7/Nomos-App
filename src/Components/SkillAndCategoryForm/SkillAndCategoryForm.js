@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ModalContext } from "../Context/Context";
 import "./SkillAndCategoryForm.css";
-import { skills, categories, next } from "../../Library/Constants";
+import {
+  skills,
+  categories,
+  next,
+  apiRetries,
+  invalidAccessToken,
+} from "../../Library/Constants";
 import { getCall } from "../../Components/Services/DataFetch";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
@@ -19,38 +25,45 @@ const SkillAndCategoryForm = ({ component, handleSkillOrCategorySubmit }) => {
   });
   const [dataCount, setDataCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [retries, setRetries] = useState(apiRetries);
   const [modal, setModal] = useContext(ModalContext);
 
   const getData = async () => {
-    try {
-      if (component === "skills") {
-        const data = await getCall(skills);
-        if (data) {
-          setdataArray(
-            data.skills.map((skill) => ({ ...skill, isChecked: false }))
-          );
+    if (retries) {
+      try {
+        if (component === "skills") {
+          const data = await getCall(skills);
+          if (data) {
+            setdataArray(
+              data.skills.map((skill) => ({ ...skill, isChecked: false }))
+            );
+          }
+        } else {
+          const data = await getCall(categories);
+          if (data) {
+            setdataArray(
+              data.categories.map((category) => ({
+                ...category,
+                isChecked: false,
+              }))
+            );
+          }
         }
-      } else {
-        const data = await getCall(categories);
-        if (data) {
-          setdataArray(
-            data.categories.map((category) => ({
-              ...category,
-              isChecked: false,
-            }))
-          );
+        setIsLoading(false);
+      } catch (err) {
+        if (retries === 1 || err === invalidAccessToken) {
+          setModal({ modalContent: err, showModal: true });
+          setIsLoading(false);
+        } else {
+          setRetries(retries - 1);
         }
       }
-    } catch (err) {
-      setModal({ modalContent: err, showModal: true });
-    } finally {
-      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [retries]);
 
   const btnClickHandler = () => {
     const data = inputData.dataId.join(",");

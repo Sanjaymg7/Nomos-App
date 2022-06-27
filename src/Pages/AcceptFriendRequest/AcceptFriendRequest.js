@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ModalContext } from "../../Components/Context/Context";
 import { getCall, putCall } from "../../Components/Services/DataFetch";
-import { friendRequest, friends } from "../../Library/Constants";
+import {
+  friendRequest,
+  friends,
+  apiRetries,
+  invalidAccessToken,
+} from "../../Library/Constants";
 import Header from "../../Components/Header/Header";
 import Modal from "../../Components/Modal/Modal";
 import "./AcceptFriendRequest.css";
@@ -12,22 +17,30 @@ const AcceptFriendRequest = () => {
   const [modal, setModal] = useContext(ModalContext);
   const [friendRequests, setFriendRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [retries, setRetries] = useState(apiRetries);
 
   const getFriendRequests = async () => {
-    try {
-      const data = await getCall(friendRequest);
-      setFriendRequests(
-        data.map((request) => ({ ...request, didRespond: false }))
-      );
-    } catch (err) {
-      setModal({
-        modalContent: err,
-        showModal: true,
-      });
-    } finally {
-      setIsLoading(false);
+    if (retries) {
+      try {
+        const data = await getCall(friendRequest);
+        setFriendRequests(
+          data.map((request) => ({ ...request, didRespond: false }))
+        );
+        setIsLoading(false);
+      } catch (err) {
+        if (retries === 1 || err === invalidAccessToken) {
+          setModal({ modalContent: err, showModal: true });
+          setIsLoading(false);
+        } else {
+          setRetries(retries - 1);
+        }
+      }
     }
   };
+
+  useEffect(() => {
+    getFriendRequests();
+  }, [retries]);
 
   const handleRequest = async (id, index, type) => {
     try {
@@ -54,10 +67,6 @@ const AcceptFriendRequest = () => {
   const rejectRequest = (id, index) => {
     handleRequest(id, index, 2);
   };
-
-  useEffect(() => {
-    getFriendRequests();
-  }, []);
 
   return (
     <div>

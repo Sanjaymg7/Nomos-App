@@ -15,36 +15,44 @@ import Loading from "../../../Components/Loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import {
-  comments,
   intro,
   likeEndPoint,
   logOutEndPoint,
   postsEndPoint,
   viewEndPoint,
+  apiRetries,
+  invalidAccessToken,
 } from "../../../Library/Constants";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [modal, setModal] = useContext(ModalContext);
   const [posts, setPosts] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [retries, setRetries] = useState(apiRetries);
 
-  const navigate = useNavigate();
+  const getData = async () => {
+    if (apiRetries) {
+      try {
+        setLoading(true);
+        const data = await getCall(postsEndPoint);
+        setPosts(data.posts);
+        setLoading(false);
+      } catch (err) {
+        if (retries === 1 || err === invalidAccessToken) {
+          setModal({ modalContent: err, showModal: true });
+          setLoading(false);
+        } else {
+          setRetries(retries - 1);
+        }
+      }
+    }
+  };
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [retries]);
 
-  const getData = async () => {
-    try {
-      setLoading(true);
-      const data = await getCall(postsEndPoint);
-      setPosts(data.posts);
-    } catch (err) {
-      setModal({ modalContent: err, showModal: true });
-    } finally {
-      setLoading(false);
-    }
-  };
   const updateLikesSetter = (post, index) => {
     posts[index].is_liked = !post.is_liked;
     posts[index].like_count = post.is_liked

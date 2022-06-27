@@ -43,12 +43,12 @@ const ServicePostInput = ({ renderComponent }) => {
     setPostData({ ...postData, is_gift: val });
   };
 
-  const handleServicePostImage = (val, fileExtension) => {
-    if (val) {
+  const handleServicePostImage = (images, extensions) => {
+    if (images) {
       setPostData({
         ...postData,
-        items_service_image: val,
-        image_url: fileExtension,
+        items_service_image: images,
+        image_url: extensions,
       });
     }
   };
@@ -75,10 +75,12 @@ const ServicePostInput = ({ renderComponent }) => {
     e.preventDefault();
     setButtonData({ value: waitingMessage, isActive: false });
     try {
-      postData.items_service_image = await imageURLService(
-        postData.image_url,
-        postData.items_service_image
-      );
+      if (postData.items_service_image) {
+        postData.items_service_image = await imageURLService(
+          postData.image_url[0],
+          postData.items_service_image[0]
+        );
+      }
       const data = await postCall(service, postData);
       if (data) {
         navigate(home);

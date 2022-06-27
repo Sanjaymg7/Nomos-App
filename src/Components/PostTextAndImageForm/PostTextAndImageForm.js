@@ -11,14 +11,17 @@ const PostTextAndImageForm = ({
 }) => {
   const [descriptionCount, setDescriptionCount] = useState(0);
 
-  const fileUploadInputChange = (file) => {
-    if (file) {
-      const imageURL = file.name;
-      const fileExtension = imageURL.slice(imageURL.lastIndexOf(".") + 1);
-      handlePostImage(
-        new Blob([file], { type: `image/${fileExtension}` }),
-        fileExtension
-      );
+  const fileUploadInputChange = (files) => {
+    if (files) {
+      const images = [];
+      const extensions = [];
+      files.forEach((file) => {
+        const imageURL = file.name;
+        const fileExtension = imageURL.slice(imageURL.lastIndexOf(".") + 1);
+        images.push(new Blob([file], { type: `image/${fileExtension}` }));
+        extensions.push(fileExtension);
+      });
+      handlePostImage(images, extensions);
     } else {
       handlePostImage("");
     }
@@ -50,8 +53,9 @@ const PostTextAndImageForm = ({
       <input
         type={"file"}
         className={"postImageInput"}
+        multiple
         onChange={(e) =>
-          fileUploadInputChange(e.target.files[0] ? e.target.files[0] : null)
+          fileUploadInputChange(e.target.files[0] ? [...e.target.files] : null)
         }
       />
     </div>
