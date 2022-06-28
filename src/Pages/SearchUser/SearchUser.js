@@ -19,6 +19,7 @@ const SearchUser = () => {
   const [modal, setModal] = useContext(ModalContext);
   const [searchInput, setSearchInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isFirst, setIsFirst] = useState(true);
   const [users, setUsers] = useState([]);
 
   const handleSearchInputChange = (val) => {
@@ -32,6 +33,7 @@ const SearchUser = () => {
         const data = await getCall(searchUser + searchInput);
         const peopleData = data.people;
         setUsers(peopleData);
+        setIsFirst(false);
       } catch (err) {
         setModal({
           modalContent: err,
@@ -78,7 +80,7 @@ const SearchUser = () => {
       <div className="userSearchResultContainer">
         {isLoading ? (
           <Loading />
-        ) : users.length === 0 ? (
+        ) : users.length === 0 && !isFirst ? (
           <h4 className="userNotFound">User not found</h4>
         ) : (
           users.map((user, index) => (

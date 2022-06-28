@@ -5,6 +5,7 @@ import {
   experience,
   community,
   infoPost,
+  userDefaultImage,
 } from "../../../Library/Constants";
 import MenuCard from "../MenuCard/MenuCard";
 import "./MenuComp.css";
@@ -37,7 +38,7 @@ const MenuComp = ({ toggleMenu }) => {
           onClick={() => navigate(community)}
         />
         <MenuCard
-          // src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/516E629A-3DA0-4ACB-9823-887880C051DF.png"
+          src={userDefaultImage}
           menuContent="Info Post"
           onClick={() => navigate(infoPost)}
         />

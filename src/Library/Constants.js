@@ -1,8 +1,12 @@
 export const requestHeader = { "content-type": "application/json" };
 export const access_token = localStorage.getItem("access_token");
 
-export const websocketURL = `wss://websocket.nomos.net/V4?access_token=${access_token}`;
-// export const websocketURL = `wss://ws2.juegogames.com/NOMOS-V3/access_token=${access_token}`;
+export const websocketURL = `wss://websocket.nomos.net/V4?access_token=${localStorage.getItem(
+  "access_token"
+)}`;
+// export const websocketURL = `wss://ws2.juegogames.com/NOMOS-V3/access_token=${localStorage.getItem(
+//   "access_token"
+// )}`;
 
 export const modalInitialState = {
   modalContent: "",
@@ -14,6 +18,7 @@ export const apiRetries = 3;
 export const waitingMessage = "Please Wait..";
 export const errorMessage = "Something went wrong!!";
 export const invalidAccessToken = "Invalid access token";
+export const fileUploadFail = "Failed to upload file";
 
 export const userDefaultImage = "./user.png";
 
@@ -44,7 +49,7 @@ export const ResetPasswordEndPoint = "users/reset_password";
 export const confirmOTPEndPoint = "users/confirm_otp";
 export const joinExperienceEndPoint = "experience/join";
 export const friendDetails = "users?other_user_id=";
-export const userChat = "chat/messages?user_id=";
+export const userChat = "chat/messages?limit=30&user_id=";
 export const experienceRespondEndPoint = "experience/respond";
 
 // Pages endpoint

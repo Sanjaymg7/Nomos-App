@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { ModalContext } from "../../Components/Context/Context";
 import Button from "../../Components/Button/Button";
@@ -11,6 +11,7 @@ import {
   home,
   forgotPassword,
   waitingMessage,
+  modalInitialState,
 } from "../../Library/Constants";
 import Header from "../../Components/Header/Header";
 import Label from "../../Components/Label/Label";
@@ -42,6 +43,11 @@ const SignIn = () => {
       return true;
     }
   };
+
+  useEffect(() => {
+    setModal(modalInitialState);
+  }, []);
+
   const userSignIn = async (e) => {
     e.preventDefault();
     const email = e.target[0].value;

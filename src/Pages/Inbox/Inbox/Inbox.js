@@ -147,7 +147,11 @@ const InboxComp = () => {
                 <span className="timeField">
                   {handleDate(chat.last_message_time)}
                 </span>
-                <span className="unreadCount">{chat.unread_count}</span>
+                {chat.unread_count ? (
+                  <span className="unreadCount">{chat.unread_count}</span>
+                ) : (
+                  ""
+                )}
               </div>
               <span className="enterChat">{">"}</span>
             </div>

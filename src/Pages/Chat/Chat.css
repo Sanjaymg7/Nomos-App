@@ -52,8 +52,18 @@
   margin: 0.2em;
   color: #fff;
   font-weight: 350;
+  font-size: 0.9em;
   border-radius: 1.5em;
   width: 50%;
+}
+.chatCheck {
+  font-size: 1em;
+  margin-left: 1em;
+}
+.chatTimeStamp {
+  font-size: 0.7em;
+  text-align: right;
+  margin-right: 1em;
 }
 .chatReceiver {
   align-self: flex-start;

@@ -1,7 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ModalContext } from "../../../Components/Context/Context";
 import { postCall } from "../../../Components/Services/DataFetch";
 import {
+  modalInitialState,
   next,
   requestHeader,
   users,
@@ -47,6 +48,10 @@ const UserDataComponent = ({ renderSignupComponent, updateData }) => {
     }
     setButtonData({ ...buttonData, isActive: false });
   };
+
+  useEffect(() => {
+    setModal(modalInitialState);
+  }, []);
 
   const handleFormInputChange = (el) => {
     if (el.className === "nameInput") {

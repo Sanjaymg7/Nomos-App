@@ -14,6 +14,8 @@ import "./Chat.css";
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Button/Button";
 import Loading from "../../Components/Loading/Loading";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faCheckDouble } from "@fortawesome/free-solid-svg-icons";
 
 const Chat = () => {
   const otherUserId = localStorage.getItem("other_user_id");
@@ -25,34 +27,6 @@ const Chat = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isOnline, setIsOnline] = useState(false);
-
-  const getOtherUser = async () => {
-    try {
-      const user = await getCall(friendDetails + otherUserId);
-      setOtherUserName(user.user_name);
-      setIsOnline(user.online_status);
-    } catch (err) {
-      setModal({ modalContent: err, showModal: true });
-    }
-  };
-
-  const getPreviousChats = async () => {
-    try {
-      const chats = await getCall(userChat + otherUserId);
-      setChatMessages(chats.messages);
-      if (chats.messages[0].sender_id == otherUserId) {
-        sendChatRead(chats.messages[0].message_id);
-      }
-    } catch (err) {
-      setModal({ modalContent: err, showModal: true });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const connectWebSocket = () => {
-    webSocket.current = new WebSocket(websocketURL);
-  };
 
   const sendMessage = () => {
     if (message.trim()) {
@@ -93,13 +67,41 @@ const Chat = () => {
     );
   };
 
+  const getPreviousChats = async () => {
+    try {
+      const chats = await getCall(userChat + otherUserId);
+      setChatMessages(chats.messages);
+      if (chats.messages[0].sender_id == otherUserId) {
+        sendChatRead(chats.messages[0].message_id);
+      }
+    } catch (err) {
+      setModal({ modalContent: err, showModal: true });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getOtherUser = async () => {
+    try {
+      const user = await getCall(friendDetails + otherUserId);
+      setOtherUserName(user.user_name);
+      setIsOnline(user.online_status);
+    } catch (err) {
+      setModal({ modalContent: err, showModal: true });
+    }
+  };
+
+  const connectWebSocket = () => {
+    webSocket.current = new WebSocket(websocketURL);
+  };
+
   useEffect(() => {
     connectWebSocket();
-    getOtherUser();
-    getPreviousChats();
 
     webSocket.current.onopen = () => {
       console.log("Websocket is open");
+      getOtherUser();
+      getPreviousChats();
     };
 
     webSocket.current.onclose = (event) => {
@@ -113,6 +115,9 @@ const Chat = () => {
       console.log(response);
       const messageData = JSON.parse(response.data);
       if (messageData.event === "chat_message_received") {
+        if (messageData.data.sender_id != otherUserId && isOnline) {
+          messageData.data.message_read = true;
+        }
         setChatMessages((prevStatus) => [messageData.data, ...prevStatus]);
         if (messageData.data.sender_id == otherUserId) {
           sendChatRead(messageData.data.message_id);
@@ -129,6 +134,7 @@ const Chat = () => {
         ) {
           setIsOnline(false);
         } else {
+          setTimeout(() => getPreviousChats(), 5000);
           setIsOnline(true);
         }
       }
@@ -146,7 +152,7 @@ const Chat = () => {
 
   const handleMessageInput = (val) => {
     setMessage(val);
-    if (val.length > 0) {
+    if (val.length % 5 === 1) {
       sendTyping();
     }
   };
@@ -154,6 +160,19 @@ const Chat = () => {
   const handleKeyDown = (val) => {
     if (val.keyCode === 13) {
       sendMessage();
+    }
+  };
+
+  const getTime = (time) => {
+    const date = new Date(time);
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    if (hour < 12) {
+      return `${hour}:${minute < 10 ? "0" + minute : minute} am`;
+    } else if (hour == 12) {
+      return `${hour}:${minute < 10 ? "0" + minute : minute} pm`;
+    } else {
+      return `${hour - 12}:${minute < 10 ? "0" + minute : minute} pm`;
     }
   };
 
@@ -182,6 +201,21 @@ const Chat = () => {
                 }
               >
                 {messageData.message}
+                <div className="chatTimeStamp">
+                  {getTime(messageData.message_sent_time)}
+                  {messageData.sender_id != otherUserId ? (
+                    messageData.message_read ? (
+                      <FontAwesomeIcon
+                        icon={faCheckDouble}
+                        className="chatCheck"
+                      />
+                    ) : (
+                      <FontAwesomeIcon icon={faCheck} className="chatCheck" />
+                    )
+                  ) : (
+                    ""
+                  )}
+                </div>
               </div>
             ))}
           </div>

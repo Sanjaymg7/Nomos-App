@@ -1,5 +1,5 @@
-import { getCall } from "./DataFetch";
-import { errorMessage } from "../../Library/Constants";
+import { getCall, putCall } from "./DataFetch";
+import { fileUploadFail } from "../../Library/Constants";
 
 export const imageURLService = async (fileExtension, file) => {
   try {
@@ -8,18 +8,11 @@ export const imageURLService = async (fileExtension, file) => {
         `upload/url?file_extension=${fileExtension}`
       );
       if (getUploadData) {
-        const data = await fetch(getUploadData.upload_url, {
-          method: "PUT",
-          body: file,
-        });
-        if (data.status !== 200) {
-          throw errorMessage;
-        } else {
-          return getUploadData.image_id;
-        }
+        await putCall(getUploadData.upload_url, file, true);
+        return getUploadData.image_id;
       }
     } else {
-      return "";
+      throw fileUploadFail;
     }
   } catch (err) {
     throw err;
