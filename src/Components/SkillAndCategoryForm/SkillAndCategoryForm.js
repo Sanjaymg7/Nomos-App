@@ -7,6 +7,7 @@ import {
   next,
   apiRetries,
   invalidAccessToken,
+  waitingMessage,
 } from "../../Library/Constants";
 import { getCall } from "../../Components/Services/DataFetch";
 import Button from "../Button/Button";
@@ -66,6 +67,7 @@ const SkillAndCategoryForm = ({ component, handleSkillOrCategorySubmit }) => {
   }, [retries]);
 
   const btnClickHandler = () => {
+    setButtonData({ value: waitingMessage, isActive: false });
     const data = inputData.dataId.join(",");
     if (component === "skills") {
       handleSkillOrCategorySubmit(["skills", data, inputData.dataName]);

@@ -1,5 +1,5 @@
 import { getCall, putCall } from "./DataFetch";
-import { fileUploadFail } from "../../Library/Constants";
+import { fileUploadFail, requestHeader } from "../../Library/Constants";
 
 export const imageURLService = async (fileExtension, file) => {
   try {
@@ -8,7 +8,7 @@ export const imageURLService = async (fileExtension, file) => {
         `upload/url?file_extension=${fileExtension}`
       );
       if (getUploadData) {
-        await putCall(getUploadData.upload_url, file, true);
+        await putCall(getUploadData.upload_url, file, requestHeader, true);
         return getUploadData.image_id;
       }
     } else {

@@ -24,13 +24,14 @@ const getCall = (
   headers = {
     "content-type": "application/json",
     access_token: localStorage.getItem("access_token"),
-  }
+  },
+  isExternal = false
 ) => {
-  return fetch(url + endPoint, {
+  return fetch(isExternal ? endPoint : url + endPoint, {
     method: "GET",
     headers: headers,
   })
-    .then((res) => res.json())
+    .then((response) => (isExternal ? response : response.json()))
     .then((data) => {
       return handleData(data);
     })
@@ -42,18 +43,18 @@ const getCall = (
 const putCall = (
   endPoint,
   body,
-  isImage = false,
   headers = {
     "content-type": "application/json",
     access_token: localStorage.getItem("access_token"),
-  }
+  },
+  isExternal = false
 ) => {
-  return fetch(endPoint, {
+  return fetch(isExternal ? endPoint : url + endPoint, {
     method: "PUT",
     headers: headers,
     body: new URLSearchParams(body),
   })
-    .then((response) => (isImage ? response : response.json()))
+    .then((response) => (isExternal ? response : response.json()))
     .then((data) => {
       return handleData(data);
     })
@@ -68,14 +69,15 @@ const postCall = (
   headers = {
     "content-type": "application/json",
     access_token: localStorage.getItem("access_token"),
-  }
+  },
+  isExternal = false
 ) => {
-  return fetch(url + endPoint, {
+  return fetch(isExternal ? endPoint : url + endPoint, {
     headers: headers,
     method: "POST",
     body: new URLSearchParams(body),
   })
-    .then((response) => response.json())
+    .then((response) => (isExternal ? response : response.json()))
     .then((data) => {
       return handleData(data);
     })

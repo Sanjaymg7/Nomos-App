@@ -6,6 +6,7 @@ import {
   joinCommunity,
   home,
   finish,
+  waitingMessage,
 } from "../../../Library/Constants";
 import { getCall, postCall } from "../../../Components/Services/DataFetch";
 import Button from "../../../Components/Button/Button";
@@ -25,7 +26,13 @@ const CommunityComponent = () => {
       try {
         const data = await getCall(communityNearby);
         if (data) {
-          setCommunity(data.communities);
+          setCommunity(
+            data.communities.map((communityData) => ({
+              ...communityData,
+              isJoining: false,
+            }))
+          );
+          console.log(community);
         }
       } catch (err) {
         setModal({ modalContent: err, showModal: true });
@@ -36,7 +43,9 @@ const CommunityComponent = () => {
     getData();
   }, [addedCommunity]);
 
-  const handleCommunity = async (id) => {
+  const handleCommunity = async (id, index) => {
+    community[index].isJoining = true;
+    setCommunity(community);
     const requestBody = {
       community_id: id,
     };
@@ -74,12 +83,9 @@ const CommunityComponent = () => {
           </p>
         </div>
       ) : (
-        community.map((communityData) => {
+        community.map((communityData, index) => {
           return (
-            <div
-              key={communityData.community_id}
-              className="communityCardContainer"
-            >
+            <div key={index} className="communityCardContainer">
               <img
                 className="communityImage"
                 src={communityData.community_picture_url}
@@ -90,12 +96,24 @@ const CommunityComponent = () => {
                 {communityData.community_description}
               </p>
               <Button
-                btnName={communityData.joined ? "Joined" : "Join"}
-                className={
-                  communityData.joined ? "btnGrey" : "joinCommunityBtn"
+                btnName={
+                  communityData.joined
+                    ? "Joined"
+                    : communityData.isJoining
+                    ? waitingMessage
+                    : "Join"
                 }
-                btnDisable={communityData.joined ? true : false}
-                onBtnClick={() => handleCommunity(communityData.community_id)}
+                className={
+                  communityData.joined || communityData.isJoining
+                    ? "btnGrey"
+                    : "joinCommunityBtn"
+                }
+                btnDisable={
+                  communityData.joined || communityData.isJoining ? true : false
+                }
+                onBtnClick={() =>
+                  handleCommunity(communityData.community_id, index)
+                }
               />
             </div>
           );
