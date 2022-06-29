@@ -6,9 +6,16 @@ export const WebSocketProvider = ({ children }) => {
   const [response, setResponse] = useState(null);
   const webSocket = useRef(null);
 
+  // const connectWebSocket = () => {
+  //   webSocket.current = new WebSocket(
+  //     `wss://websocket.nomos.net/V4?access_token=${localStorage.getItem(
+  //       "access_token"
+  //     )}`
+  //   );
+  // };
   const connectWebSocket = () => {
     webSocket.current = new WebSocket(
-      `wss://websocket.nomos.net/V4?access_token=${localStorage.getItem(
+      `wss://ws2.juegogames.com/NOMOS-V3/access_token=${localStorage.getItem(
         "access_token"
       )}`
     );
@@ -28,7 +35,9 @@ export const WebSocketProvider = ({ children }) => {
         connectWebSocket();
       }
     };
-    webSocket.current.onmessage = (event) => setResponse(event.data);
+    webSocket.current.onmessage = (event) => {
+      setResponse(event.data);
+    };
     webSocket.current.onerror = (err) => {
       console.log("Websocket error occured", err);
     };
@@ -38,11 +47,11 @@ export const WebSocketProvider = ({ children }) => {
     };
   }, []);
 
-  const webSocketData = [
-    isConnected,
-    response,
-    webSocket.current?.send.bind(webSocket.current),
-  ];
+  const sendRequest = (data) => {
+    webSocket.current.send(JSON.stringify(data));
+  };
+
+  const webSocketData = [isConnected, response, setResponse, sendRequest];
 
   return (
     <WebSocketContext.Provider value={webSocketData}>

@@ -13,8 +13,30 @@ export const servicePostInitData = {
   category_required: "",
   skills_array: [],
   categories_array: [],
-  location,
+  location:
+    '{"lat":12.9141417,"lng":74.8559568,"name":"Mangalore,Karnataka,India"}',
   image_url: "",
+};
+
+export const postInitData = {
+  dealing_type: 1,
+  is_gift: false,
+  title: "",
+  description: "",
+  image: "",
+  image_extension: "",
+  skills_required: "",
+  skills_array: [],
+  category_required: "",
+  categories_array: [],
+  start_date: "",
+  max_participants: "",
+  participants_id: "",
+  participants_names: [],
+  administrator_id: "",
+  administrator_names: [],
+  location:
+    '{"lat":12.9141417,"lng":74.8559568,"name":"Mangalore,Karnataka,India"}',
 };
 
 export const itemPostInitData = {

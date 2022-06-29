@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { ModalContext, PostContext } from "../../../Components/Context/Context";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   service,
   home,
@@ -19,12 +19,22 @@ import SkillAndCategoryDisplay from "../../../Components/SkillAndCategoryDisplay
 
 const ServicePostInput = ({ renderComponent }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location.pathname.slice(1));
   const [postData, setPostData] = useContext(PostContext);
   const [buttonData, setButtonData] = useState({
     value: createPost,
     isActive: false,
   });
   const [modal, setModal] = useContext(ModalContext);
+
+  const handlePostType = (val) => {
+    setPostData({ ...postData, dealing_type: val });
+  };
+
+  const handleGiftCheckChange = (val) => {
+    setPostData({ ...postData, is_gift: val });
+  };
 
   const handlePostTitle = (val) => {
     setPostData({ ...postData, items_service_name: val });
@@ -33,14 +43,6 @@ const ServicePostInput = ({ renderComponent }) => {
   const handleDescriptionChange = (val) => {
     if (val.length <= 200)
       setPostData({ ...postData, items_service_desc: val });
-  };
-
-  const handlePostType = (val) => {
-    setPostData({ ...postData, dealing_type: val });
-  };
-
-  const handleGiftCheckChange = (val) => {
-    setPostData({ ...postData, is_gift: val });
   };
 
   const handleServicePostImage = (images, extensions) => {
@@ -68,6 +70,7 @@ const ServicePostInput = ({ renderComponent }) => {
   };
 
   useEffect(() => {
+    setPostData({ ...postData, type: location.pathname.slice(1) });
     enableCreatePostButton();
   }, []);
 

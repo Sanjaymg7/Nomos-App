@@ -8,7 +8,7 @@ export const imageURLService = async (fileExtension, file) => {
         `upload/url?file_extension=${fileExtension}`
       );
       if (getUploadData) {
-        await putCall(getUploadData.upload_url, file, requestHeader, true);
+        await putCall(getUploadData.upload_url, file, {}, true);
         return getUploadData.image_id;
       }
     } else {

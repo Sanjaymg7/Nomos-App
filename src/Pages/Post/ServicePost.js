@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import {
-  PostContext,
-  servicePostInitData,
-} from "../../Components/Context/Context";
-import ServicePostInput from "./ServicePost/ServicePostInput";
+import { PostContext, postInitData } from "../../Components/Context/Context";
+import Friends from "../../Components/Friends/Friends";
 import SkillAndCategoryForm from "../../Components/SkillAndCategoryForm/SkillAndCategoryForm";
+import PostData from "./ServicePost/PostData";
 
 const Post = () => {
-  const [postData, setPostData] = useState(servicePostInitData);
+  const [postData, setPostData] = useState(postInitData);
   const [componentState, setComponentState] = useState("postData");
 
   const renderComponent = (state) => {
@@ -31,11 +29,28 @@ const Post = () => {
     renderComponent("postData");
   };
 
+  const handleFriendsSubmit = (userIds, userNames, userType) => {
+    if (userType === "Participants" || userType === "Moderator") {
+      setPostData({
+        ...postData,
+        participants_id: userIds.join(","),
+        participants_names: userNames,
+      });
+    } else {
+      setPostData({
+        ...postData,
+        administrator_id: userIds.join(","),
+        administrator_names: userNames,
+      });
+    }
+    renderComponent("postData");
+  };
+
   return (
     <div>
       <PostContext.Provider value={[postData, setPostData]}>
         {componentState === "postData" && (
-          <ServicePostInput renderComponent={renderComponent} />
+          <PostData renderComponent={renderComponent} />
         )}
         {componentState === "skills" && (
           <SkillAndCategoryForm
@@ -47,6 +62,27 @@ const Post = () => {
           <SkillAndCategoryForm
             component={"category"}
             handleSkillOrCategorySubmit={handleSkillOrCategorySubmit}
+          />
+        )}
+        {componentState === "moderator" && (
+          <Friends
+            handleFriendsSubmit={handleFriendsSubmit}
+            selectType="single"
+            userType="Moderator"
+          />
+        )}
+        {componentState === "participants" && (
+          <Friends
+            handleFriendsSubmit={handleFriendsSubmit}
+            selectType="multiple"
+            userType="Participants"
+          />
+        )}
+        {componentState === "admins" && (
+          <Friends
+            handleFriendsSubmit={handleFriendsSubmit}
+            selectType="multiple"
+            userType="Admins"
           />
         )}
       </PostContext.Provider>

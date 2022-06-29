@@ -1,11 +1,11 @@
 import React from "react";
 import {
-  post,
-  itemPost,
   experience,
   community,
-  infoPost,
   userDefaultImage,
+  service,
+  info,
+  items,
 } from "../../../Library/Constants";
 import MenuCard from "../MenuCard/MenuCard";
 import "./MenuComp.css";
@@ -20,12 +20,12 @@ const MenuComp = ({ toggleMenu }) => {
         <MenuCard
           src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/5868239F-2135-4D2C-AF7A-B8F91A25F2D7.png"
           menuContent="Give or receive a service"
-          onClick={() => navigate(post)}
+          onClick={() => navigate(service)}
         />
         <MenuCard
           src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/D2C2C345-4727-4FD0-A6B5-7887AE1E89BB.png"
           menuContent="offer or request an item"
-          onClick={() => navigate(itemPost)}
+          onClick={() => navigate(items)}
         />
         <MenuCard
           src="https://cdn.zeplin.io/5ee1133b3c75ae9aea1e8b2f/assets/649EE7EE-1A1A-4D66-8FA0-3D602EA367B1.png"
@@ -40,7 +40,7 @@ const MenuComp = ({ toggleMenu }) => {
         <MenuCard
           src={userDefaultImage}
           menuContent="Info Post"
-          onClick={() => navigate(infoPost)}
+          onClick={() => navigate(info)}
         />
         <div onClick={() => toggleMenu(false)} className="menu-close-btn">
           X

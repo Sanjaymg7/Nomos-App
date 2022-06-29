@@ -20,7 +20,8 @@ import { WebSocketContext } from "../../Components/Context/Context";
 const Chat = () => {
   const otherUserId = localStorage.getItem("other_user_id");
   const [otherUserName, setOtherUserName] = useState("User");
-  const [isConnected, response, sendRequest] = useContext(WebSocketContext);
+  const [isConnected, response, setResponse, sendRequest] =
+    useContext(WebSocketContext);
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const [modal, setModal] = useContext(ModalContext);
@@ -30,41 +31,35 @@ const Chat = () => {
 
   const sendMessage = () => {
     if (message.trim()) {
-      sendRequest(
-        JSON.stringify({
-          action: "send_chat_message",
-          access_token,
-          chat_type: 1,
-          user_id: otherUserId,
-          message_type: 1,
-          message,
-        })
-      );
+      sendRequest({
+        action: "send_chat_message",
+        access_token,
+        chat_type: 1,
+        user_id: otherUserId,
+        message_type: 1,
+        message,
+      });
       setMessage("");
     }
   };
 
   const sendTyping = () => {
-    sendRequest(
-      JSON.stringify({
-        action: "send_typing",
-        access_token,
-        chat_type: 1,
-        user_id: otherUserId,
-      })
-    );
+    sendRequest({
+      action: "send_typing",
+      access_token,
+      chat_type: 1,
+      user_id: otherUserId,
+    });
   };
 
   const sendChatRead = (messageId) => {
-    sendRequest(
-      JSON.stringify({
-        action: "send_chat_read",
-        access_token,
-        chat_type: 1,
-        user_id: otherUserId,
-        last_message_id: messageId,
-      })
-    );
+    sendRequest({
+      action: "send_chat_read",
+      access_token,
+      chat_type: 1,
+      user_id: otherUserId,
+      last_message_id: messageId,
+    });
   };
 
   const getPreviousChats = async () => {
@@ -101,31 +96,29 @@ const Chat = () => {
   useEffect(() => {
     if (response) {
       console.log(response);
-      const messageData = JSON.parse(response);
-      if (messageData.event === "chat_message_received") {
-        if (messageData.data.sender_id != otherUserId && isOnline) {
-          messageData.data.message_read = true;
+      const { event, data } = JSON.parse(response);
+      if (event === "chat_message_received") {
+        if (data.sender_id != otherUserId && isOnline) {
+          data.message_read = true;
         }
-        setChatMessages((prevStatus) => [messageData.data, ...prevStatus]);
-        if (messageData.data.sender_id == otherUserId) {
-          sendChatRead(messageData.data.message_id);
+        setChatMessages((prevStatus) => [data, ...prevStatus]);
+        if (data.sender_id == otherUserId) {
+          sendChatRead(data.message_id);
         }
-      } else if (messageData.event === "chat_typing") {
-        if (messageData.data.user_id == otherUserId) {
+      } else if (event === "chat_typing") {
+        if (data.user_id == otherUserId) {
           setIsTyping(true);
           setTimeout(() => setIsTyping(false), 5000);
         }
-      } else if (messageData.event === "user_online_status") {
-        if (
-          messageData.data.user_id == otherUserId &&
-          messageData.data.online_status == 0
-        ) {
+      } else if (event === "user_online_status") {
+        if (data.user_id == otherUserId && data.online_status == 0) {
           setIsOnline(false);
         } else {
-          setTimeout(() => getPreviousChats(), 10000);
           setIsOnline(true);
+          setTimeout(() => getPreviousChats(), 10000);
         }
       }
+      setResponse(null);
     }
   }, [response]);
 

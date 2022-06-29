@@ -1,7 +1,7 @@
 import { errorMessage } from "../../Library/Constants";
 
-const url = "https://api.nomos.net/V4/";
-// const url = "https://api2.juegogames.com/NOMOS-V3/";
+// const url = "https://api.nomos.net/V4/";
+const url = "https://api2.juegogames.com/NOMOS-V3/";
 
 const handleData = (data) => {
   if (data.responseCode === 200 || data.status === 200) {
@@ -52,7 +52,7 @@ const putCall = (
   return fetch(isExternal ? endPoint : url + endPoint, {
     method: "PUT",
     headers: headers,
-    body: new URLSearchParams(body),
+    body: isExternal ? body : new URLSearchParams(body),
   })
     .then((response) => (isExternal ? response : response.json()))
     .then((data) => {
