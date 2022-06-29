@@ -17,7 +17,6 @@ const UserDetailsCard = ({
   button,
   acceptHandler,
   rejectHandler,
-  response,
 }) => {
   const [people, setPeople] = useState(false);
   const [comments, setComments] = useState(true);
@@ -101,8 +100,8 @@ const UserDetailsCard = ({
               }
               className={
                 button
-                  ? `${userDetails.foorteButton} ${userDetails.footerButtonInActive}`
-                  : `${userDetails.foorteButton} ${userDetails.footerButtonActive}`
+                  ? `${userDetails.footerButton} ${userDetails.footerButtonInActive}`
+                  : `${userDetails.footerButton} ${userDetails.footerButtonActive}`
               }
               onBtnClick={user ? isSameUser : isNotSameUser}
               btnDisable={button ? true : false}
@@ -124,6 +123,7 @@ const UserDetailsCard = ({
           />
         </div>
       )}
+
       <div className={userDetails.peopleOrCommentContainer}>
         {postData.post_type == 1 && people ? (
           user ? (
@@ -144,7 +144,7 @@ const UserDetailsCard = ({
                     status={people.status}
                     acceptHandler={acceptHandler}
                     rejectHandler={rejectHandler}
-                    response={response}
+                    response={people.didRespond}
                   />
                 ) : people.status == 2 ? (
                   <People

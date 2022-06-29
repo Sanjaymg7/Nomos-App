@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { home, signIn, signUp } from "../../../Library/Constants";
+import {
+  home,
+  signIn,
+  signUp,
+  signInName,
+  signUpName,
+} from "../../../Library/Constants";
 import Button from "../../../Components/Button/Button";
 import Image from "../../../Components/Image/Image";
 import "./Intro.css";
@@ -29,12 +35,12 @@ const Intro = () => {
       </p>
       <Button
         className="btn"
-        btnName="Sign In"
+        btnName={signInName}
         onBtnClick={() => navigate(signIn)}
       />
       <Button
         className="btn"
-        btnName="Sign Up"
+        btnName={signUpName}
         onBtnClick={() => navigate(signUp)}
       />
     </div>

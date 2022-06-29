@@ -144,6 +144,11 @@
   background-color: white;
   color: grey;
 }
+.photos {
+  padding: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
 .peopleOrCommentContainer {
   height: 80vh;
   box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;

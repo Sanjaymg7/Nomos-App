@@ -133,7 +133,6 @@ const Chat = () => {
         }
       }
     };
-
     webSocket.current.onerror = (event) => {
       console.log("Error");
     };
@@ -146,7 +145,7 @@ const Chat = () => {
 
   const handleMessageInput = (val) => {
     setMessage(val);
-    if (val.length > 0) {
+    if (val.length % 5 === 1) {
       sendTyping();
     }
   };

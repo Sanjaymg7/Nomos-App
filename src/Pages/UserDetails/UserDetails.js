@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import {
   joinExperienceEndPoint,
   experienceRespondEndPoint,
+  apiRetries,
+  invalidAccessToken,
 } from "../../Library/Constants";
 import UserDetailsCard from "./UserDetailsCard";
 import Modal from "../../Components/Modal/Modal";
@@ -19,37 +21,43 @@ const UserDetails = () => {
   const [interestedUsers, setInterestedUsers] = useState([]);
   const [user, setUser] = useState(false);
   const [button, setButton] = useState(false);
+  const [retries, setRetries] = useState(apiRetries);
+
   const navigate = useNavigate();
   useEffect(() => {
     getPostData();
-  }, []);
+  }, [retries]);
   const getPostData = async () => {
-    try {
-      setLoading(true);
-      const data = await getCall(
-        `posts/details?post_id=${localStorage.getItem("post_id")}`
-      );
-      if (data) {
-        console.log(data);
-        localStorage.setItem("post_user_id", data.posts[0].user_id);
-
-        data.posts[0].interested_users = data.posts[0].interested_users.map(
-          (comment) => ({
-            ...comment,
-            didRespond: false,
-          })
+    if (retries) {
+      try {
+        setLoading(true);
+        const data = await getCall(
+          `posts/details?post_id=${localStorage.getItem("post_id")}`
         );
-        setInterestedUsers(data.posts[0].interested_users);
-        setPostData(data.posts[0]);
-        console.log(postData);
-        data.posts[0].user_id == localStorage.getItem("user_id") &&
-          setUser(true);
-        setDisplayData(!displayData);
+        if (data) {
+          localStorage.setItem("post_user_id", data.posts[0].user_id);
+
+          data.posts[0].interested_users = data.posts[0].interested_users.map(
+            (comment) => ({
+              ...comment,
+              didRespond: false,
+            })
+          );
+          setInterestedUsers(data.posts[0].interested_users);
+          setPostData(data.posts[0]);
+          data.posts[0].user_id == localStorage.getItem("user_id") &&
+            setUser(true);
+          setDisplayData(!displayData);
+        }
+        setLoading(false);
+      } catch (err) {
+        if (retries === 1 || err === invalidAccessToken) {
+          setModal({ modalContent: err, showModal: true });
+          setLoading(false);
+        } else {
+          setRetries(retries - 1);
+        }
       }
-    } catch (err) {
-      setModal({ modalContent: err, showModal: true });
-    } finally {
-      setLoading(false);
     }
   };
   const callDate = (timeStamp) => {
@@ -107,7 +115,6 @@ const UserDetails = () => {
           isNotSameUser={isNotSameUser}
           user={user}
           button={button}
-          response={postData.interested_users[0].didRespond}
           acceptHandler={acceptHandler}
           rejectHandler={rejectHandler}
         />
