@@ -79,3 +79,5 @@ export const send = "Send";
 export const comment = "Comment";
 export const loading = "Loading...";
 export const createPost = "Create Post";
+export const signInName = "Sign In";
+export const signUpName = "Sign Up";

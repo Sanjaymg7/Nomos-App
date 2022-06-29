@@ -12,6 +12,7 @@ import {
   forgotPassword,
   waitingMessage,
   modalInitialState,
+  signInName,
 } from "../../Library/Constants";
 import Header from "../../Components/Header/Header";
 import Label from "../../Components/Label/Label";
@@ -21,7 +22,7 @@ import { signInEndPoint } from "../../Library/Constants";
 const SignIn = () => {
   const location = useLocation();
   const [modal, setModal] = useContext(ModalContext);
-  const [buttonName, setButtonName] = useState("Sign In");
+  const [buttonName, setButtonName] = useState(signInName);
   const [button, setButton] = useState(false);
   const navigate = useNavigate();
 
@@ -67,13 +68,13 @@ const SignIn = () => {
           requestHeader
         );
         if (userDetail) {
-          setButtonName("Sign In");
+          setButtonName(signInName);
           localStorage.setItem("user_id", userDetail.user_id);
           localStorage.setItem("access_token", userDetail.access_token);
           navigate(location.state?.from?.pathname || home);
         }
       } catch (err) {
-        setButtonName("Sign In");
+        setButtonName(signInName);
         setModal({ modalContent: err, showModal: true });
       } finally {
         setButton(false);

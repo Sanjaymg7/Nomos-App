@@ -139,7 +139,6 @@ const Chat = () => {
         }
       }
     };
-
     webSocket.current.onerror = (event) => {
       console.log("Error");
     };

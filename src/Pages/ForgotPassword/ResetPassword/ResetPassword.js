@@ -156,7 +156,6 @@ const ResetPassword = () => {
               />
             )}
             <Button
-              // className="phone-input-btn"
               btnName={
                 isOTP
                   ? buttonText

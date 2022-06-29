@@ -22,8 +22,11 @@ const UserDetails = () => {
   const [user, setUser] = useState(false);
   const [button, setButton] = useState(false);
   const [retries, setRetries] = useState(apiRetries);
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  useEffect(() => {
+    getPostData();
+  }, [retries]);
   const getPostData = async () => {
     if (retries) {
       try {
@@ -32,7 +35,6 @@ const UserDetails = () => {
           `posts/details?post_id=${localStorage.getItem("post_id")}`
         );
         if (data) {
-          console.log(data);
           localStorage.setItem("post_user_id", data.posts[0].user_id);
 
           data.posts[0].interested_users = data.posts[0].interested_users.map(
@@ -43,7 +45,6 @@ const UserDetails = () => {
           );
           setInterestedUsers(data.posts[0].interested_users);
           setPostData(data.posts[0]);
-          console.log(postData);
           data.posts[0].user_id == localStorage.getItem("user_id") &&
             setUser(true);
           setDisplayData(!displayData);

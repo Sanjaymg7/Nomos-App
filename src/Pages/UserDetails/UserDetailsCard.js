@@ -100,8 +100,8 @@ const UserDetailsCard = ({
               }
               className={
                 button
-                  ? `${userDetails.foorteButton} ${userDetails.footerButtonInActive}`
-                  : `${userDetails.foorteButton} ${userDetails.footerButtonActive}`
+                  ? `${userDetails.footerButton} ${userDetails.footerButtonInActive}`
+                  : `${userDetails.footerButton} ${userDetails.footerButtonActive}`
               }
               onBtnClick={user ? isSameUser : isNotSameUser}
               btnDisable={button ? true : false}
@@ -123,6 +123,7 @@ const UserDetailsCard = ({
           />
         </div>
       )}
+
       <div className={userDetails.peopleOrCommentContainer}>
         {postData.post_type == 1 && people ? (
           user ? (
