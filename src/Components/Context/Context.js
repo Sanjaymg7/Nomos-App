@@ -63,3 +63,4 @@ export const experiencePostInitData = {
 
 export const ModalContext = createContext();
 export const PostContext = createContext();
+export const WebSocketContext = createContext(false, null, () => {});

@@ -32,7 +32,6 @@ const CommunityComponent = () => {
               isJoining: false,
             }))
           );
-          console.log(community);
         }
       } catch (err) {
         setModal({ modalContent: err, showModal: true });

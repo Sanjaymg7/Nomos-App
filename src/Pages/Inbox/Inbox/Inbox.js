@@ -16,9 +16,11 @@ import Footer from "../../../Components/Footer/Footer";
 import Friends from "../../../Components/Friends/Friends";
 import Loading from "../../../Components/Loading/Loading";
 import Image from "../../../Components/Image/Image";
+import { WebSocketContext } from "../../../Components/Context/Context";
 
 const InboxComp = () => {
   const navigate = useNavigate();
+  const [, response] = useContext(WebSocketContext);
   const [modal, setModal] = useContext(ModalContext);
   const [chatConversations, setChatConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -47,6 +49,15 @@ const InboxComp = () => {
   useEffect(() => {
     getChats();
   }, [retries]);
+
+  useEffect(() => {
+    if (response) {
+      const messageData = JSON.parse(response);
+      if (messageData.event === "chat_message_received") {
+        getChats();
+      }
+    }
+  }, [response]);
 
   const displayDate = (chatDate, appendString = "") => {
     if (chatDate.getHours() <= 12) {

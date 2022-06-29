@@ -15,6 +15,7 @@ import SearchUser from "../../Pages/SearchUser/SearchUser";
 import AcceptFriendRequest from "../../Pages/AcceptFriendRequest/AcceptFriendRequest";
 import UserDetails from "../../Pages/UserDetails/UserDetails";
 import InfoPost from "../../Pages/InfoPost/InfoPost";
+import { WebSocketProvider } from "../Services/WebSocket";
 
 const ProtectedRoute = ({ isProtectedRoute }) => {
   const location = useLocation();
@@ -48,6 +49,16 @@ export const appRoutes = routes.map((route, index) => (
     key={index}
     element={<ProtectedRoute isProtectedRoute={route.isProtected} />}
   >
-    <Route exact path={route.path} element={route.element} />
+    <Route
+      exact
+      path={route.path}
+      element={
+        route.isProtected ? (
+          <WebSocketProvider>{route.element}</WebSocketProvider>
+        ) : (
+          route.element
+        )
+      }
+    />
   </Route>
 ));

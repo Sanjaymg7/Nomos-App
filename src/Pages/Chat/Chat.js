@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ModalContext } from "../../Components/Context/Context";
 import {
-  websocketURL,
   access_token,
   userChat,
   friendDetails,
@@ -16,11 +15,12 @@ import Button from "../../Components/Button/Button";
 import Loading from "../../Components/Loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCheckDouble } from "@fortawesome/free-solid-svg-icons";
+import { WebSocketContext } from "../../Components/Context/Context";
 
 const Chat = () => {
   const otherUserId = localStorage.getItem("other_user_id");
   const [otherUserName, setOtherUserName] = useState("User");
-  const webSocket = useRef(null);
+  const [isConnected, response, sendRequest] = useContext(WebSocketContext);
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const [modal, setModal] = useContext(ModalContext);
@@ -30,7 +30,7 @@ const Chat = () => {
 
   const sendMessage = () => {
     if (message.trim()) {
-      webSocket.current.send(
+      sendRequest(
         JSON.stringify({
           action: "send_chat_message",
           access_token,
@@ -45,7 +45,7 @@ const Chat = () => {
   };
 
   const sendTyping = () => {
-    webSocket.current.send(
+    sendRequest(
       JSON.stringify({
         action: "send_typing",
         access_token,
@@ -56,7 +56,7 @@ const Chat = () => {
   };
 
   const sendChatRead = (messageId) => {
-    webSocket.current.send(
+    sendRequest(
       JSON.stringify({
         action: "send_chat_read",
         access_token,
@@ -91,29 +91,17 @@ const Chat = () => {
     }
   };
 
-  const connectWebSocket = () => {
-    webSocket.current = new WebSocket(websocketURL);
-  };
-
   useEffect(() => {
-    connectWebSocket();
-
-    webSocket.current.onopen = () => {
-      console.log("Websocket is open");
+    if (isConnected) {
       getOtherUser();
       getPreviousChats();
-    };
+    }
+  }, [isConnected]);
 
-    webSocket.current.onclose = (event) => {
-      console.log("Websocket closed");
-      if (event.wasClean === false) {
-        connectWebSocket();
-      }
-    };
-
-    webSocket.current.onmessage = (response) => {
+  useEffect(() => {
+    if (response) {
       console.log(response);
-      const messageData = JSON.parse(response.data);
+      const messageData = JSON.parse(response);
       if (messageData.event === "chat_message_received") {
         if (messageData.data.sender_id != otherUserId && isOnline) {
           messageData.data.message_read = true;
@@ -134,20 +122,12 @@ const Chat = () => {
         ) {
           setIsOnline(false);
         } else {
-          setTimeout(() => getPreviousChats(), 5000);
+          setTimeout(() => getPreviousChats(), 10000);
           setIsOnline(true);
         }
       }
-    };
-    webSocket.current.onerror = (event) => {
-      console.log("Error");
-    };
-
-    return () => {
-      console.log("Closing WebSocket");
-      webSocket.current.close();
-    };
-  }, []);
+    }
+  }, [response]);
 
   const handleMessageInput = (val) => {
     setMessage(val);
