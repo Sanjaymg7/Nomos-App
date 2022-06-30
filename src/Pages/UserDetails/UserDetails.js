@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ModalContext } from "../../Components/Context/Context";
 import Header from "../../Components/Header/Header";
-import { getCall, postCall } from "../../Components/Services/DataFetch";
+import {
+  getCall,
+  postCall,
+  putCall,
+} from "../../Components/Services/DataFetch";
 import Loading from "../../Components/Loading/Loading";
 import { useNavigate } from "react-router-dom";
 import {
@@ -9,10 +13,15 @@ import {
   experienceRespondEndPoint,
   apiRetries,
   invalidAccessToken,
+  home,
+  inbox,
+  deletePostEndPoint,
 } from "../../Library/Constants";
 import UserDetailsCard from "./UserDetailsCard";
 import Modal from "../../Components/Modal/Modal";
-
+import userDetails from "./UserDetails.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 const UserDetails = () => {
   const [postData, setPostData] = useState([]);
   const [isLoading, setLoading] = useState(false);
@@ -22,6 +31,7 @@ const UserDetails = () => {
   const [user, setUser] = useState(false);
   const [button, setButton] = useState(false);
   const [retries, setRetries] = useState(apiRetries);
+  const [isDelete, setIsDelete] = useState(false);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -51,7 +61,9 @@ const UserDetails = () => {
         }
         setLoading(false);
       } catch (err) {
-        if (retries === 1 || err === invalidAccessToken) {
+        if (err == "Post not found") {
+          navigate(home);
+        } else if (retries === 1 || err === invalidAccessToken) {
           setModal({ modalContent: err, showModal: true });
           setLoading(false);
         } else {
@@ -71,7 +83,7 @@ const UserDetails = () => {
     return dateToString[0] + " " + dateToString[1] + " " + dateToString[2];
   };
   const isSameUser = () => {
-    navigate("/inbox");
+    navigate(inbox);
   };
   const isNotSameUser = async () => {
     try {
@@ -107,11 +119,45 @@ const UserDetails = () => {
   const acceptHandler = (id, index) => {
     acceptRejectHandler(id, index, 1);
   };
+  const toggleHandler = () => {
+    setIsDelete(!isDelete);
+  };
+  const postDeleteHandler = async () => {
+    console.log(postData);
+    if (postData.user_id == localStorage.getItem("user_id")) {
+      try {
+        const data = await putCall(deletePostEndPoint, {
+          post_id: localStorage.getItem("post_id"),
+        });
+        if (data) {
+          setIsDelete(false);
+          navigate(home);
+        }
+      } catch (err) {
+        setIsDelete(false);
+        setModal({ modalContent: err, showModal: true });
+      }
+    } else {
+      setModal({ modalContent: "You cant delete post", showModal: true });
+      setIsDelete(false);
+    }
+  };
   return (
     <>
       {isLoading && <Loading />}
       {modal.showModal && <Modal />}
       <Header navigateTo="home" headerText="Details" />
+      <div onClick={toggleHandler} className={userDetails.deleteDots}>
+        <FontAwesomeIcon icon={faEllipsisVertical} />
+      </div>
+      {isDelete && (
+        <div
+          onClick={postDeleteHandler}
+          className={userDetails.dropdownContent}
+        >
+          <p>Delete</p>
+        </div>
+      )}
       {displayData ? (
         <UserDetailsCard
           postData={postData}
