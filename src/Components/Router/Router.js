@@ -2,7 +2,7 @@ import { Route, Navigate, Outlet, useLocation } from "react-router-dom";
 import Chat from "../../Pages/Chat/Chat";
 import ResetPassword from "../../Pages/ForgotPassword/ResetPassword/ResetPassword";
 import Home from "../../Pages/Home/Home/Home";
-import Inbox from "../../Pages/Inbox/Inbox/Inbox";
+import Inbox from "../../Pages/Inbox/Inbox";
 import Intro from "../../Pages/Intro/Intro/Intro";
 import SignIn from "../../Pages/LogIn/SignIn";
 import Post from "../../Pages/Post/Post";
@@ -49,13 +49,11 @@ export const appRoutes = routes.map((route, index) => (
       exact
       path={route.path}
       element={
-        // route.isProtected
-        // ? (
-        //   <WebSocketProvider>
-        //   {route.element}
-        //   </WebSocketProvider>
-        // ) :
-        route.element
+        route.isProtected ? (
+          <WebSocketProvider>{route.element}</WebSocketProvider>
+        ) : (
+          route.element
+        )
       }
     />
   </Route>

@@ -1,22 +1,22 @@
 import React, { useEffect, useState, useContext } from "react";
-import { ModalContext } from "../../../Components/Context/Context";
+import { ModalContext } from "../../Components/Context/Context";
 import {
   privateChats,
   chat,
   userDefaultImage,
   apiRetries,
   invalidAccessToken,
-} from "../../../Library/Constants";
+} from "../../Library/Constants";
 import { useNavigate } from "react-router-dom";
-import { getCall } from "../../../Components/Services/DataFetch";
+import { getCall } from "../../Components/Services/DataFetch";
 import "./Inbox.css";
-import Header from "../../../Components/Header/Header";
-import Modal from "../../../Components/Modal/Modal";
-import Footer from "../../../Components/Footer/Footer";
-import Friends from "../../../Components/Friends/Friends";
-import Loading from "../../../Components/Loading/Loading";
-import Image from "../../../Components/Image/Image";
-import { WebSocketContext } from "../../../Components/Context/Context";
+import Header from "../../Components/Header/Header";
+import Modal from "../../Components/Modal/Modal";
+import Footer from "../../Components/Footer/Footer";
+import Friends from "../../Components/Friends/Friends";
+import Loading from "../../Components/Loading/Loading";
+import Image from "../../Components/Image/Image";
+import { WebSocketContext } from "../../Components/Context/Context";
 
 const InboxComp = () => {
   const navigate = useNavigate();

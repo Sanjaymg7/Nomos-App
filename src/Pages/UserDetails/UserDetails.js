@@ -24,7 +24,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 const UserDetails = () => {
   const [postData, setPostData] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [modal, setModal] = useContext(ModalContext);
   const [displayData, setDisplayData] = useState(false);
   const [interestedUsers, setInterestedUsers] = useState([]);
@@ -34,13 +34,9 @@ const UserDetails = () => {
   const [isDelete, setIsDelete] = useState(false);
 
   const navigate = useNavigate();
-  useEffect(() => {
-    getPostData();
-  }, [retries]);
   const getPostData = async () => {
     if (retries) {
       try {
-        setLoading(true);
         const data = await getCall(
           `posts/details?post_id=${localStorage.getItem("post_id")}`
         );
