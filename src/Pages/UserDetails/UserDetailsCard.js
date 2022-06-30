@@ -28,7 +28,10 @@ const UserDetailsCard = ({
     setComments(true);
     setPeople(false);
   };
-  //   1- experience, 2- service request, 3- item borrow 6. info post
+  const experiencePost = 1;
+  const serviceRequestPost = 2;
+  const itemBorrowPost = 3;
+  const infoPost = 6;
   return (
     <div className={userDetails.container}>
       <Image
@@ -45,14 +48,14 @@ const UserDetailsCard = ({
         />
       </div>
       <div className={userDetails.giveOrReceive}>
-        {postData.post_type === 1 && "Experience"}
-        {postData.post_type === 2 && "Service"}
-        {postData.post_type === 3 && "Item Borrow"}
-        {postData.post_type === 6 && "Info"}
+        {postData.post_type === experiencePost && "Experience"}
+        {postData.post_type === serviceRequestPost && "Service"}
+        {postData.post_type === itemBorrowPost && "Item Borrow"}
+        {postData.post_type === infoPost && "Info"}
       </div>
       <div className={userDetails.description}>
         <h4>{postData.title}</h4>
-        {postData.post_type === 1 && (
+        {postData.post_type === experiencePost && (
           <div className={userDetails.dateCapacity}>
             <div className={userDetails.date}>
               <h4>{callDate(postData.start_time)}</h4>
@@ -93,7 +96,7 @@ const UserDetailsCard = ({
         (user) => user.user_id == localStorage.getItem("user_id")
       ).length > 0
         ? ""
-        : postData.post_type === 1 && (
+        : postData.post_type === experiencePost && (
             <Button
               btnName={
                 user ? "Check your Inbox" : "I want to join this experience"
@@ -107,7 +110,7 @@ const UserDetailsCard = ({
               btnDisable={button ? true : false}
             />
           )}
-      {postData.post_type == 1 && (
+      {postData.post_type == experiencePost && (
         <div className={userDetails.peopleComments}>
           <Button
             btnName="People"
@@ -123,15 +126,24 @@ const UserDetailsCard = ({
           />
         </div>
       )}
-      {postData.post_type == 6 && postData.photo_urls.length >= 0 && (
-        <div className={userDetails.photos}>
-          {postData.photo_urls.map((photo, index) => {
-            <Image key={index} src={photo.url} />;
-          })}
-        </div>
-      )}
+      {postData.photo_urls.length >= 0 &&
+        (postData.post_type == experiencePost ||
+          postData.post_type == serviceRequestPost ||
+          postData.post_type == itemBorrowPost ||
+          postData.post_type == infoPost) && (
+          <div className={userDetails.photos}>
+            {postData.photo_urls.map((photo, index) => (
+              <Image
+                className={userDetails.photo}
+                key={index}
+                src={photo.url}
+                alt="iamge"
+              />
+            ))}
+          </div>
+        )}
       <div className={userDetails.peopleOrCommentContainer}>
-        {postData.post_type == 1 && people ? (
+        {postData.post_type == experiencePost && people ? (
           user ? (
             postData.interested_users.length == 0 ? (
               <div className="no-comments">
@@ -140,7 +152,7 @@ const UserDetailsCard = ({
               </div>
             ) : (
               postData.interested_users.map((people, index) =>
-                people.status == 1 ? (
+                people.status == experiencePost ? (
                   <Request
                     key={index}
                     index={index}
@@ -152,7 +164,7 @@ const UserDetailsCard = ({
                     rejectHandler={rejectHandler}
                     response={people.didRespond}
                   />
-                ) : people.status == 2 ? (
+                ) : people.status == serviceRequestPost ? (
                   <People
                     key={index}
                     userId={people.user_id}
