@@ -5,7 +5,7 @@ import Home from "../../Pages/Home/Home/Home";
 import Inbox from "../../Pages/Inbox/Inbox/Inbox";
 import Intro from "../../Pages/Intro/Intro/Intro";
 import SignIn from "../../Pages/LogIn/SignIn";
-import Post from "../../Pages/Post/ServicePost";
+import Post from "../../Pages/Post/Post";
 import Comments from "../../Pages/Comments/Comments/Comments";
 import Register from "../../Pages/Register/Register";
 import SearchUser from "../../Pages/SearchUser/SearchUser";

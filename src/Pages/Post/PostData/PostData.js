@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { home, waitingMessage, createPost } from "../../../Library/Constants";
 import { imageURLService } from "../../../Components/Services/ImageURLService";
 import Button from "../../../Components/Button/Button";
-import "./ServicePostInput.css";
+import "./PostData.css";
 import Header from "../../../Components/Header/Header";
 import Modal from "../../../Components/Modal/Modal";
 import PostTypeAndGiftForm from "../../../Components/PostTypeAndGiftForm/PostTypeAndGiftForm";
@@ -22,7 +22,7 @@ const PostData = ({ renderComponent }) => {
   const [postData, setPostData] = useContext(PostContext);
   const [buttonData, setButtonData] = useState({
     value: createPost,
-    isActive: true,
+    isActive: false,
   });
   const [modal, setModal] = useContext(ModalContext);
 
@@ -61,23 +61,39 @@ const PostData = ({ renderComponent }) => {
   };
 
   const enableCreatePostButton = () => {
-    //   if (
-    //     postData.items_service_name.trim() !== "" &&
-    //     postData.items_service_desc.trim() !== "" &&
-    //     postData.items_service_desc.trim().length < 201 &&
-    //     postData.skills_required !== "" &&
-    //     postData.category_required !== ""
-    //   ) {
-    //     setButtonData({ ...buttonData, isActive: true });
-    //   } else {
-    //     setButtonData({ ...buttonData, isActive: false });
-    //   }
+    if (postData.title.trim() !== "" && postData.description.trim() !== "") {
+      if (
+        type === "service" &&
+        postData.skills_required !== "" &&
+        postData.category_required !== ""
+      ) {
+        setButtonData({ ...buttonData, isActive: true });
+      } else if (type === "items" && postData.category_required !== "") {
+        setButtonData({ ...buttonData, isActive: true });
+      } else if (
+        type === "experience" &&
+        postData.skills_required !== "" &&
+        postData.max_participants > 0 &&
+        postData.participants_id !== ""
+      ) {
+        setButtonData({ ...buttonData, isActive: true });
+      } else if (
+        type === "community" &&
+        postData.participants_id !== "" &&
+        postData.administrator_id !== ""
+      ) {
+        setButtonData({ ...buttonData, isActive: true });
+      } else if (type === "info") {
+        setButtonData({ ...buttonData, isActive: true });
+      } else {
+        setButtonData({ ...buttonData, isActive: false });
+      }
+    }
   };
 
-  // useEffect(() => {
-  //   setPostData({ ...postData, type: location.pathname.slice(1) });
-  //   enableCreatePostButton();
-  // }, []);
+  useEffect(() => {
+    enableCreatePostButton();
+  }, []);
 
   const submitPost = async (e) => {
     e.preventDefault();

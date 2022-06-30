@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { PostContext, postInitData } from "../../Components/Context/Context";
 import Friends from "../../Components/Friends/Friends";
 import SkillAndCategoryForm from "../../Components/SkillAndCategoryForm/SkillAndCategoryForm";
-import PostData from "./ServicePost/PostData";
+import PostData from "./PostData/PostData";
 
 const Post = () => {
   const [postData, setPostData] = useState(postInitData);
