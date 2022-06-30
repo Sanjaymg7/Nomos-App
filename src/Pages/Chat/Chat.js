@@ -20,7 +20,8 @@ import { WebSocketContext } from "../../Components/Context/Context";
 const Chat = () => {
   const otherUserId = localStorage.getItem("other_user_id");
   const [otherUserName, setOtherUserName] = useState("User");
-  const [isConnected, response, sendRequest] = useContext(WebSocketContext);
+  const [isConnected, response, setResponse, sendRequest] =
+    useContext(WebSocketContext);
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const [modal, setModal] = useContext(ModalContext);
@@ -30,41 +31,35 @@ const Chat = () => {
 
   const sendMessage = () => {
     if (message.trim()) {
-      sendRequest(
-        JSON.stringify({
-          action: "send_chat_message",
-          access_token,
-          chat_type: 1,
-          user_id: otherUserId,
-          message_type: 1,
-          message,
-        })
-      );
+      sendRequest({
+        action: "send_chat_message",
+        access_token,
+        chat_type: 1,
+        user_id: otherUserId,
+        message_type: 1,
+        message,
+      });
       setMessage("");
     }
   };
 
   const sendTyping = () => {
-    sendRequest(
-      JSON.stringify({
-        action: "send_typing",
-        access_token,
-        chat_type: 1,
-        user_id: otherUserId,
-      })
-    );
+    sendRequest({
+      action: "send_typing",
+      access_token,
+      chat_type: 1,
+      user_id: otherUserId,
+    });
   };
 
   const sendChatRead = (messageId) => {
-    sendRequest(
-      JSON.stringify({
-        action: "send_chat_read",
-        access_token,
-        chat_type: 1,
-        user_id: otherUserId,
-        last_message_id: messageId,
-      })
-    );
+    sendRequest({
+      action: "send_chat_read",
+      access_token,
+      chat_type: 1,
+      user_id: otherUserId,
+      last_message_id: messageId,
+    });
   };
 
   const getPreviousChats = async () => {
@@ -122,10 +117,11 @@ const Chat = () => {
         ) {
           setIsOnline(false);
         } else {
-          setTimeout(() => getPreviousChats(), 10000);
+          setTimeout(() => getPreviousChats(), 1000);
           setIsOnline(true);
         }
       }
+      setResponse(null);
     }
   }, [response]);
 

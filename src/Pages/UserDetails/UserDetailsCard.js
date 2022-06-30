@@ -123,7 +123,13 @@ const UserDetailsCard = ({
           />
         </div>
       )}
-
+      {postData.post_type == 6 && postData.photo_urls.length >= 0 && (
+        <div className={userDetails.photos}>
+          {postData.photo_urls.map((photo, index) => {
+            <Image key={index} src={photo.url} />;
+          })}
+        </div>
+      )}
       <div className={userDetails.peopleOrCommentContainer}>
         {postData.post_type == 1 && people ? (
           user ? (

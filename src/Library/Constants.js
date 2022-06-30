@@ -44,6 +44,7 @@ export const joinExperienceEndPoint = "experience/join";
 export const friendDetails = "users?other_user_id=";
 export const userChat = "chat/messages?limit=30&user_id=";
 export const experienceRespondEndPoint = "experience/respond";
+export const deletePostEndPoint = "posts/delete";
 
 // Pages endpoint
 export const intro = "/";

@@ -38,11 +38,10 @@ export const WebSocketProvider = ({ children }) => {
     };
   }, []);
 
-  const webSocketData = [
-    isConnected,
-    response,
-    webSocket.current?.send.bind(webSocket.current),
-  ];
+  const sendRequest = (data) => {
+    webSocket.current.send(JSON.stringify(data));
+  };
+  const webSocketData = [isConnected, response, setResponse, sendRequest];
 
   return (
     <WebSocketContext.Provider value={webSocketData}>
