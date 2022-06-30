@@ -42,14 +42,22 @@ const PostData = ({ renderComponent }) => {
     if (val.length <= 200) setPostData({ ...postData, description: val });
   };
 
-  const handleServicePostImage = (images, extensions) => {
+  const handlePostImage = (images, extensions, names) => {
     if (images) {
       setPostData({
         ...postData,
         image: images,
         image_extension: extensions,
+        image_names: names,
       });
     }
+  };
+
+  const handleDeleteImage = (index) => {
+    postData.image_names.splice(index, 1);
+    postData.image.splice(index, 1);
+    postData.image_extension.splice(index, 1);
+    setPostData({ ...postData });
   };
 
   const handleStartDate = (val) => {
@@ -99,10 +107,10 @@ const PostData = ({ renderComponent }) => {
     e.preventDefault();
     setButtonData({ value: waitingMessage, isActive: false });
     try {
-      if (postData.image.length > 0) {
+      if (postData.image) {
         postData.image = await imageURLService(
-          postData.image_extension[0],
-          postData.image[0]
+          postData.image_extension,
+          postData.image
         );
       }
       const uploadData = getUploadData(postData, type);
@@ -127,6 +135,7 @@ const PostData = ({ renderComponent }) => {
   const textAndImageData = {
     titleValue: postData.title,
     descriptionValue: postData.description,
+    imageValue: postData.image_names,
     postTitleLabel: type === "community" ? "Community Name" : "Post Title",
     postDescriptionLabel:
       type === "community" ? "Community Description" : "Post Description",
@@ -150,10 +159,11 @@ const PostData = ({ renderComponent }) => {
             />
           )}
           <PostTextAndImageForm
-            postData={textAndImageData}
+            textAndImageData={textAndImageData}
             handlePostTitle={handlePostTitle}
             handlePostDescription={handleDescriptionChange}
-            handlePostImage={handleServicePostImage}
+            handlePostImage={handlePostImage}
+            handleDeleteImage={handleDeleteImage}
           />
           {(type === "service" || type === "experience") && (
             <SkillAndCategoryDisplay
