@@ -6,20 +6,20 @@ export const WebSocketProvider = ({ children }) => {
   const [response, setResponse] = useState(null);
   const webSocket = useRef(null);
 
-  // const connectWebSocket = () => {
-  //   webSocket.current = new WebSocket(
-  //     `wss://websocket.nomos.net/V4?access_token=${localStorage.getItem(
-  //       "access_token"
-  //     )}`
-  //   );
-  // };
   const connectWebSocket = () => {
     webSocket.current = new WebSocket(
-      `wss://ws2.juegogames.com/NOMOS-V3/access_token=${localStorage.getItem(
+      `wss://websocket.nomos.net/V4?access_token=${localStorage.getItem(
         "access_token"
       )}`
     );
   };
+  // const connectWebSocket = () => {
+  //   webSocket.current = new WebSocket(
+  //     `wss://ws2.juegogames.com/NOMOS-V3?access_token=${localStorage.getItem(
+  //       "access_token"
+  //     )}`
+  //   );
+  // };
 
   useEffect(() => {
     connectWebSocket();

@@ -73,14 +73,7 @@ const Comments = () => {
           </div>
         ) : (
           commentData?.map((comment, index) => (
-            <CommentCard
-              key={index}
-              commentItem={comment}
-              profileURL={comment.profile_picture_url}
-              userName={comment.user_name}
-              comment={comment.comment}
-              commentedAt={comment.commented_at}
-            />
+            <CommentCard key={index} commentItem={comment} />
           ))
         )}
       </div>

@@ -28,12 +28,13 @@ const Chat = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isOnline, setIsOnline] = useState(false);
+  const [didConnect, setDidConnect] = useState(false);
 
   const sendMessage = () => {
     if (message.trim()) {
       sendRequest({
         action: "send_chat_message",
-        access_token,
+        access_token: localStorage.getItem("access_token"),
         chat_type: 1,
         user_id: otherUserId,
         message_type: 1,
@@ -46,7 +47,7 @@ const Chat = () => {
   const sendTyping = () => {
     sendRequest({
       action: "send_typing",
-      access_token,
+      access_token: localStorage.getItem("access_token"),
       chat_type: 1,
       user_id: otherUserId,
     });
@@ -55,7 +56,7 @@ const Chat = () => {
   const sendChatRead = (messageId) => {
     sendRequest({
       action: "send_chat_read",
-      access_token,
+      access_token: localStorage.getItem("access_token"),
       chat_type: 1,
       user_id: otherUserId,
       last_message_id: messageId,
@@ -64,6 +65,7 @@ const Chat = () => {
 
   const getPreviousChats = async () => {
     try {
+      console.log("getting previous chats");
       const chats = await getCall(userChat + otherUserId);
       setChatMessages(chats.messages);
       if (chats.messages[0].sender_id == otherUserId) {
@@ -98,24 +100,25 @@ const Chat = () => {
       console.log(response);
       const { event, data } = JSON.parse(response);
       if (event === "chat_message_received") {
-        if (data.sender_id != otherUserId && isOnline) {
-          data.message_read = true;
-        }
         setChatMessages((prevStatus) => [data, ...prevStatus]);
         if (data.sender_id == otherUserId) {
           sendChatRead(data.message_id);
         }
       } else if (event === "chat_typing") {
         if (data.user_id == otherUserId) {
+          if (didConnect) {
+            getPreviousChats();
+            setDidConnect(false);
+          }
           setIsTyping(true);
-          setTimeout(() => setIsTyping(false), 5000);
+          setTimeout(() => setIsTyping(false), 3000);
         }
       } else if (event === "user_online_status") {
-        if (data.user_id == otherUserId && data.online_status == 0) {
-          setIsOnline(false);
-        } else {
+        if (data.user_id == otherUserId && data.online_status == 1) {
           setIsOnline(true);
-          setTimeout(() => getPreviousChats(), 10000);
+          setDidConnect(true);
+        } else if (data.user_id == otherUserId && data.online_status == 0) {
+          setIsOnline(false);
         }
       }
       setResponse(null);

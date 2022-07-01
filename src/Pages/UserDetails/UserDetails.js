@@ -16,6 +16,7 @@ import {
   home,
   inbox,
   deletePostEndPoint,
+  postDetailsEndpoint,
 } from "../../Library/Constants";
 import UserDetailsCard from "./UserDetailsCard";
 import Modal from "../../Components/Modal/Modal";
@@ -42,7 +43,7 @@ const UserDetails = () => {
       try {
         setLoading(true);
         const data = await getCall(
-          `posts/details?post_id=${localStorage.getItem("post_id")}`
+          postDetailsEndpoint + localStorage.getItem("post_id")
         );
         if (data) {
           localStorage.setItem("post_user_id", data.posts[0].user_id);
@@ -166,7 +167,6 @@ const UserDetails = () => {
           isNotSameUser={isNotSameUser}
           user={user}
           button={button}
-          response={postData.interested_users[0]?.didRespond}
           acceptHandler={acceptHandler}
           rejectHandler={rejectHandler}
         />
