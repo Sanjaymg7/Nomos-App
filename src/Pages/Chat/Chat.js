@@ -32,6 +32,7 @@ const Chat = () => {
   const [isOnline, setIsOnline] = useState(false);
   const [messageRetries, setMessageRetries] = useState(apiRetries);
   const [userRetries, setUserRetries] = useState(apiRetries);
+  const [didConnect, setDidConnect] = useState(false);
 
   const sendMessage = () => {
     if (message.trim()) {
@@ -118,21 +119,23 @@ const Chat = () => {
     if (response) {
       const { event, data } = JSON.parse(response);
       if (event === "chat_message_received") {
-        if (data.sender_id != otherUserId) {
-          getPreviousChats();
-        }
         setChatMessages((prevStatus) => [data, ...prevStatus]);
         if (data.sender_id == otherUserId) {
           sendChatRead(data.message_id);
         }
       } else if (event === "chat_typing") {
         if (data.user_id == otherUserId) {
+          if (didConnect) {
+            getPreviousChats();
+            setDidConnect(false);
+          }
           setIsTyping(true);
           setTimeout(() => setIsTyping(false), 3000);
         }
       } else if (event === "user_online_status") {
         if (data.user_id == otherUserId && data.online_status == 1) {
           setIsOnline(true);
+          setDidConnect(true);
         } else if (data.user_id == otherUserId && data.online_status == 0) {
           setIsOnline(false);
         }

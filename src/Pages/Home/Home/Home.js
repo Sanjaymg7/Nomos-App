@@ -107,12 +107,6 @@ const Home = () => {
             key={post.post_id}
             index={index}
             post={post}
-            postId={post.post_id}
-            userName={post.user_name}
-            title={post.title}
-            profilePicture={post.profile_picture_url}
-            description={post.description}
-            imageURL={post.image_url}
             postViews={postViews}
             updateLikes={updateLikes}
           />

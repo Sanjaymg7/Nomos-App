@@ -3,7 +3,9 @@ import { userDefaultImage } from "../../../Library/Constants";
 import Image from "../../../Components/Image/Image";
 import "./CommentCard.css";
 
-const CommentCard = ({ profileURL, userName, comment, commentedAt }) => {
+const CommentCard = ({ commentItem }) => {
+  const { profile_picture_url, user_name, comment, commented_at } = commentItem;
+
   var periods = {
     year: 12 * 30 * 24 * 60 * 60 * 1000,
     month: 30 * 24 * 60 * 60 * 1000,
@@ -30,20 +32,20 @@ const CommentCard = ({ profileURL, userName, comment, commentedAt }) => {
     }
     return "Just now";
   };
-  const ago = formatTime(commentedAt);
   return (
     <div className="comment-card">
       <div className="comment-card-profile">
         <Image
           className="comment-card-image"
-          src={profileURL || userDefaultImage}
+          src={profile_picture_url || userDefaultImage}
           alt="Profile"
         />
         <div className="comment-card-text">
-          <h4>{userName}</h4>
+          <h4>{user_name}</h4>
           <span className="comment-card-text">{comment}</span>
           <span className="comment-card-time">
-            {ago} {ago === "Just now" ? "" : "ago"}
+            {formatTime(commented_at)}{" "}
+            {formatTime(commented_at) === "Just now" ? "" : "ago"}
           </span>
         </div>
       </div>

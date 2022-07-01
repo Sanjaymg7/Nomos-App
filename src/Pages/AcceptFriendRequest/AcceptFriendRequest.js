@@ -81,11 +81,11 @@ const AcceptFriendRequest = () => {
           friendRequests.map((request, index) => (
             <Request
               key={index}
+              id={request.request_id}
+              index={index}
               profilePicture={request.profile_picture}
               userName={request.user_name}
               response={request.didRespond}
-              id={request.request_id}
-              index={index}
               acceptHandler={acceptRequest}
               rejectHandler={rejectRequest}
             />

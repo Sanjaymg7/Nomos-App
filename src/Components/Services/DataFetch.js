@@ -1,7 +1,7 @@
 import { errorMessage } from "../../Library/Constants";
 
-// const url = "https://api.nomos.net/V4/";
-const url = "https://api2.juegogames.com/NOMOS-V3/";
+const url = "https://api.nomos.net/V4/";
+// const url = "https://api2.juegogames.com/NOMOS-V3/";
 
 const handleData = (data) => {
   if (data.responseCode === 200 || data.status === 200) {

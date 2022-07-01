@@ -1,31 +1,18 @@
 import { getCall, putCall } from "./DataFetch";
 import { fileUploadFail, requestHeader } from "../../Library/Constants";
 
-export const imageURLService = async (fileExtensions, files) => {
+export const imageURLService = async (fileExtension, file) => {
   try {
-    if (fileExtensions) {
-      const getUploadData = await Promise.all(
-        fileExtensions.map((fileExtension) =>
-          getCall(`upload/url?file_extension=${fileExtension}`)
-        )
+    if (fileExtension) {
+      const getUploadData = await getCall(
+        `upload/url?file_extension=${fileExtension}`
       );
       if (getUploadData) {
-        let uploadData = [];
-        for (let i = 0; i < getUploadData.length; i++) {
-          uploadData.push({
-            upload_url: getUploadData[i].upload_url,
-            file: files[i],
-          });
-        }
-        await Promise.all(
-          uploadData.map((imageData) =>
-            putCall(imageData.upload_url, imageData.file, {}, true)
-          )
-        );
-        return getUploadData.map((imageData) => imageData.image_id);
-      } else {
-        throw fileUploadFail;
+        await putCall(getUploadData.upload_url, file, {}, true);
+        return getUploadData.image_id;
       }
+    } else {
+      throw fileUploadFail;
     }
   } catch (err) {
     throw err;
