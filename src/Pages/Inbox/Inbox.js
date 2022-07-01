@@ -9,6 +9,7 @@ import {
 } from "../../Library/Constants";
 import { useNavigate } from "react-router-dom";
 import { getCall } from "../../Components/Services/DataFetch";
+import { getDateTime } from "../../Components/Services/DateAndTimeService";
 import "./Inbox.css";
 import Header from "../../Components/Header/Header";
 import Modal from "../../Components/Modal/Modal";
@@ -59,65 +60,6 @@ const InboxComp = () => {
     }
   }, [response]);
 
-  const displayDate = (chatDate, appendString = "") => {
-    if (chatDate.getHours() <= 12) {
-      if (chatDate.getHours() === 12) {
-        return (
-          appendString +
-          ` ${chatDate.getHours()}:${
-            chatDate.getMinutes() < 10
-              ? "0" + chatDate.getMinutes()
-              : chatDate.getMinutes()
-          } pm`
-        );
-      } else {
-        return (
-          appendString +
-          ` ${chatDate.getHours()}:${
-            chatDate.getMinutes() < 10
-              ? "0" + chatDate.getMinutes()
-              : chatDate.getMinutes()
-          } am`
-        );
-      }
-    } else {
-      return (
-        appendString +
-        ` ${+chatDate.getHours() % 12}:${
-          chatDate.getMinutes() < 10
-            ? "0" + chatDate.getMinutes()
-            : chatDate.getMinutes()
-        } pm`
-      );
-    }
-  };
-
-  const handleDate = (date) => {
-    const chatDate = new Date(date);
-    const systemDate = new Date();
-    if (
-      chatDate.getDate() === systemDate.getDate() &&
-      chatDate.getMonth() === systemDate.getMonth() &&
-      chatDate.getFullYear() === systemDate.getFullYear()
-    ) {
-      return displayDate(chatDate);
-    } else if (
-      chatDate.getDate() === +systemDate.getDate() - 1 &&
-      chatDate.getMonth() === systemDate.getMonth() &&
-      chatDate.getFullYear() === systemDate.getFullYear()
-    ) {
-      return displayDate(chatDate, "Yesterday");
-    } else {
-      return displayDate(
-        chatDate,
-        `${chatDate.getDate()}-${chatDate.getMonth() + 1}-${chatDate
-          .getFullYear()
-          .toString()
-          .slice(2)}`
-      );
-    }
-  };
-
   const redirectToChatPage = (userId) => {
     localStorage.setItem("other_user_id", userId);
     navigate(chat);
@@ -156,7 +98,7 @@ const InboxComp = () => {
               </div>
               <div>
                 <span className="timeField">
-                  {handleDate(chat.last_message_time)}
+                  {getDateTime(chat.last_message_time)}
                 </span>
                 {chat.unread_count ? (
                   <span className="unreadCount">{chat.unread_count}</span>

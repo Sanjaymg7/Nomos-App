@@ -17,6 +17,7 @@ import Loading from "../../Components/Loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCheckDouble } from "@fortawesome/free-solid-svg-icons";
 import { WebSocketContext } from "../../Components/Context/Context";
+import { getTime } from "../../Components/Services/DateAndTimeService";
 
 const Chat = () => {
   const otherUserId = localStorage.getItem("other_user_id");
@@ -68,7 +69,6 @@ const Chat = () => {
   const getPreviousChats = async () => {
     if (messageRetries) {
       try {
-        console.log("Getting previous chats");
         const chats = await getCall(userChat + otherUserId);
         setChatMessages(chats.messages);
         if (chats.messages[0].sender_id == otherUserId) {
@@ -116,7 +116,6 @@ const Chat = () => {
 
   useEffect(() => {
     if (response) {
-      console.log(response);
       const { event, data } = JSON.parse(response);
       if (event === "chat_message_received") {
         if (data.sender_id != otherUserId) {
@@ -152,19 +151,6 @@ const Chat = () => {
   const handleKeyDown = (val) => {
     if (val.keyCode === 13) {
       sendMessage();
-    }
-  };
-
-  const getTime = (time) => {
-    const date = new Date(time);
-    const hour = date.getHours();
-    const minute = date.getMinutes();
-    if (hour < 12) {
-      return `${hour}:${minute < 10 ? "0" + minute : minute} am`;
-    } else if (hour == 12) {
-      return `${hour}:${minute < 10 ? "0" + minute : minute} pm`;
-    } else {
-      return `${hour - 12}:${minute < 10 ? "0" + minute : minute} pm`;
     }
   };
 

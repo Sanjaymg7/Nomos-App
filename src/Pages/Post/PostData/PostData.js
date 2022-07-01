@@ -130,6 +130,8 @@ const PostData = ({ renderComponent }) => {
     receiveLabel: type === "service" ? "Receive" : "Request an Item",
     dealing_type_value: postData.dealing_type,
     is_gift_value: postData.is_gift,
+    handlePostType,
+    handleGiftCheckChange,
   };
 
   const textAndImageData = {
@@ -140,6 +142,10 @@ const PostData = ({ renderComponent }) => {
     postDescriptionLabel:
       type === "community" ? "Community Description" : "Post Description",
     postImageLabel: type === "community" ? "Display Image" : "Post Images",
+    handlePostTitle,
+    handleDescriptionChange,
+    handlePostImage,
+    handleDeleteImage,
   };
 
   return (
@@ -152,19 +158,9 @@ const PostData = ({ renderComponent }) => {
       <form onChange={enableCreatePostButton} onSubmit={submitPost}>
         <div className="inputContainer">
           {(type === "service" || type === "items") && (
-            <PostTypeAndGiftForm
-              postData={typeAndGiftData}
-              handlePostType={handlePostType}
-              handleGiftCheckChange={handleGiftCheckChange}
-            />
+            <PostTypeAndGiftForm typeAndGiftData={typeAndGiftData} />
           )}
-          <PostTextAndImageForm
-            textAndImageData={textAndImageData}
-            handlePostTitle={handlePostTitle}
-            handlePostDescription={handleDescriptionChange}
-            handlePostImage={handlePostImage}
-            handleDeleteImage={handleDeleteImage}
-          />
+          <PostTextAndImageForm textAndImageData={textAndImageData} />
           {(type === "service" || type === "experience") && (
             <SkillAndCategoryDisplay
               type="skills"

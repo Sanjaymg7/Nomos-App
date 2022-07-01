@@ -4,9 +4,14 @@ import Label from "../Label/Label";
 import "./PostTypeAndGiftForm.css";
 
 const PostTypeAndGiftForm = ({
-  postData,
-  handlePostType,
-  handleGiftCheckChange,
+  typeAndGiftData: {
+    giveLabel,
+    receiveLabel,
+    dealing_type_value,
+    is_gift_value,
+    handlePostType,
+    handleGiftCheckChange,
+  },
 }) => {
   return (
     <div>
@@ -14,21 +19,19 @@ const PostTypeAndGiftForm = ({
       <div className="postTypeButtons">
         <div
           className={
-            postData.dealing_type_value === 1 ? "giveBtn postActive" : "giveBtn"
+            dealing_type_value === 1 ? "giveBtn postActive" : "giveBtn"
           }
           onClick={() => handlePostType(1)}
         >
-          {postData.giveLabel}
+          {giveLabel}
         </div>
         <div
           className={
-            postData.dealing_type_value === 1
-              ? "receiveBtn"
-              : "receiveBtn postActive"
+            dealing_type_value === 1 ? "receiveBtn" : "receiveBtn postActive"
           }
           onClick={() => handlePostType(2)}
         >
-          {postData.receiveLabel}
+          {receiveLabel}
         </div>
       </div>
       <div className="giftContainer">
@@ -36,7 +39,7 @@ const PostTypeAndGiftForm = ({
         <Input
           type={"checkbox"}
           className={"giftCheck"}
-          isChecked={postData.is_gift_value}
+          isChecked={is_gift_value}
           onInputChange={handleGiftCheckChange}
         />
       </div>

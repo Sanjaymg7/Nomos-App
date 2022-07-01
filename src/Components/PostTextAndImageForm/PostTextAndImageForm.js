@@ -4,11 +4,18 @@ import Label from "../Label/Label";
 import "./PostTextAndImageForm.css";
 
 const PostTextAndImageForm = ({
-  textAndImageData,
-  handlePostTitle,
-  handlePostDescription,
-  handlePostImage,
-  handleDeleteImage,
+  textAndImageData: {
+    titleValue,
+    descriptionValue,
+    imageValue,
+    postTitleLabel,
+    postDescriptionLabel,
+    postImageLabel,
+    handlePostTitle,
+    handleDescriptionChange,
+    handlePostImage,
+    handleDeleteImage,
+  },
 }) => {
   const [descriptionCount, setDescriptionCount] = useState(0);
 
@@ -38,33 +45,27 @@ const PostTextAndImageForm = ({
     <div>
       <Input
         type={"text"}
-        value={textAndImageData.titleValue}
+        value={titleValue}
         className={"postTitleInput"}
         onInputChange={handlePostTitle}
-        labelContent={textAndImageData.postTitleLabel}
+        labelContent={postTitleLabel}
       />
-      <Label
-        className="labelText"
-        labelName={textAndImageData.postDescriptionLabel}
-      />
+      <Label className="labelText" labelName={postDescriptionLabel} />
       <div className="descriptionContainer">
         <textarea
           className="descriptionInput"
-          value={textAndImageData.descriptionValue}
+          value={descriptionValue}
           rows="7"
           onChange={(e) => {
             setDescriptionCount(e.target.value.length);
-            handlePostDescription(e.target.value);
+            handleDescriptionChange(e.target.value);
           }}
         ></textarea>
         <span className="descriptionCount">{descriptionCount} / 200</span>
       </div>
-      <Label
-        className="labelText"
-        labelName={textAndImageData.postImageLabel}
-      />
-      {textAndImageData.imageValue.length > 0 ? (
-        textAndImageData.imageValue.map((name, index) => (
+      <Label className="labelText" labelName={postImageLabel} />
+      {imageValue.length > 0 ? (
+        imageValue.map((name, index) => (
           <div key={index}>
             <div className="imageNameContainer">
               <h4 className="imageName">{name}</h4>
