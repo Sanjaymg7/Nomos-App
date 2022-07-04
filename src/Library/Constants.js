@@ -1,17 +1,41 @@
 export const requestHeader = { "content-type": "application/json" };
-export const access_token = localStorage.getItem("access_token");
+
+const getAccessToken = () => localStorage.getItem("access_token");
+
+const getWebsocketEndpoint = () =>
+  `wss://ws2.juegogames.com/NOMOS-V3?access_token=${localStorage.getItem(
+    "access_token"
+  )}`;
+
+// export const webSocketEndpoint = `wss://websocket.nomos.net/V4?access_token=${localStorage.getItem(
+//   "access_token"
+// )}`;
+
+export const access_token = getAccessToken();
+export const webSocketEndpoint = getWebsocketEndpoint();
 
 export const modalInitialState = {
   modalContent: "",
   showModal: false,
 };
 
+//API Constants
 export const apiRetries = 3;
+export const successStatusCode = 200;
 
+//Message Constants
 export const waitingMessage = "Please Wait..";
 export const errorMessage = "Something went wrong!!";
 export const invalidAccessToken = "Invalid access token";
 export const fileUploadFail = "Failed to upload file";
+
+//WebSocket Constants
+export const chatMessageReceived = "chat_message_received";
+export const chatTyping = "chat_typing";
+export const userOnline = "user_online_status";
+export const sendChatMessage = "send_chat_message";
+export const sendUserTyping = "send_typing";
+export const sendUserRead = "send_chat_read";
 
 export const userDefaultImage = "./user.png";
 

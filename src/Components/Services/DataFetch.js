@@ -1,10 +1,20 @@
-import { errorMessage } from "../../Library/Constants";
+import { useState, useEffect } from "react";
+import {
+  access_token,
+  apiRetries,
+  errorMessage,
+  invalidAccessToken,
+  successStatusCode,
+} from "../../Library/Constants";
 
-const url = "https://api.nomos.net/V4/";
-// const url = "https://api2.juegogames.com/NOMOS-V3/";
+// const url = "https://api.nomos.net/V4/";
+const url = "https://api2.juegogames.com/NOMOS-V3/";
 
 const handleData = (data) => {
-  if (data.responseCode === 200 || data.status === 200) {
+  if (
+    data.responseCode === successStatusCode ||
+    data.status === successStatusCode
+  ) {
     return data.responseData;
   } else {
     throw data.responseMessage;
@@ -23,7 +33,7 @@ const getCall = (
   endPoint,
   headers = {
     "content-type": "application/json",
-    access_token: localStorage.getItem("access_token"),
+    access_token: access_token,
   },
   isExternal = false
 ) => {
@@ -45,7 +55,7 @@ const putCall = (
   body,
   headers = {
     "content-type": "application/json",
-    access_token: localStorage.getItem("access_token"),
+    access_token: access_token,
   },
   isExternal = false
 ) => {
@@ -68,7 +78,7 @@ const postCall = (
   body,
   headers = {
     "content-type": "application/json",
-    access_token: localStorage.getItem("access_token"),
+    access_token: access_token,
   },
   isExternal = false
 ) => {

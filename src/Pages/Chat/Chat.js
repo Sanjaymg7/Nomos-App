@@ -6,6 +6,9 @@ import {
   send,
   apiRetries,
   invalidAccessToken,
+  chatMessageReceived,
+  chatTyping,
+  userOnline,
 } from "../../Library/Constants";
 import { getCall } from "../../Components/Services/DataFetch";
 import Modal from "../../Components/Modal/Modal";
@@ -22,8 +25,14 @@ import { getTime } from "../../Components/Services/DateAndTimeService";
 const Chat = () => {
   const otherUserId = localStorage.getItem("other_user_id");
   const [otherUserName, setOtherUserName] = useState("User");
-  const [isConnected, response, setResponse, sendRequest] =
-    useContext(WebSocketContext);
+  const [
+    isConnected,
+    response,
+    setResponse,
+    sendMessage,
+    sendTyping,
+    sendRead,
+  ] = useContext(WebSocketContext);
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const [modal, setModal] = useContext(ModalContext);
@@ -34,11 +43,9 @@ const Chat = () => {
   const [userRetries, setUserRetries] = useState(apiRetries);
   const [didConnect, setDidConnect] = useState(false);
 
-  const sendMessage = () => {
+  const sendChatMessage = () => {
     if (message.trim()) {
-      sendRequest({
-        action: "send_chat_message",
-        access_token: localStorage.getItem("access_token"),
+      sendMessage({
         chat_type: 1,
         user_id: otherUserId,
         message_type: 1,
@@ -48,19 +55,15 @@ const Chat = () => {
     }
   };
 
-  const sendTyping = () => {
-    sendRequest({
-      action: "send_typing",
-      access_token: localStorage.getItem("access_token"),
+  const sendChatTyping = () => {
+    sendTyping({
       chat_type: 1,
       user_id: otherUserId,
     });
   };
 
   const sendChatRead = (messageId) => {
-    sendRequest({
-      action: "send_chat_read",
-      access_token: localStorage.getItem("access_token"),
+    sendRead({
       chat_type: 1,
       user_id: otherUserId,
       last_message_id: messageId,
@@ -118,12 +121,12 @@ const Chat = () => {
   useEffect(() => {
     if (response) {
       const { event, data } = JSON.parse(response);
-      if (event === "chat_message_received") {
+      if (event === chatMessageReceived) {
         setChatMessages((prevStatus) => [data, ...prevStatus]);
         if (data.sender_id == otherUserId) {
           sendChatRead(data.message_id);
         }
-      } else if (event === "chat_typing") {
+      } else if (event === chatTyping) {
         if (data.user_id == otherUserId) {
           if (didConnect) {
             getPreviousChats();
@@ -132,7 +135,7 @@ const Chat = () => {
           setIsTyping(true);
           setTimeout(() => setIsTyping(false), 3000);
         }
-      } else if (event === "user_online_status") {
+      } else if (event === userOnline) {
         if (data.user_id == otherUserId && data.online_status == 1) {
           setIsOnline(true);
           setDidConnect(true);
@@ -147,13 +150,13 @@ const Chat = () => {
   const handleMessageInput = (val) => {
     setMessage(val);
     if (val.length % 5 === 1) {
-      sendTyping();
+      sendChatTyping();
     }
   };
 
   const handleKeyDown = (val) => {
     if (val.keyCode === 13) {
-      sendMessage();
+      sendChatMessage();
     }
   };
 
@@ -212,7 +215,7 @@ const Chat = () => {
             <Button
               btnName={send}
               className={"btnSendMessage"}
-              onBtnClick={sendMessage}
+              onBtnClick={sendChatMessage}
             />
           </div>
         </div>
