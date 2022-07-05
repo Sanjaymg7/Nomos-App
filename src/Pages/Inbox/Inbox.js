@@ -18,6 +18,8 @@ import Friends from "../../Components/Friends/Friends";
 import Loading from "../../Components/Loading/Loading";
 import Image from "../../Components/Image/Image";
 import { WebSocketContext } from "../../Components/Context/Context";
+import useLocalStorage from "../../Hooks/useLocalStorage";
+import useDataFetch from "../../Hooks/useDataFetch";
 
 const InboxComp = () => {
   const navigate = useNavigate();
@@ -27,6 +29,8 @@ const InboxComp = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isInbox, setIsInbox] = useState(true);
   const [retries, setRetries] = useState(apiRetries);
+  const [, setOtherUserId] = useLocalStorage("other_user_id", "");
+  const [getCall] = useDataFetch();
 
   const getChats = async () => {
     if (retries) {
@@ -61,7 +65,7 @@ const InboxComp = () => {
   }, [response]);
 
   const redirectToChatPage = (userId) => {
-    localStorage.setItem("other_user_id", userId);
+    setOtherUserId(userId);
     navigate(chat);
   };
 

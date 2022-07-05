@@ -49,11 +49,10 @@ export const appRoutes = routes.map((route, index) => (
       exact
       path={route.path}
       element={
-        route.isProtected ? (
-          <WebSocketProvider>{route.element}</WebSocketProvider>
-        ) : (
-          route.element
-        )
+        // route.isProtected ? (
+        //   <WebSocketProvider>{route.element}</WebSocketProvider>
+        // ) :
+        route.element
       }
     />
   </Route>

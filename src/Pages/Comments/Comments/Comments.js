@@ -5,15 +5,17 @@ import Input from "../../../Components/Input/Input";
 import "./Comments.css";
 import Modal from "../../../Components/Modal/Modal";
 import CommentCard from "../CommentCard/CommentCard";
-import { getCall, putCall } from "../../../Components/Services/DataFetch";
 import { comment } from "../../../Library/Constants";
 import Image from "../../../Components/Image/Image";
+import useDataFetch from "../../../Hooks/useDataFetch";
 
 const Comments = () => {
   const [commentMessage, setCommentMessage] = useState("");
   const [commentData, setCommentData] = useState([]);
   const [modal, setModal] = useContext(ModalContext);
   const [userData, setUserData] = useState();
+  const [getCall, putCall] = useDataFetch();
+
   useEffect(() => {
     getData();
     getUserData();

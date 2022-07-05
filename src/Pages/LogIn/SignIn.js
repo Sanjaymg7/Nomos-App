@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import { ModalContext } from "../../Components/Context/Context";
 import Button from "../../Components/Button/Button";
 import Input from "../../Components/Input/Input";
-import { postCall } from "../../Components/Services/DataFetch";
 import { useNavigate } from "react-router-dom";
 import "./SignIn.css";
 import {
@@ -18,6 +17,8 @@ import Header from "../../Components/Header/Header";
 import Label from "../../Components/Label/Label";
 import Modal from "../../Components/Modal/Modal";
 import { signInEndPoint } from "../../Library/Constants";
+import useLocalStorage from "../../Hooks/useLocalStorage";
+import useDataFetch from "../../Hooks/useDataFetch";
 
 const SignIn = () => {
   const location = useLocation();
@@ -25,6 +26,9 @@ const SignIn = () => {
   const [buttonName, setButtonName] = useState(signInName);
   const [button, setButton] = useState(false);
   const navigate = useNavigate();
+  const [, setAccessToken] = useLocalStorage("access_token");
+  const [, setUserId] = useLocalStorage("user_id");
+  const [, , postCall] = useDataFetch();
 
   const validateUser = (userData) => {
     const { email, password } = userData;
@@ -69,8 +73,8 @@ const SignIn = () => {
         );
         if (userDetail) {
           setButtonName(signInName);
-          localStorage.setItem("user_id", userDetail.user_id);
-          localStorage.setItem("access_token", userDetail.access_token);
+          setUserId(userDetail.user_id);
+          setAccessToken(userDetail.access_token);
           navigate(location.state?.from?.pathname || home);
         }
       } catch (err) {

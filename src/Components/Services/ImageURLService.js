@@ -1,5 +1,5 @@
 import { getCall, putCall } from "./DataFetch";
-import { fileUploadFail, requestHeader } from "../../Library/Constants";
+import { fileUploadFail } from "../../Library/Constants";
 
 export const imageURLService = async (fileExtension, file) => {
   try {

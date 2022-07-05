@@ -13,7 +13,8 @@ import SkillAndCategoryDisplay from "../../../Components/SkillAndCategoryDisplay
 import Input from "../../../Components/Input/Input";
 import UserDisplay from "../../../Components/UserDisplay/UserDisplay";
 import { getUploadData } from "./UploadData";
-import { postCall } from "../../../Components/Services/DataFetch";
+import useDataFetch from "../../../Hooks/useDataFetch";
+// import useImageURLService from "../../../Hooks/useImageURLService";
 
 const PostData = ({ renderComponent }) => {
   const navigate = useNavigate();
@@ -25,6 +26,8 @@ const PostData = ({ renderComponent }) => {
     isActive: false,
   });
   const [modal, setModal] = useContext(ModalContext);
+  const [, , postCall] = useDataFetch();
+  // const [imageURLService] = useImageURLService();
 
   const handlePostType = (val) => {
     setPostData({ ...postData, dealing_type: val });
@@ -43,6 +46,7 @@ const PostData = ({ renderComponent }) => {
   };
 
   const handlePostImage = (images, extensions, names) => {
+    console.log("handlepostImage", extensions);
     if (images) {
       setPostData({
         ...postData,

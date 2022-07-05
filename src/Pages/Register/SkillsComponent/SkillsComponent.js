@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
 import { ModalContext } from "../../../Components/Context/Context";
 import { users } from "../../../Library/Constants";
-import { putCall } from "../../../Components/Services/DataFetch";
 import Modal from "../../../Components/Modal/Modal";
 import SkillAndCategoryForm from "../../../Components/SkillAndCategoryForm/SkillAndCategoryForm";
+import useDataFetch from "../../../Hooks/useDataFetch";
 
 const SkillsComponent = ({ renderComponent }) => {
   const [modal, setModal] = useContext(ModalContext);
+  const [, putCall] = useDataFetch();
 
   const btnClickHandler = async ([, skillsData]) => {
     try {

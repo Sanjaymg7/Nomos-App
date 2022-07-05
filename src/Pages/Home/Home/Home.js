@@ -2,11 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { ModalContext } from "../../../Components/Context/Context";
 import Header from "../../../Components/Header/Header";
 import "./Home.css";
-import {
-  getCall,
-  putCall,
-  postCall,
-} from "../../../Components/Services/DataFetch";
 import HomeCard from "../HomeCard/HomeCard";
 import Footer from "../../../Components/Footer/Footer";
 import Modal from "../../../Components/Modal/Modal";
@@ -23,6 +18,7 @@ import {
   apiRetries,
   invalidAccessToken,
 } from "../../../Library/Constants";
+import useDataFetch from "../../../Hooks/useDataFetch";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -30,6 +26,7 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [retries, setRetries] = useState(apiRetries);
+  const [getCall, putCall, postCall] = useDataFetch();
 
   const getData = async () => {
     if (apiRetries) {

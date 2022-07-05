@@ -10,7 +10,6 @@ import {
   chatTyping,
   userOnline,
 } from "../../Library/Constants";
-import { getCall } from "../../Components/Services/DataFetch";
 import Modal from "../../Components/Modal/Modal";
 import Header from "../../Components/Header/Header";
 import "./Chat.css";
@@ -21,9 +20,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCheckDouble } from "@fortawesome/free-solid-svg-icons";
 import { WebSocketContext } from "../../Components/Context/Context";
 import { getTime } from "../../Components/Services/DateAndTimeService";
+import useLocalStorage from "../../Hooks/useLocalStorage";
+import useDataFetch from "../../Hooks/useDataFetch";
 
 const Chat = () => {
-  const otherUserId = localStorage.getItem("other_user_id");
+  const [otherUserId] = useLocalStorage("other_user_id");
   const [otherUserName, setOtherUserName] = useState("User");
   const [
     isConnected,
@@ -42,9 +43,10 @@ const Chat = () => {
   const [messageRetries, setMessageRetries] = useState(apiRetries);
   const [userRetries, setUserRetries] = useState(apiRetries);
   const [didConnect, setDidConnect] = useState(false);
+  const [getCall] = useDataFetch();
 
   const sendChatMessage = () => {
-    if (message.trim()) {
+    if (message.trim() !== "") {
       sendMessage({
         chat_type: 1,
         user_id: otherUserId,

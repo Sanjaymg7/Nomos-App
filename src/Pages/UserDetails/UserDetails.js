@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ModalContext } from "../../Components/Context/Context";
 import Header from "../../Components/Header/Header";
-import {
-  getCall,
-  postCall,
-  putCall,
-} from "../../Components/Services/DataFetch";
 import Loading from "../../Components/Loading/Loading";
 import { useNavigate } from "react-router-dom";
 import {
@@ -23,6 +18,9 @@ import Modal from "../../Components/Modal/Modal";
 import userDetails from "./UserDetails.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import useLocalStorage from "../../Hooks/useLocalStorage";
+import useDataFetch from "../../Hooks/useDataFetch";
+
 const UserDetails = () => {
   const [postData, setPostData] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -33,17 +31,18 @@ const UserDetails = () => {
   const [button, setButton] = useState(false);
   const [retries, setRetries] = useState(apiRetries);
   const [isDelete, setIsDelete] = useState(false);
+  const [, setPostUserId] = useLocalStorage("post_user_id");
+  const [post_id] = useLocalStorage("post_id");
+  const [user_id] = useLocalStorage("user_id");
+  const [getCall, putCall, postCall] = useDataFetch();
 
   const navigate = useNavigate();
   const getPostData = async () => {
     if (retries) {
       try {
-        const data = await getCall(
-          postDetailsEndpoint + localStorage.getItem("post_id")
-        );
+        const data = await getCall(postDetailsEndpoint + post_id);
         if (data) {
-          localStorage.setItem("post_user_id", data.posts[0].user_id);
-
+          setPostUserId(data.posts[0].user_id);
           data.posts[0].interested_users = data.posts[0].interested_users.map(
             (comment) => ({
               ...comment,
@@ -52,8 +51,7 @@ const UserDetails = () => {
           );
           setInterestedUsers(data.posts[0].interested_users);
           setPostData(data.posts[0]);
-          data.posts[0].user_id == localStorage.getItem("user_id") &&
-            setUser(true);
+          data.posts[0].user_id == user_id && setUser(true);
           setDisplayData(!displayData);
         }
         setLoading(false);
@@ -86,11 +84,8 @@ const UserDetails = () => {
     try {
       setButton(true);
       const data = await postCall(joinExperienceEndPoint, {
-        post_id: localStorage.getItem("post_id"),
+        post_id: post_id,
       });
-      if (data) {
-        console.log(data);
-      }
     } catch (err) {
       setModal({ modalContent: err, showModal: true });
     }
@@ -100,7 +95,7 @@ const UserDetails = () => {
       interestedUsers[index].didRespond = true;
       setInterestedUsers([...interestedUsers]);
       await postCall(experienceRespondEndPoint, {
-        post_id: localStorage.getItem("post_id"),
+        post_id: post_id,
         response_type: type,
         user_id: id,
       });
@@ -120,11 +115,10 @@ const UserDetails = () => {
     setIsDelete(!isDelete);
   };
   const postDeleteHandler = async () => {
-    console.log(postData);
-    if (postData.user_id == localStorage.getItem("user_id")) {
+    if (postData.user_id == user_id) {
       try {
         const data = await putCall(deletePostEndPoint, {
-          post_id: localStorage.getItem("post_id"),
+          post_id: post_id,
         });
         if (data) {
           setIsDelete(false);

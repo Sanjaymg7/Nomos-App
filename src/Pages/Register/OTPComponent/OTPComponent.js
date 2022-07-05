@@ -7,11 +7,11 @@ import {
   verifyOTP,
   waitingMessage,
 } from "../../../Library/Constants";
-import { putCall, postCall } from "../../../Components/Services/DataFetch";
 import OtpInput from "react-otp-input";
 import Button from "../../../Components/Button/Button";
 import "./OTPComponent.css";
 import Modal from "../../../Components/Modal/Modal";
+import useDataFetch from "../../../Hooks/useDataFetch";
 
 const OTPComponent = ({ renderSignupComponent, userId, userData }) => {
   const [otp, setOtp] = useState(0);
@@ -20,6 +20,7 @@ const OTPComponent = ({ renderSignupComponent, userId, userData }) => {
     isActive: false,
   });
   const [modal, setModal] = useContext(ModalContext);
+  const [, putCall, postCall] = useDataFetch();
 
   const validateOTP = (val) => {
     if (val.length === 4) {

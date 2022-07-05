@@ -3,7 +3,6 @@ import { ModalContext } from "../../../Components/Context/Context";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import Button from "../../../Components/Button/Button";
-import { postCall } from "../../../Components/Services/DataFetch";
 import "./ResetPassword.css";
 import OtpInput from "react-otp-input";
 import ConfirmPassword from "../ConfirmPassword";
@@ -16,6 +15,7 @@ import {
 import Header from "../../../Components/Header/Header";
 import Modal from "../../../Components/Modal/Modal";
 import Label from "../../../Components/Label/Label";
+import useDataFetch from "../../../Hooks/useDataFetch";
 
 const ResetPassword = () => {
   const [otp, setOTP] = useState("");
@@ -25,6 +25,7 @@ const ResetPassword = () => {
   const [buttonText, setButtonText] = useState(false);
   const [button, setButton] = useState(false);
   const [isConfirmPasswordPage, setConfirmPasswordPage] = useState(false);
+  const [, , postCall] = useDataFetch();
 
   const otpInputStyle = {
     width: "3.5rem",

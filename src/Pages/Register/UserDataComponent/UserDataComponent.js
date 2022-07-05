@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import { ModalContext } from "../../../Components/Context/Context";
-import { postCall } from "../../../Components/Services/DataFetch";
 import {
   modalInitialState,
   next,
@@ -15,6 +14,7 @@ import Input from "../../../Components/Input/Input";
 import Label from "../../../Components/Label/Label";
 import "./UserDataComponent.css";
 import Modal from "../../../Components/Modal/Modal";
+import useDataFetch from "../../../Hooks/useDataFetch";
 
 const UserDataComponent = ({ renderSignupComponent, updateData }) => {
   const [userData, setUserData] = useState({
@@ -31,6 +31,7 @@ const UserDataComponent = ({ renderSignupComponent, updateData }) => {
     isActive: false,
   });
   const [modal, setModal] = useContext(ModalContext);
+  const [, , postCall] = useDataFetch();
 
   const validateUser = () => {
     if (userData.user_name.trim() !== "") {

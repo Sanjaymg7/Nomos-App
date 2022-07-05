@@ -9,10 +9,10 @@ import {
   invalidAccessToken,
   waitingMessage,
 } from "../../Library/Constants";
-import { getCall } from "../../Components/Services/DataFetch";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 import Loading from "../Loading/Loading";
+import useDataFetch from "../../Hooks/useDataFetch";
 
 const SkillAndCategoryForm = ({ component, handleSkillOrCategorySubmit }) => {
   const [dataArray, setdataArray] = useState([]);
@@ -28,6 +28,7 @@ const SkillAndCategoryForm = ({ component, handleSkillOrCategorySubmit }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [retries, setRetries] = useState(apiRetries);
   const [modal, setModal] = useContext(ModalContext);
+  const [getCall] = useDataFetch();
 
   const getData = async () => {
     if (retries) {

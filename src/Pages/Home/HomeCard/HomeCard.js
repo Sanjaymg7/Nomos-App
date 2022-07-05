@@ -4,9 +4,11 @@ import "./HomeCard.css";
 import { useNavigate } from "react-router-dom";
 import { userDefaultImage, userDetails } from "../../../Library/Constants";
 import UserIcons from "../../../Components/UserIcons/UserIcons";
+import useLocalStorage from "../../../Hooks/useLocalStorage";
 
 const HomeCard = ({ index, post, postViews, updateLikes }) => {
   const navigate = useNavigate();
+  const [, setPostId] = useLocalStorage("post_id");
   const {
     post_id,
     user_name,
@@ -21,7 +23,7 @@ const HomeCard = ({ index, post, postViews, updateLikes }) => {
       className="home-card-container"
       onClick={() => {
         postViews(post_id);
-        localStorage.setItem("post_id", post_id);
+        setPostId(post_id);
         navigate(userDetails);
       }}
     >

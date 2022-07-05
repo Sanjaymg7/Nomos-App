@@ -9,16 +9,17 @@ import {
   ResetPasswordEndPoint,
   signIn,
 } from "../../Library/Constants";
-import { putCall } from "../../Components/Services/DataFetch";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../Components/Modal/Modal";
 import Label from "../../Components/Label/Label";
+import useDataFetch from "../../Hooks/useDataFetch";
 
 const ConfirmPass = () => {
   const [modal, setModal] = useContext(ModalContext);
   const [buttonText, setButtonText] = useState(false);
   const [button, setButton] = useState(false);
   const navigate = useNavigate();
+  const [, putCall] = useDataFetch();
 
   const validatePassword = (password) => {
     const { newPassword, confirmPassword } = password;

@@ -8,11 +8,11 @@ import {
   finish,
   waitingMessage,
 } from "../../../Library/Constants";
-import { getCall, postCall } from "../../../Components/Services/DataFetch";
 import Button from "../../../Components/Button/Button";
 import "./CommunityComponent.css";
 import Modal from "../../../Components/Modal/Modal";
 import Loading from "../../../Components/Loading/Loading";
+import useDataFetch from "../../../Hooks/useDataFetch";
 
 const CommunityComponent = () => {
   const navigate = useNavigate();
@@ -20,6 +20,7 @@ const CommunityComponent = () => {
   const [community, setCommunity] = useState([]);
   const [addedCommunity, setAddedCommunity] = useState(0);
   const [modal, setModal] = useContext(ModalContext);
+  const [getCall, , postCall] = useDataFetch();
 
   useEffect(() => {
     const getData = async () => {

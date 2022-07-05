@@ -2,14 +2,15 @@ export const requestHeader = { "content-type": "application/json" };
 
 const getAccessToken = () => localStorage.getItem("access_token");
 
-const getWebsocketEndpoint = () =>
-  `wss://ws2.juegogames.com/NOMOS-V3?access_token=${localStorage.getItem(
+// const getWebsocketEndpoint = () =>
+//   `wss://ws2.juegogames.com/NOMOS-V3?access_token=${localStorage.getItem(
+//     "access_token"
+//   )}`;
+
+export const getWebsocketEndpoint = () =>
+  `wss://websocket.nomos.net/V4?access_token=${localStorage.getItem(
     "access_token"
   )}`;
-
-// export const webSocketEndpoint = `wss://websocket.nomos.net/V4?access_token=${localStorage.getItem(
-//   "access_token"
-// )}`;
 
 export const access_token = getAccessToken();
 export const webSocketEndpoint = getWebsocketEndpoint();
@@ -85,6 +86,11 @@ export const signUp = "/signup";
 export const userDetails = "/userdetails";
 export const infoPost = "/infopost";
 
+//post types
+export const experiencePost = 1;
+export const serviceRequestPost = 2;
+export const itemBorrowPost = 3;
+export const infoPostType = 6;
 //Button labels
 export const submit = "Submit";
 export const close = "Close";

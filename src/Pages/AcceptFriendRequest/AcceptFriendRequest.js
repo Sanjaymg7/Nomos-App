@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ModalContext } from "../../Components/Context/Context";
-import { getCall, putCall } from "../../Components/Services/DataFetch";
 import {
   friendRequest,
   friends,
@@ -12,12 +11,14 @@ import Modal from "../../Components/Modal/Modal";
 import "./AcceptFriendRequest.css";
 import Loading from "../../Components/Loading/Loading";
 import Request from "../../Components/Request/Request";
+import useDataFetch from "../../Hooks/useDataFetch";
 
 const AcceptFriendRequest = () => {
   const [modal, setModal] = useContext(ModalContext);
   const [friendRequests, setFriendRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [retries, setRetries] = useState(apiRetries);
+  const [getCall, putCall] = useDataFetch();
 
   const getFriendRequests = async () => {
     if (retries) {

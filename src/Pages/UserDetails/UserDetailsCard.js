@@ -6,7 +6,13 @@ import UserIcons from "../../Components/UserIcons/UserIcons";
 import Comments from "../Comments/Comments/Comments";
 import People from "../../Components/People/People";
 import Request from "../../Components/Request/Request";
-import { userDefaultImage } from "../../Library/Constants";
+import {
+  userDefaultImage,
+  experiencePost,
+  serviceRequestPost,
+  itemBorrowPost,
+  infoPostType,
+} from "../../Library/Constants";
 
 const UserDetailsCard = ({
   postData,
@@ -43,10 +49,7 @@ const UserDetailsCard = ({
     setComments(true);
     setPeople(false);
   };
-  const experiencePost = 1;
-  const serviceRequestPost = 2;
-  const itemBorrowPost = 3;
-  const infoPost = 6;
+
   return (
     <div className={userDetails.container}>
       <Image className={userDetails.image} src={image_url} alt="image" />
@@ -62,7 +65,7 @@ const UserDetailsCard = ({
         {post_type === experiencePost && "Experience"}
         {post_type === serviceRequestPost && "Service"}
         {post_type === itemBorrowPost && "Item Borrow"}
-        {post_type === infoPost && "Info"}
+        {post_type === infoPostType && "Info"}
       </div>
       <div className={userDetails.description}>
         <h4>{title}</h4>
@@ -141,7 +144,7 @@ const UserDetailsCard = ({
         (post_type == experiencePost ||
           post_type == serviceRequestPost ||
           post_type == itemBorrowPost ||
-          post_type == infoPost) && (
+          post_type == infoPostType) && (
           <div className={userDetails.photos}>
             {photo_urls.map((photo, index) => (
               <Image

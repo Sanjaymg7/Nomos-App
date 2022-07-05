@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { ModalContext } from "../../Components/Context/Context";
-import { getCall, postCall } from "../../Components/Services/DataFetch";
 import {
   friends,
   search,
@@ -14,6 +13,7 @@ import Loading from "../../Components/Loading/Loading";
 import "./SearchUser.css";
 import Image from "../../Components/Image/Image";
 import Modal from "../../Components/Modal/Modal";
+import useDataFetch from "../../Hooks/useDataFetch";
 
 const SearchUser = () => {
   const [modal, setModal] = useContext(ModalContext);
@@ -21,6 +21,7 @@ const SearchUser = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
   const [users, setUsers] = useState([]);
+  const [getCall, , postCall] = useDataFetch();
 
   const handleSearchInputChange = (val) => {
     setSearchInput(val);

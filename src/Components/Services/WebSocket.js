@@ -21,7 +21,7 @@ export const WebSocketProvider = ({ children }) => {
     connectWebSocket();
 
     webSocket.current.onopen = () => {
-      console.log("Websocket Connected");
+      console.log("WebSocket Open");
       setIsConnected(true);
     };
     webSocket.current.onclose = (event) => {
@@ -34,7 +34,7 @@ export const WebSocketProvider = ({ children }) => {
     webSocket.current.onmessage = (event) => {
       setResponse(event.data);
     };
-    webSocket.current.onerror = (err) => {
+    webSocket.current.onerror = () => {
       connectWebSocket();
     };
 
